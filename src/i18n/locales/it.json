@@ -85,7 +85,11 @@
     "skillChoices": "Scegli {count} abilita'",
     "subclass": "Sottoclasse",
     "features": "Privilegi di Classe",
-    "proficiencies": "Competenze"
+    "proficiencies": "Competenze",
+    "multiclass": "Multiclasse",
+    "addClass": "Aggiungi Classe",
+    "removeClass": "Rimuovi",
+    "selectClassToAdd": "Seleziona una classe da aggiungere"
   },
   "abilities": {
     "title": "Genera le Caratteristiche",
@@ -147,7 +151,9 @@
     "spellAttackBonus": "Bonus Attacco Incantesimi",
     "selected": "Selezionati: {count}/{max}",
     "notACaster": "La tua classe non ha capacita' di incantesimi.",
+    "notACasterMulticlass": "Nessuna delle tue classi ha capacita' di incantesimi.",
     "pressNext": "Premi Avanti per continuare.",
+    "pactMagic": "Magia del Patto",
     "allLevels": "Tutti i livelli"
   },
   "details": {

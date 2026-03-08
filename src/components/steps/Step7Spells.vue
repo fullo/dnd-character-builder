@@ -2,7 +2,9 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
-import { getSpells, getSpellSlots, getCantripsKnown, getSpellsKnownCount } from '@/data'
+import { getSpells, getSpellSlots, getCantripsKnown, getSpellsKnownCount, getClasses } from '@/data'
+import { getMulticlassSpellSlots } from '@/data/dnd5e/rules'
+import type { CasterType } from '@/data/dnd5e/classes'
 import { useGameTerms } from '@/composables/useGameTerms'
 import type { Spell } from '@/data/dnd5e/spells'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
@@ -12,18 +14,92 @@ const characterStore = useCharacterStore()
 const gt = useGameTerms()
 
 const allSpells = computed(() => getSpells(characterStore.character.variant))
-const isCaster = computed(() => !!characterStore.character.spellcastingAbility)
-const spellSlots = computed(() => getSpellSlots(characterStore.character.className, characterStore.character.level))
-const maxCantrips = computed(() => getCantripsKnown(characterStore.character.className, characterStore.character.level))
-const maxSpellsKnown = computed(() => getSpellsKnownCount(characterStore.character.className, characterStore.character.level, characterStore.abilityModifiers))
+const allClasses = computed(() => getClasses(characterStore.character.variant))
+
+const isMulticlass = computed(() => characterStore.character.classes.length >= 2)
+
+// For multiclass, check if ANY class is a caster
+const isCaster = computed(() => {
+  if (isMulticlass.value) {
+    return characterStore.character.classes.some(entry => {
+      const cls = allClasses.value.find(c => c.id === entry.classId)
+      return !!cls?.spellcasting
+    })
+  }
+  return !!characterStore.character.spellcastingAbility
+})
+
+// Spell slots: use multiclass calculation when multiclassed
+const spellSlots = computed(() => {
+  if (isMulticlass.value) {
+    const classesWithCasterType = characterStore.character.classes.map(entry => {
+      const cls = allClasses.value.find(c => c.id === entry.classId)
+      return {
+        classId: entry.classId,
+        level: entry.level,
+        casterType: (cls?.spellcasting?.casterType ?? null) as CasterType | null,
+      }
+    })
+    return getMulticlassSpellSlots(classesWithCasterType).slots
+  }
+  return getSpellSlots(characterStore.character.className, characterStore.character.level)
+})
+
+// Pact magic slots (Warlock in multiclass) — shown separately
+const pactSlots = computed(() => {
+  if (!isMulticlass.value) return {}
+  const classesWithCasterType = characterStore.character.classes.map(entry => {
+    const cls = allClasses.value.find(c => c.id === entry.classId)
+    return {
+      classId: entry.classId,
+      level: entry.level,
+      casterType: (cls?.spellcasting?.casterType ?? null) as CasterType | null,
+    }
+  })
+  return getMulticlassSpellSlots(classesWithCasterType).pactSlots
+})
+
+const hasPactSlots = computed(() => Object.keys(pactSlots.value).length > 0)
+
+// Cantrips: sum from all caster classes for multiclass
+const maxCantrips = computed(() => {
+  if (isMulticlass.value) {
+    let total = 0
+    for (const entry of characterStore.character.classes) {
+      total += getCantripsKnown(entry.classId, entry.level)
+    }
+    return total
+  }
+  return getCantripsKnown(characterStore.character.className, characterStore.character.level)
+})
+
+// Spells known: sum from all caster classes for multiclass
+const maxSpellsKnown = computed(() => {
+  if (isMulticlass.value) {
+    let total = 0
+    for (const entry of characterStore.character.classes) {
+      total += getSpellsKnownCount(entry.classId, entry.level, characterStore.abilityModifiers)
+    }
+    return total
+  }
+  return getSpellsKnownCount(characterStore.character.className, characterStore.character.level, characterStore.abilityModifiers)
+})
 
 const searchQuery = ref('')
 const filterLevel = ref<number | null>(null)
 
+// All class IDs for spell filtering (multiclass includes all classes)
+const casterClassIds = computed(() => {
+  if (isMulticlass.value) {
+    return characterStore.character.classes.map(c => c.classId)
+  }
+  return [characterStore.character.className]
+})
+
 const availableSpells = computed(() => {
-  const cls = characterStore.character.className
+  const classIds = casterClassIds.value
   return allSpells.value.filter(spell => {
-    if (!spell.classes.includes(cls)) return false
+    if (!classIds.some(cls => spell.classes.includes(cls))) return false
     if (searchQuery.value) {
       const q = searchQuery.value.toLowerCase()
       if (!spell.name.toLowerCase().includes(q) && !gt.spell(spell.name).toLowerCase().includes(q)) return false
@@ -66,7 +142,7 @@ function showDetail(spell: Spell) {
     <h2 id="spells-heading" class="text-2xl font-bold text-amber-500 mb-6">{{ t('spells.title') }}</h2>
 
     <div v-if="!isCaster" class="text-center py-12 text-stone-500" role="status">
-      <p class="text-lg">{{ t('spells.notACaster') }}</p>
+      <p class="text-lg">{{ isMulticlass ? t('spells.notACasterMulticlass') : t('spells.notACaster') }}</p>
       <p class="text-sm mt-2">{{ t('spells.pressNext') }}</p>
     </div>
 
@@ -74,13 +150,21 @@ function showDetail(spell: Spell) {
       <!-- Spell Slots Summary -->
       <div class="bg-stone-800 border border-stone-700 rounded-lg p-4 mb-6" role="region" :aria-label="t('spells.spellSlots')">
         <div class="flex flex-wrap gap-4 text-sm">
-          <div>
+          <div v-if="characterStore.character.spellcastingAbility">
             <span class="text-stone-400">{{ t('spells.spellcastingAbility') }}:</span>
             <span class="text-amber-400 font-medium ml-1">{{ characterStore.character.spellcastingAbility.toUpperCase() }}</span>
           </div>
           <div v-for="(slots, level) in spellSlots" :key="level">
             <span class="text-stone-400">Lv.{{ level }}:</span>
             <span class="text-amber-400 font-medium ml-1">{{ slots }} slot</span>
+          </div>
+        </div>
+        <!-- Pact Magic slots (Warlock multiclass) -->
+        <div v-if="hasPactSlots" class="flex flex-wrap gap-4 text-sm mt-2 pt-2 border-t border-stone-700">
+          <div class="text-purple-400 font-medium">{{ t('spells.pactMagic') }}:</div>
+          <div v-for="(slots, level) in pactSlots" :key="'pact-' + level">
+            <span class="text-stone-400">Lv.{{ level }}:</span>
+            <span class="text-purple-400 font-medium ml-1">{{ slots }} slot</span>
           </div>
         </div>
       </div>

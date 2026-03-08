@@ -19,6 +19,13 @@ export interface Weapon {
   damage: string
 }
 
+export interface ClassEntry {
+  classId: string
+  subclass: string
+  level: number
+  hitDie: number
+}
+
 export interface CharacterData {
   id: string
   variant: GameVariant
@@ -81,6 +88,8 @@ export interface CharacterData {
   humanity: number
   // Session notes
   sessionNotes: string
+  // Multiclass (D&D 5e only) — empty array = single class
+  classes: ClassEntry[]
 }
 
 function createEmptyCharacter(): CharacterData {
@@ -143,6 +152,7 @@ function createEmptyCharacter(): CharacterData {
     sin: '',
     humanity: 10,
     sessionNotes: '',
+    classes: [],
   }
 }
 
@@ -150,9 +160,10 @@ export const useCharacterStore = defineStore('character', () => {
   const character = ref<CharacterData>(createEmptyCharacter())
   const savedCharacters = ref<CharacterData[]>([])
 
-  // Migration: add sessionNotes to existing saved characters
+  // Migration: add new fields to existing saved characters
   for (const c of savedCharacters.value) {
     if ((c as any).sessionNotes === undefined) (c as any).sessionNotes = ''
+    if (!Array.isArray((c as any).classes)) (c as any).classes = []
   }
 
   // Computed derived stats
@@ -211,31 +222,144 @@ export const useCharacterStore = defineStore('character', () => {
     savedCharacters.value = savedCharacters.value.filter(c => c.id !== id)
   }
 
+  /** Whether current character is multiclass */
+  const isMulticlass = computed(() => character.value.classes.length >= 2)
+
+  /**
+   * Add a second (or third, etc.) class to the current D&D 5e character.
+   * Only works for dnd5e variant.
+   */
+  function addMulticlass(classId: string) {
+    const char = character.value
+    if (char.variant !== 'dnd5e') return
+
+    const allClasses = getClasses(char.variant)
+    const newCls = allClasses.find(c => c.id === classId)
+    if (!newCls) return
+
+    // If classes array is empty, populate with current primary class first
+    if (char.classes.length === 0) {
+      char.classes.push({
+        classId: char.className,
+        subclass: char.subclass,
+        level: char.level,
+        hitDie: char.hitDie,
+      })
+    }
+
+    // Don't add the same class twice
+    if (char.classes.some(c => c.classId === classId)) return
+
+    // Add the new class at level 1
+    char.classes.push({
+      classId,
+      subclass: '',
+      level: 1,
+      hitDie: newCls.hitDie,
+    })
+
+    // Recalculate total level
+    char.level = char.classes.reduce((sum, c) => sum + c.level, 0)
+
+    // Recalculate HP for the new level 1 in new class
+    const conMod = modifier(
+      char.abilityScores.con + (char.racialBonuses.con || 0),
+    )
+    char.maxHp += hpPerLevel(newCls.hitDie, conMod)
+    char.currentHp = char.maxHp
+  }
+
+  /**
+   * Remove a secondary class from multiclass.
+   * Cannot remove the primary class.
+   */
+  function removeMulticlass(classId: string) {
+    const char = character.value
+    if (char.classes.length < 2) return
+    // Don't remove primary class
+    if (char.classes[0]?.classId === classId) return
+
+    char.classes = char.classes.filter(c => c.classId !== classId)
+
+    // If only one class remains, keep classes populated (it's still valid)
+    // Recalculate total level
+    char.level = char.classes.reduce((sum, c) => sum + c.level, 0)
+
+    // Recalculate total HP from scratch
+    const conMod = modifier(
+      char.abilityScores.con + (char.racialBonuses.con || 0),
+    )
+    let hp = 0
+    for (let i = 0; i < char.classes.length; i++) {
+      const entry = char.classes[i]!
+      for (let lv = 1; lv <= entry.level; lv++) {
+        if (i === 0 && lv === 1) {
+          // First class, first level: max hit die + CON
+          hp += entry.hitDie + conMod
+        } else {
+          hp += hpPerLevel(entry.hitDie, conMod)
+        }
+      }
+    }
+    char.maxHp = Math.max(hp, 1)
+    char.currentHp = char.maxHp
+  }
+
   /**
    * Level up the current character.
+   * For multiclass characters, pass the classId to level up in.
    * Returns { hpGained, newFeatures } or null if at max level.
    */
-  function levelUp(): { hpGained: number; newFeatures: string[] } | null {
+  function levelUp(classId?: string): { hpGained: number; newFeatures: string[] } | null {
     const char = character.value
     const maxLv = getMaxLevel(char.variant)
     if (char.level >= maxLv) return null
 
-    char.level += 1
-
-    // HP gain: hitDie/2 + 1 + CON modifier
     const conMod = modifier(
       char.abilityScores.con + (char.racialBonuses.con || 0),
     )
-    const hpGained = hpPerLevel(char.hitDie, conMod)
+    const allClasses = getClasses(char.variant)
+    let hitDieForLevel: number
+    let targetClassId: string
+    let targetSubclass: string
+
+    if (char.classes.length >= 2 && classId) {
+      // Multiclass: level up specific class
+      const entry = char.classes.find(c => c.classId === classId)
+      if (!entry) return null
+      entry.level += 1
+      char.level = char.classes.reduce((sum, c) => sum + c.level, 0)
+      hitDieForLevel = entry.hitDie
+      targetClassId = entry.classId
+      targetSubclass = entry.subclass
+    } else {
+      // Single class or multiclass without specific target
+      char.level += 1
+      hitDieForLevel = char.hitDie
+      targetClassId = char.className
+      targetSubclass = char.subclass
+
+      // Also update classes array entry if populated
+      if (char.classes.length >= 1) {
+        const entry = char.classes.find(c => c.classId === char.className)
+        if (entry) entry.level += 1
+      }
+    }
+
+    // HP gain: hitDie/2 + 1 + CON modifier
+    const hpGained = hpPerLevel(hitDieForLevel, conMod)
     char.maxHp += hpGained
     char.currentHp = char.maxHp
 
-    // Gather new features from class + subclass for the new level
+    // Gather new features from the class/subclass leveled up
     const newFeatures: string[] = []
-    const classes = getClasses(char.variant)
-    const cls = classes.find(c => c.id === char.className)
+    const cls = allClasses.find(c => c.id === targetClassId)
     if (cls) {
-      const classFeats = cls.features.filter(f => f.level === char.level)
+      // Use the class-specific level for features
+      const classLevel = char.classes.length >= 2
+        ? (char.classes.find(c => c.classId === targetClassId)?.level ?? char.level)
+        : char.level
+      const classFeats = cls.features.filter(f => f.level === classLevel)
       for (const feat of classFeats) {
         if (!char.featuresTraits.includes(feat.name)) {
           char.featuresTraits.push(feat.name)
@@ -243,10 +367,10 @@ export const useCharacterStore = defineStore('character', () => {
         }
       }
       // Subclass features
-      if (char.subclass) {
-        const sub = cls.subclasses.find(s => s.id === char.subclass)
+      if (targetSubclass) {
+        const sub = cls.subclasses.find(s => s.id === targetSubclass)
         if (sub) {
-          const subFeats = sub.features.filter(f => f.level === char.level)
+          const subFeats = sub.features.filter(f => f.level === classLevel)
           for (const feat of subFeats) {
             if (!char.featuresTraits.includes(feat.name)) {
               char.featuresTraits.push(feat.name)
@@ -325,7 +449,7 @@ export const useCharacterStore = defineStore('character', () => {
     // Validate arrays that should be arrays
     const arrayFields: (keyof CharacterData)[] = [
       'skillProficiencies', 'languages', 'equipment', 'featuresTraits',
-      'cantrips', 'spellsKnown', 'spellsPrepared', 'weapons',
+      'cantrips', 'spellsKnown', 'spellsPrepared', 'weapons', 'classes',
     ]
     for (const field of arrayFields) {
       if (raw[field] !== undefined && !Array.isArray(raw[field])) {
@@ -368,6 +492,9 @@ export const useCharacterStore = defineStore('character', () => {
     saveCharacter,
     loadCharacter,
     deleteCharacter,
+    isMulticlass,
+    addMulticlass,
+    removeMulticlass,
     levelUp,
     exportJson,
     importJson,

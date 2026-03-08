@@ -312,6 +312,7 @@ export function generateRandomCharacter(variant: GameVariant, forcedLevel?: numb
     sin: '',
     humanity: 10,
     sessionNotes: '',
+    classes: [],
   }
 }
 

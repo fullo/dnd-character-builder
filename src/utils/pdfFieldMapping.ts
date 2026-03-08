@@ -75,7 +75,13 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
 
   // Basic Info
   fields['CharacterName'] = char.name
-  fields['ClassLevel'] = `${pdfClassName(char.className, char.variant)} ${char.level}`
+  if (char.classes.length >= 2) {
+    fields['ClassLevel'] = char.classes
+      .map(c => `${pdfClassName(c.classId, char.variant)} ${c.level}`)
+      .join(' / ')
+  } else {
+    fields['ClassLevel'] = `${pdfClassName(char.className, char.variant)} ${char.level}`
+  }
   fields['Background'] = pdfBackgroundName(char.background, char.variant)
   fields['PlayerName'] = char.playerName
   const raceDisplay = pdfRaceName(char.race, char.variant)
@@ -120,7 +126,11 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
   fields['HPMax'] = String(char.maxHp)
   fields['HPCurrent'] = String(char.currentHp || char.maxHp)
   fields['HPTemp'] = String(char.tempHp || '')
-  fields['HDTotal'] = `${char.level}d${char.hitDie}`
+  if (char.classes.length >= 2) {
+    fields['HDTotal'] = char.classes.map(c => `${c.level}d${c.hitDie}`).join(' + ')
+  } else {
+    fields['HDTotal'] = `${char.level}d${char.hitDie}`
+  }
   fields['HD'] = `${char.level}d${char.hitDie}`
   fields['ProfBonus'] = String(prof)
   fields['Passive'] = String(10 + skillBonus(char, 'perception', 'wis'))

@@ -48,6 +48,7 @@ const COMPACT_KEYS: Record<string, string> = {
   sin: 'si',
   humanity: 'hu',
   sessionNotes: 'nt',
+  classes: 'cl',
 }
 
 const REVERSE_KEYS: Record<string, string> = Object.fromEntries(

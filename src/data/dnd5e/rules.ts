@@ -101,6 +101,55 @@ export const PACT_MAGIC_SLOTS: readonly { slots: number; slotLevel: number }[] =
 
 export type CasterType = 'full' | 'half' | 'third' | 'pact'
 
+/** Caster type multipliers for multiclass spell slot calculation */
+const CASTER_MULTIPLIERS: Record<CasterType, number> = {
+  full: 1,
+  half: 0.5,
+  third: 1 / 3,
+  pact: 0, // Warlock pact magic is separate
+}
+
+/**
+ * Calculate multiclass spell slots.
+ * Each class contributes to the effective caster level based on its type.
+ * Warlock pact magic is kept separate.
+ */
+export function getMulticlassSpellSlots(
+  classes: { classId: string; level: number; casterType: CasterType | null }[],
+): { slots: Record<number, number>; pactSlots: Record<number, number> } {
+  let effectiveCasterLevel = 0
+  const pactSlots: Record<number, number> = {}
+
+  for (const cls of classes) {
+    if (!cls.casterType) continue
+
+    if (cls.casterType === 'pact') {
+      // Warlock pact magic handled separately
+      const pact = PACT_MAGIC_SLOTS[cls.level - 1]
+      if (pact && pact.slots > 0) {
+        pactSlots[pact.slotLevel] = (pactSlots[pact.slotLevel] || 0) + pact.slots
+      }
+    } else {
+      effectiveCasterLevel += Math.floor(cls.level * CASTER_MULTIPLIERS[cls.casterType])
+    }
+  }
+
+  const slots: Record<number, number> = {}
+  if (effectiveCasterLevel > 0) {
+    const capped = Math.min(effectiveCasterLevel, 20)
+    const table = FULL_CASTER_SLOTS[capped - 1]
+    if (table) {
+      for (let i = 0; i < table.length; i++) {
+        if (table[i]! > 0) {
+          slots[i + 1] = table[i]!
+        }
+      }
+    }
+  }
+
+  return { slots, pactSlots }
+}
+
 /**
  * Get spell slots for a given class and level.
  * Returns an object mapping spell level (1-9) to number of slots.

@@ -91,6 +91,27 @@ const displayBackground = computed(() => {
   return gt.background(bg.name)
 })
 
+// Multiclass display
+const multiclassDisplay = computed(() => {
+  if (char.value.classes.length < 2) return ''
+  return char.value.classes
+    .map(c => {
+      const cls = variantClasses.value.find(cl => cl.id === c.classId)
+      const name = cls ? gt.className(cls.name, char.value.variant) : c.classId
+      return `${name} ${c.level}`
+    })
+    .join(' / ')
+})
+
+const hitDiceDisplay = computed(() => {
+  if (char.value.classes.length < 2) {
+    return `${char.value.level}d${char.value.hitDie}`
+  }
+  return char.value.classes
+    .map(c => `${c.level}d${c.hitDie}`)
+    .join(' + ')
+})
+
 const isBrancalonia = computed(() => char.value.variant === 'brancalonia')
 const isApocalisse = computed(() => char.value.variant === 'apocalisse')
 
@@ -226,8 +247,8 @@ function handleImport(event: Event) {
         </div>
         <div>
           <p class="text-xs text-stone-500 uppercase">{{ t('review.classLevel') }}</p>
-          <p class="text-stone-200">{{ className }} {{ char.level }}</p>
-          <p v-if="subclassName" class="text-xs text-stone-500">{{ subclassName }}</p>
+          <p class="text-stone-200">{{ multiclassDisplay || `${className} ${char.level}` }}</p>
+          <p v-if="!multiclassDisplay && subclassName" class="text-xs text-stone-500">{{ subclassName }}</p>
         </div>
         <div>
           <p class="text-xs text-stone-500 uppercase">{{ t('review.charRace') }}</p>
@@ -245,7 +266,7 @@ function handleImport(event: Event) {
     </div>
 
     <!-- Combat Stats -->
-    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-4">
       <div class="bg-stone-800 border border-amber-700/30 rounded-lg p-3 text-center">
         <p class="text-xs text-stone-500">{{ t('review.ac') }}</p>
         <p class="text-2xl font-bold text-amber-400">{{ characterStore.armorClass }}</p>
@@ -261,6 +282,10 @@ function handleImport(event: Event) {
       <div class="bg-stone-800 border border-red-700/30 rounded-lg p-3 text-center">
         <p class="text-xs text-stone-500">{{ t('review.hp') }}</p>
         <p class="text-2xl font-bold text-red-400">{{ char.maxHp }}</p>
+      </div>
+      <div class="bg-stone-800 border border-stone-700 rounded-lg p-3 text-center">
+        <p class="text-xs text-stone-500">{{ t('review.hitDie') }}</p>
+        <p class="text-lg font-bold text-stone-200">{{ hitDiceDisplay }}</p>
       </div>
       <div class="bg-stone-800 border border-stone-700 rounded-lg p-3 text-center">
         <p class="text-xs text-stone-500">{{ t('review.proficiencyBonus') }}</p>

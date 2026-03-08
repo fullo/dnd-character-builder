@@ -8,6 +8,8 @@ import { SKILLS } from '@/data/dnd5e/skills'
 import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
+// Multiclass support (D&D 5e only)
+
 const { t } = useI18n()
 const characterStore = useCharacterStore()
 const gt = useGameTerms()
@@ -49,6 +51,41 @@ function toggleSkill(skill: string) {
     selectedSkills.value.push(skill)
   }
   characterStore.character.skillProficiencies = [...selectedSkills.value]
+}
+
+// Multiclass: only D&D 5e, only if primary class is selected
+const canMulticlass = computed(() =>
+  variant.value === 'dnd5e' && !!characterStore.character.className
+)
+
+const multiclassOptions = computed(() => {
+  if (!canMulticlass.value) return []
+  const takenIds = new Set(characterStore.character.classes.map(c => c.classId))
+  // Also exclude primary class if classes array is empty
+  if (takenIds.size === 0) takenIds.add(characterStore.character.className)
+  return classes.value.filter(c => !takenIds.has(c.id))
+})
+
+const multiclassDisplay = computed(() => {
+  if (characterStore.character.classes.length < 2) return ''
+  return characterStore.character.classes
+    .map(c => {
+      const cls = classes.value.find(cl => cl.id === c.classId)
+      const name = cls ? gt.className(cls.name, variant.value) : c.classId
+      return `${name} ${c.level}`
+    })
+    .join(' / ')
+})
+
+const showMulticlassAdd = ref(false)
+
+function addSecondaryClass(clsId: string) {
+  characterStore.addMulticlass(clsId)
+  showMulticlassAdd.value = false
+}
+
+function removeSecondaryClass(clsId: string) {
+  characterStore.removeMulticlass(clsId)
 }
 </script>
 
@@ -133,6 +170,65 @@ function toggleSkill(skill: string) {
             <p v-if="feature.description" class="text-stone-500 text-xs ml-4">{{ feature.description }}</p>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Multiclass (D&D 5e only) -->
+    <div v-if="canMulticlass" class="mt-6 bg-stone-800 border border-purple-700/30 rounded-lg p-4" role="region" :aria-label="t('class.multiclass')">
+      <h3 class="font-semibold text-purple-400 mb-3">{{ t('class.multiclass') }}</h3>
+
+      <!-- Current multiclass breakdown -->
+      <div v-if="characterStore.character.classes.length >= 2" class="mb-3">
+        <p class="text-stone-300 text-sm font-medium mb-2">{{ multiclassDisplay }} ({{ t('common.level') }} {{ characterStore.character.level }})</p>
+        <div class="flex flex-wrap gap-2">
+          <div
+            v-for="entry in characterStore.character.classes"
+            :key="entry.classId"
+            class="flex items-center gap-2 bg-stone-700 rounded px-3 py-1.5 text-sm"
+          >
+            <span class="text-amber-400 font-medium">
+              {{ classes.find(c => c.id === entry.classId) ? gt.className(classes.find(c => c.id === entry.classId)!.name, variant) : entry.classId }}
+            </span>
+            <span class="text-stone-400">Lv.{{ entry.level }}</span>
+            <span class="text-stone-500 text-xs">(d{{ entry.hitDie }})</span>
+            <!-- Remove button (only for secondary classes) -->
+            <button
+              v-if="entry.classId !== characterStore.character.classes[0]?.classId"
+              @click="removeSecondaryClass(entry.classId)"
+              class="text-red-400 hover:text-red-300 text-xs ml-1 cursor-pointer"
+              :aria-label="t('class.removeClass')"
+            >✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add class button/selector -->
+      <div v-if="!showMulticlassAdd">
+        <button
+          @click="showMulticlassAdd = true"
+          class="px-4 py-2 bg-purple-700 hover:bg-purple-600 text-purple-100 rounded-lg text-sm font-medium transition-colors cursor-pointer"
+          :disabled="multiclassOptions.length === 0"
+        >
+          <span aria-hidden="true">+</span> {{ t('class.addClass') }}
+        </button>
+      </div>
+      <div v-else>
+        <p class="text-stone-400 text-sm mb-2">{{ t('class.selectClassToAdd') }}:</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <button
+            v-for="cls in multiclassOptions"
+            :key="cls.id"
+            @click="addSecondaryClass(cls.id)"
+            class="bg-stone-700 hover:bg-stone-600 border border-stone-600 rounded-lg p-2 text-left transition-colors cursor-pointer"
+          >
+            <span class="text-amber-400 text-sm font-medium">{{ gt.className(cls.name, variant) }}</span>
+            <span class="text-stone-500 text-xs ml-1">(d{{ cls.hitDie }})</span>
+          </button>
+        </div>
+        <button
+          @click="showMulticlassAdd = false"
+          class="mt-2 text-stone-500 hover:text-stone-400 text-sm cursor-pointer"
+        >{{ t('common.cancel') }}</button>
       </div>
     </div>
 
