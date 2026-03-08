@@ -2,9 +2,13 @@
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AppHeader from '@/components/layout/AppHeader.vue'
+import { useTheme } from '@/composables/useTheme'
 
 const { t } = useI18n()
 const showCookieBanner = ref(false)
+
+// Initialize theme — applies data-theme attribute on <html>
+useTheme()
 
 onMounted(() => {
   if (!localStorage.getItem('gdpr-accepted')) {

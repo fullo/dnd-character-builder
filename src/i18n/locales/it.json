@@ -289,5 +289,11 @@
     "le": "Legale Malvagio",
     "ne": "Neutrale Malvagio",
     "ce": "Caotico Malvagio"
+  },
+  "theme": {
+    "toggle": "Cambia tema",
+    "light": "Tema chiaro",
+    "dark": "Tema scuro",
+    "auto": "Predefinito sistema"
   }
 }

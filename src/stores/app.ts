@@ -2,14 +2,20 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export type GameVariant = 'dnd5e' | 'brancalonia' | 'apocalisse'
+export type ThemeMode = 'light' | 'dark' | 'auto'
 
 export const useAppStore = defineStore('app', () => {
   const locale = ref<string>(navigator.language.startsWith('it') ? 'it' : 'en')
   const currentStep = ref(0)
   const totalSteps = ref(9)
+  const theme = ref<ThemeMode>('auto')
 
   function setLocale(lang: string) {
     locale.value = lang
+  }
+
+  function setTheme(mode: ThemeMode) {
+    theme.value = mode
   }
 
   function setStep(step: number) {
@@ -32,9 +38,9 @@ export const useAppStore = defineStore('app', () => {
     currentStep.value = 0
   }
 
-  return { locale, currentStep, totalSteps, setLocale, setStep, nextStep, prevStep, resetSteps }
+  return { locale, currentStep, totalSteps, theme, setLocale, setTheme, setStep, nextStep, prevStep, resetSteps }
 }, {
   persist: {
-    pick: ['locale'],
+    pick: ['locale', 'theme'],
   },
 })

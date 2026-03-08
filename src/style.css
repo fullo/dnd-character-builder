@@ -67,3 +67,122 @@ body {
   outline: 2px solid #f59e0b;
   outline-offset: 2px;
 }
+
+/* ─── Light Theme Override ────────────────────────────────────────────────── */
+/* Specificity: html[data-theme="light"] .class = (0,2,1) > Tailwind (0,1,0) */
+/* Smooth transition for theme switching */
+html[data-theme="light"] *,
+html[data-theme="light"] *::before,
+html[data-theme="light"] *::after {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Backgrounds: dark → light */
+html[data-theme="light"] .bg-stone-900 { background-color: #ffffff; }
+html[data-theme="light"] .bg-stone-800 { background-color: #f5f5f4; }
+html[data-theme="light"] .bg-stone-700 { background-color: #e7e5e4; }
+html[data-theme="light"] .bg-stone-600 { background-color: #d6d3d1; }
+
+/* Text: light → dark */
+html[data-theme="light"] .text-stone-100 { color: #1c1917; }
+html[data-theme="light"] .text-stone-200 { color: #292524; }
+html[data-theme="light"] .text-stone-300 { color: #44403c; }
+html[data-theme="light"] .text-stone-400 { color: #57534e; }
+html[data-theme="light"] .text-stone-500 { color: #78716c; }
+html[data-theme="light"] .text-stone-600 { color: #57534e; }
+html[data-theme="light"] .text-stone-900 { color: #1c1917; }
+
+/* Borders: dark → light */
+html[data-theme="light"] .border-stone-800 { border-color: #e7e5e4; }
+html[data-theme="light"] .border-stone-700 { border-color: #d6d3d1; }
+html[data-theme="light"] .border-stone-600 { border-color: #a8a29e; }
+
+/* Amber accent — darker for contrast on light background */
+html[data-theme="light"] .text-amber-400 { color: #b45309; }
+html[data-theme="light"] .text-amber-500 { color: #d97706; }
+html[data-theme="light"] .text-amber-300 { color: #b45309; }
+html[data-theme="light"] .border-amber-500 { border-color: #d97706; }
+html[data-theme="light"] .border-amber-600 { border-color: #d97706; }
+
+/* Amber accent borders with opacity */
+html[data-theme="light"] .border-amber-700\/30 { border-color: rgba(180, 83, 9, 0.25); }
+html[data-theme="light"] .border-amber-700\/20 { border-color: rgba(180, 83, 9, 0.15); }
+html[data-theme="light"] .border-amber-600\/50 { border-color: rgba(217, 119, 6, 0.35); }
+
+/* Red accent — darker for light bg */
+html[data-theme="light"] .text-red-400 { color: #dc2626; }
+html[data-theme="light"] .text-red-300 { color: #dc2626; }
+html[data-theme="light"] .border-red-700 { border-color: #dc2626; }
+html[data-theme="light"] .border-red-700\/30 { border-color: rgba(220, 38, 38, 0.25); }
+html[data-theme="light"] .border-red-700\/20 { border-color: rgba(220, 38, 38, 0.15); }
+
+/* Green accent */
+html[data-theme="light"] .text-green-400 { color: #15803d; }
+html[data-theme="light"] .text-green-300 { color: #15803d; }
+html[data-theme="light"] .border-green-700 { border-color: #15803d; }
+
+/* Blue accent */
+html[data-theme="light"] .text-blue-300 { color: #1d4ed8; }
+html[data-theme="light"] .border-blue-700 { border-color: #1d4ed8; }
+
+/* Purple accent */
+html[data-theme="light"] .text-purple-400 { color: #7e22ce; }
+html[data-theme="light"] .text-purple-300 { color: #7e22ce; }
+html[data-theme="light"] .text-purple-100 { color: #581c87; }
+html[data-theme="light"] .border-purple-700 { border-color: #9333ea; }
+html[data-theme="light"] .border-purple-700\/30 { border-color: rgba(147, 51, 234, 0.25); }
+
+/* Status / alert backgrounds with opacity */
+html[data-theme="light"] .bg-amber-900\/30 { background-color: rgba(217, 119, 6, 0.1); }
+html[data-theme="light"] .bg-red-900\/30 { background-color: rgba(220, 38, 38, 0.08); }
+html[data-theme="light"] .bg-red-900\/40 { background-color: rgba(220, 38, 38, 0.1); }
+html[data-theme="light"] .bg-red-900\/60 { background-color: rgba(220, 38, 38, 0.12); }
+html[data-theme="light"] .bg-green-900\/30 { background-color: rgba(21, 128, 61, 0.08); }
+html[data-theme="light"] .bg-blue-900\/30 { background-color: rgba(29, 78, 216, 0.08); }
+html[data-theme="light"] .bg-purple-900\/30 { background-color: rgba(147, 51, 234, 0.08); }
+
+/* Spell selected state */
+html[data-theme="light"] .bg-amber-600\/20 { background-color: rgba(217, 119, 6, 0.12); }
+
+/* Solid accent buttons — slightly adjusted */
+html[data-theme="light"] .bg-red-600 { background-color: #dc2626; }
+html[data-theme="light"] .bg-green-700 { background-color: #15803d; }
+html[data-theme="light"] .bg-blue-700 { background-color: #1d4ed8; }
+html[data-theme="light"] .bg-purple-700 { background-color: #7e22ce; }
+html[data-theme="light"] .bg-purple-600 { background-color: #9333ea; }
+
+/* Modal overlay */
+html[data-theme="light"] .bg-black\/60 { background-color: rgba(0, 0, 0, 0.35); }
+
+/* Shadows — softer on light */
+html[data-theme="light"] .shadow-lg {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+html[data-theme="light"] .shadow-amber-500\/20 { --tw-shadow-color: rgba(217, 119, 6, 0.1); }
+html[data-theme="light"] .shadow-amber-600\/30 { --tw-shadow-color: rgba(217, 119, 6, 0.15); }
+
+/* Focus outline — slightly darker for light bg */
+html[data-theme="light"] :focus-visible {
+  outline-color: #d97706;
+}
+
+/* Hover states */
+html[data-theme="light"] .hover\:bg-stone-600:hover { background-color: #d6d3d1; }
+html[data-theme="light"] .hover\:bg-stone-700:hover { background-color: #e7e5e4; }
+html[data-theme="light"] .hover\:text-amber-400:hover { color: #b45309; }
+html[data-theme="light"] .hover\:text-amber-300:hover { color: #b45309; }
+html[data-theme="light"] .hover\:text-red-300:hover { color: #dc2626; }
+html[data-theme="light"] .hover\:text-stone-300:hover { color: #44403c; }
+html[data-theme="light"] .hover\:text-stone-400:hover { color: #57534e; }
+html[data-theme="light"] .hover\:border-stone-600:hover { border-color: #a8a29e; }
+html[data-theme="light"] .hover\:border-amber-600\/50:hover { border-color: rgba(217, 119, 6, 0.35); }
+html[data-theme="light"] .hover\:border-amber-700\/50:hover { border-color: rgba(180, 83, 9, 0.35); }
+html[data-theme="light"] .hover\:bg-amber-500:hover { background-color: #f59e0b; }
+html[data-theme="light"] .hover\:bg-red-500:hover { background-color: #ef4444; }
+html[data-theme="light"] .hover\:bg-red-800:hover { background-color: rgba(220, 38, 38, 0.2); }
+html[data-theme="light"] .hover\:bg-green-600:hover { background-color: #16a34a; }
+html[data-theme="light"] .hover\:bg-blue-600:hover { background-color: #2563eb; }
+html[data-theme="light"] .hover\:bg-purple-600:hover { background-color: #9333ea; }
+html[data-theme="light"] .hover\:shadow-lg:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}

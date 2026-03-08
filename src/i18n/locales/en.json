@@ -289,5 +289,11 @@
     "le": "Lawful Evil",
     "ne": "Neutral Evil",
     "ce": "Chaotic Evil"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light mode",
+    "dark": "Dark mode",
+    "auto": "System default"
   }
 }
