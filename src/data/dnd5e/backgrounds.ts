@@ -21,7 +21,9 @@ export interface Background {
   }
 }
 
-export const backgrounds: readonly Background[] = [
+import { missingBackgrounds } from './missing-backgrounds'
+
+const baseBackgrounds: readonly Background[] = [
   {
     id: 'acolyte',
     name: 'Acolyte',
@@ -153,6 +155,9 @@ export const backgrounds: readonly Background[] = [
     },
   },
 ] as const
+
+/** All backgrounds: SRD core + additional open sources */
+export const backgrounds: readonly Background[] = [...baseBackgrounds, ...missingBackgrounds]
 
 export function getBackgroundById(id: string): Background | undefined {
   return backgrounds.find(b => b.id === id)

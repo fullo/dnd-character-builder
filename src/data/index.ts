@@ -16,6 +16,7 @@ import { equipmentData } from './dnd5e/equipment'
 import { getSpellSlotsForLevel } from './dnd5e/rules'
 import { brancaloniaRaces } from './brancalonia/races'
 import { brancaloniaSubclasses } from './brancalonia/classes'
+import { burattinaioBrancaloniaClass } from './brancalonia/burattinaio'
 import { brancaloniaBackgrounds } from './brancalonia/backgrounds'
 import { brancaloniaRules, MAX_LEVEL as BRANCALONIA_MAX_LEVEL } from './brancalonia/rules'
 
@@ -40,8 +41,8 @@ export function getRaces(variant: GameVariant): readonly Race[] {
  */
 export function getClasses(variant: GameVariant): readonly CharacterClass[] {
   switch (variant) {
-    case 'brancalonia':
-      return dnd5eClasses.map(cls => {
+    case 'brancalonia': {
+      const brancaClasses = dnd5eClasses.map(cls => {
         const brancaSubs = brancaloniaSubclasses.filter(
           s => s.parentClassId === cls.id,
         )
@@ -60,6 +61,9 @@ export function getClasses(variant: GameVariant): readonly CharacterClass[] {
           subclasses: convertedSubs,
         }
       })
+      // Add Brancalonia-exclusive classes
+      return [...brancaClasses, burattinaioBrancaloniaClass]
+    }
     case 'dnd5e':
     default:
       return dnd5eClasses

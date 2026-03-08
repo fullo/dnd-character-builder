@@ -277,5 +277,20 @@ function handleImport(event: Event) {
         {{ t('review.importJson') }}
       </button>
     </div>
+
+    <!-- Brancalonia promo -->
+    <div v-if="char.variant === 'brancalonia'" class="mt-6 bg-stone-800/50 border border-amber-700/20 rounded-lg p-4 text-center">
+      <p class="text-stone-400 text-sm">
+        {{ t('variant.brancaloniaPromo') }}
+        <a
+          href="https://www.drivethrurpg.com/en/browse?affiliate_id=2960765&keyword=brancalonia"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-amber-400 hover:text-amber-300 underline ml-1"
+        >
+          DriveThruRPG
+        </a>
+      </p>
+    </div>
   </section>
 </template>

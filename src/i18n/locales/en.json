@@ -35,7 +35,8 @@
     "dnd5e": "D&D 5th Edition",
     "dnd5eDesc": "The classic edition of Dungeons & Dragons with all SRD classes and races",
     "brancalonia": "Brancalonia",
-    "brancaloniaDesc": "Spaghetti Fantasy set in a fantastical medieval Italy. Maximum level 6."
+    "brancaloniaDesc": "Spaghetti Fantasy set in a fantastical medieval Italy. Maximum level 6.",
+    "brancaloniaPromo": "If you like Brancalonia, buy the manuals on"
   },
   "race": {
     "title": "Choose Race",

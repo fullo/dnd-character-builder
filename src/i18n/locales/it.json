@@ -35,7 +35,8 @@
     "dnd5e": "D&D 5a Edizione",
     "dnd5eDesc": "L'edizione classica di Dungeons & Dragons con tutte le classi e razze del SRD",
     "brancalonia": "Brancalonia",
-    "brancaloniaDesc": "Spaghetti Fantasy ambientato in un'Italia medievale fantastica. Livello massimo 6."
+    "brancaloniaDesc": "Spaghetti Fantasy ambientato in un'Italia medievale fantastica. Livello massimo 6.",
+    "brancaloniaPromo": "Se ti piace Brancalonia, compra i manuali su"
   },
   "race": {
     "title": "Scegli la Razza",

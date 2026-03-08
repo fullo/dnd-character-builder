@@ -67,6 +67,12 @@ export const races: readonly Race[] = [
         abilityBonuses: { wis: 1 },
         traits: ['dwarven-toughness'],
       },
+      {
+        id: 'mountain-dwarf',
+        name: 'Mountain Dwarf',
+        abilityBonuses: { str: 2 },
+        traits: ['dwarven-armor-training'],
+      },
     ],
   },
 
@@ -95,6 +101,27 @@ export const races: readonly Race[] = [
           'extra-language',
         ],
       },
+      {
+        id: 'wood-elf',
+        name: 'Wood Elf',
+        abilityBonuses: { wis: 1 },
+        traits: [
+          'elf-weapon-training',
+          'fleet-of-foot',
+          'mask-of-the-wild',
+        ],
+      },
+      {
+        id: 'dark-elf',
+        name: 'Dark Elf (Drow)',
+        abilityBonuses: { cha: 1 },
+        traits: [
+          'superior-darkvision',
+          'sunlight-sensitivity',
+          'drow-magic',
+          'drow-weapon-training',
+        ],
+      },
     ],
   },
 
@@ -118,6 +145,15 @@ export const races: readonly Race[] = [
         traits: [
           'artificers-lore',
           'tinker',
+        ],
+      },
+      {
+        id: 'forest-gnome',
+        name: 'Forest Gnome',
+        abilityBonuses: { dex: 1 },
+        traits: [
+          'natural-illusionist',
+          'speak-with-small-beasts',
         ],
       },
     ],
@@ -178,6 +214,12 @@ export const races: readonly Race[] = [
         name: 'Lightfoot Halfling',
         abilityBonuses: { cha: 1 },
         traits: ['naturally-stealthy'],
+      },
+      {
+        id: 'stout-halfling',
+        name: 'Stout Halfling',
+        abilityBonuses: { con: 1 },
+        traits: ['stout-resilience'],
       },
     ],
   },

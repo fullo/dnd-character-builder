@@ -406,6 +406,406 @@ export const brancaloniaSubclasses: readonly BrancaloniaSubclass[] = [
       },
     ],
   },
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // MACARONICON EXPANSION - Additional subclasses (second option per class)
+  // ═════════════════════════════════════════════════════════════════════════
+
+  // ─── Barbarian - Ciurmatore (Rabble-Rouser) ──────────────────────
+  {
+    id: 'ciurmatore',
+    parentClassId: 'barbarian',
+    name: 'Rabble-Rouser',
+    nameOriginal: 'Ciurmatore',
+    description:
+      'Ciurmatori are barbarians who channel their fury through revolutionary zeal. They are agitators and demagogues who incite riots and popular uprisings against corrupt lords and unjust rulers. Their rage is not primal but political -- a burning anger at the oppression of the common folk. When a Ciurmatore raises their voice, the mob follows.',
+    features: [
+      {
+        id: 'incite-riot',
+        name: 'Incite Riot',
+        level: 3,
+        description:
+          'When you enter your rage, you can shout a rallying cry. Up to three friendly creatures within 30 feet that can hear you gain temporary hit points equal to your barbarian level and advantage on their next attack roll.',
+      },
+      {
+        id: 'voice-of-the-people',
+        name: 'Voice of the People',
+        level: 3,
+        description:
+          'You gain proficiency in Persuasion and Intimidation. When you make a Charisma check to influence a crowd or group of common folk, you can use your Strength modifier instead of Charisma.',
+      },
+      {
+        id: 'revolutionary-fervor',
+        name: 'Revolutionary Fervor',
+        level: 6,
+        description:
+          'While raging, allies within 10 feet of you share your resistance to bludgeoning, piercing, and slashing damage. Additionally, when an ally within 10 feet is reduced to 0 hit points, you can use your reaction to make one melee attack against the creature that reduced them.',
+      },
+    ],
+  },
+
+  // ─── Bard - Cantastorie (Storyteller) ────────────────────────────
+  {
+    id: 'cantastorie',
+    parentClassId: 'bard',
+    name: 'Storyteller',
+    nameOriginal: 'Cantastorie',
+    description:
+      'Cantastorie are wandering storytellers who keep alive the oral traditions of Brancalonia. Armed with painted scrolls and a booming voice, they recount epic tales of heroes, villains, and miraculous saints in piazzas and taverns. Their stories are not mere entertainment -- they carry the power of collective memory, and a Cantastorie\'s words can inspire heroism or instill dread.',
+    features: [
+      {
+        id: 'painted-scroll',
+        name: 'Painted Scroll',
+        level: 3,
+        description:
+          'You carry a painted scroll depicting scenes from legendary tales. As an action, you can display your scroll and tell a story. Choose one creature that can see and hear you within 60 feet. It must make a Wisdom saving throw or be charmed or frightened (your choice) for 1 minute. You can use this a number of times equal to your Charisma modifier per long rest.',
+      },
+      {
+        id: 'tale-of-valor',
+        name: 'Tale of Valor',
+        level: 3,
+        description:
+          'When you use Bardic Inspiration, you can tell a short tale of a legendary hero. The creature that receives the die also gains advantage on saving throws against being frightened until the inspiration die is used.',
+      },
+      {
+        id: 'epic-narrative',
+        name: 'Epic Narrative',
+        level: 6,
+        description:
+          'You can weave an ongoing narrative during combat. At the start of each of your turns, you can grant one ally who can hear you within 30 feet an additional 1d6 to their next attack roll or saving throw. This lasts for 1 minute and requires concentration.',
+      },
+    ],
+  },
+
+  // ─── Cleric - Predicatore (Preacher) ─────────────────────────────
+  {
+    id: 'predicatore',
+    parentClassId: 'cleric',
+    name: 'Preacher',
+    nameOriginal: 'Predicatore',
+    description:
+      'Predicatori are fire-and-brimstone preachers who wander the roads of Brancalonia, thundering sermons of doom and redemption from any convenient pulpit -- be it a church steps, a market cart, or an overturned barrel. Unlike the settled Miracolari, Predicatori take their message to the streets, railing against sin, corruption, and the excesses of the powerful.',
+    features: [
+      {
+        id: 'hellfire-sermon',
+        name: 'Hellfire Sermon',
+        level: 1,
+        description:
+          'As an action, you deliver a thundering sermon. Each hostile creature within 15 feet that can hear you must make a Wisdom saving throw or take 1d8 psychic damage and be frightened of you until the end of your next turn. The damage increases to 2d8 at 5th level.',
+      },
+      {
+        id: 'voice-of-doom',
+        name: 'Voice of Doom',
+        level: 1,
+        description:
+          'When you use Channel Divinity, you can pronounce a doom upon a creature within 30 feet. The creature must make a Charisma saving throw. On a failure, it has disadvantage on all attack rolls and ability checks for 1 minute.',
+      },
+      {
+        id: 'congregation',
+        name: 'Congregation',
+        level: 6,
+        description:
+          'Your fervent preaching attracts followers wherever you go. After spending 10 minutes preaching in a settlement, you gain 1d4 commoner followers who will assist you with non-combat tasks for 24 hours. Additionally, your allies within 30 feet gain a +1 bonus to saving throws while they can hear you.',
+      },
+    ],
+  },
+
+  // ─── Druid - Fattucchiera (Hedge Witch) ─────────────────────────
+  {
+    id: 'fattucchiera',
+    parentClassId: 'druid',
+    name: 'Hedge Witch',
+    nameOriginal: 'Fattucchiera',
+    description:
+      'Fattucchiere are solitary practitioners of folk magic who live on the edges of villages, consulted in whispers for love potions, healing salves, and curses against enemies. Part herbalist, part fortune-teller, they blend druidic nature magic with the superstitions and folk remedies of the common people. Their cottages are filled with drying herbs, bubbling cauldrons, and suspicious black cats.',
+    features: [
+      {
+        id: 'potion-brewer',
+        name: 'Potion Brewer',
+        level: 2,
+        description:
+          'During a long rest, you can brew a number of potions equal to your Wisdom modifier (minimum 1). Choose from: Healing Salve (heals 2d4+WIS mod HP), Love Philtre (advantage on Persuasion for 1 hour), Sleeping Draught (target makes CON save or falls asleep for 10 minutes), or Bitter Tonic (grants resistance to poison for 1 hour). Potions expire after 24 hours.',
+      },
+      {
+        id: 'evil-eye-ward',
+        name: 'Evil Eye Ward',
+        level: 2,
+        description:
+          'You know the traditional gestures to ward off curses. As a reaction when you or a creature within 30 feet is targeted by a curse or enchantment spell, you can impose disadvantage on the spell attack roll or grant the target advantage on the saving throw. You can use this a number of times equal to your proficiency bonus per long rest.',
+      },
+      {
+        id: 'cauldron-magic',
+        name: 'Cauldron Magic',
+        level: 6,
+        description:
+          'You can use your cauldron as a spellcasting focus. When you cast a druid spell using your cauldron, you can add your Wisdom modifier to one damage roll or one healing roll of the spell. Additionally, you can cast scrying once per long rest without material components by gazing into your bubbling cauldron.',
+      },
+    ],
+  },
+
+  // ─── Fighter - Condottiero (Mercenary Captain) ──────────────────
+  {
+    id: 'condottiero',
+    parentClassId: 'fighter',
+    name: 'Mercenary Captain',
+    nameOriginal: 'Condottiero',
+    description:
+      'Condottieri are mercenary captains who lead bands of soldiers-for-hire across the battlefields of Brancalonia. Trained in tactics and leadership rather than individual prowess, a Condottiero turns a rabble of sellswords into a disciplined fighting force. They are masters of battlefield strategy, capable of reading terrain, exploiting weaknesses, and rallying their troops in the darkest hour.',
+    features: [
+      {
+        id: 'tactical-command',
+        name: 'Tactical Command',
+        level: 3,
+        description:
+          'As a bonus action, you can issue a tactical command to an ally within 30 feet who can hear you. The ally can immediately use their reaction to make one weapon attack or move up to half their speed without provoking opportunity attacks. You can use this a number of times equal to your proficiency bonus per long rest.',
+      },
+      {
+        id: 'battle-assessment',
+        name: 'Battle Assessment',
+        level: 3,
+        description:
+          'You can spend 1 minute observing a group of enemies. You learn their approximate numbers, general combat capability, and any obvious tactical weaknesses. In combat, you have advantage on Initiative rolls and cannot be surprised.',
+      },
+      {
+        id: 'inspiring-rally',
+        name: 'Inspiring Rally',
+        level: 6,
+        description:
+          'When you use Second Wind, you can extend the benefit to all allies within 15 feet. Each ally regains hit points equal to 1d6 + your fighter level. Once you use this feature, you must finish a long rest before you can use it again.',
+      },
+    ],
+  },
+
+  // ─── Monk - Lottatore (Wrestler) ────────────────────────────────
+  {
+    id: 'lottatore',
+    parentClassId: 'monk',
+    name: 'Wrestler',
+    nameOriginal: 'Lottatore',
+    description:
+      'Lottatori follow the Way of the Ring, a monastic tradition rooted in the street wrestling and brawling culture of Brancalonia\'s cities. They are grapplers, throwers, and submission artists who have elevated the tavern brawl to a martial art. Where the Friar fights with righteous fury, the Lottatore fights with technical precision, using leverage and momentum to overwhelm even the strongest opponents.',
+    features: [
+      {
+        id: 'grappling-master',
+        name: 'Grappling Master',
+        level: 3,
+        description:
+          'You gain advantage on all grapple checks. When you successfully grapple a creature, you can spend 1 ki point to also restrain it until the grapple ends. Additionally, your unarmed strikes deal extra damage equal to your Wisdom modifier against grappled creatures.',
+      },
+      {
+        id: 'ring-throw',
+        name: 'Ring Throw',
+        level: 3,
+        description:
+          'When you have a creature grappled, you can use your action to throw it. The creature is hurled up to 15 feet in a direction of your choice and takes 2d6 + your Strength modifier bludgeoning damage. If it strikes another creature, that creature must make a Dexterity saving throw or take the same damage.',
+      },
+      {
+        id: 'iron-grip',
+        name: 'Iron Grip',
+        level: 6,
+        description:
+          'Your grip becomes supernaturally strong. A creature grappled by you has disadvantage on ability checks to escape. Additionally, you can grapple creatures up to two sizes larger than you. When a creature escapes your grapple, you can spend 1 ki point to immediately attempt to grapple it again as a reaction.',
+      },
+    ],
+  },
+
+  // ─── Paladin - Giustiziere (Justicar) ───────────────────────────
+  {
+    id: 'giustiziere',
+    parentClassId: 'paladin',
+    name: 'Justicar',
+    nameOriginal: 'Giustiziere',
+    description:
+      'Giustizieri are vigilante paladins who have sworn an Oath of Justice, dedicating themselves to punishing the wicked where the law fails or fears to tread. Unlike the quixotic Knights-Errant, Giustizieri are pragmatic enforcers of rough justice, operating in the moral grey zones of Brancalonia\'s corrupt society. They are judge, jury, and executioner rolled into one.',
+    features: [
+      {
+        id: 'oath-of-justice',
+        name: 'Oath of Justice',
+        level: 3,
+        description:
+          'You swear to punish the guilty and protect the innocent, by any means necessary. You gain proficiency in Investigation and Insight. When you use Channel Divinity, you can mark a creature as guilty: for 1 minute, your weapon attacks against that creature deal an extra 1d6 radiant damage.',
+      },
+      {
+        id: 'relentless-pursuit',
+        name: 'Relentless Pursuit',
+        level: 3,
+        description:
+          'You cannot be evaded by your quarry. You have advantage on Perception and Survival checks to track a creature you have marked as guilty. Additionally, your speed increases by 10 feet when moving toward a creature marked by your Oath of Justice.',
+      },
+      {
+        id: 'sentence-of-the-just',
+        name: 'Sentence of the Just',
+        level: 6,
+        description:
+          'When you hit a creature marked as guilty with a melee weapon attack, you can expend a spell slot to pronounce sentence. The creature must make a Charisma saving throw. On a failure, it is stunned until the end of your next turn and takes 2d8 radiant damage. On a success, it takes half damage and is not stunned.',
+      },
+    ],
+  },
+
+  // ─── Ranger - Cacciatore di Taglie (Bounty Hunter) ──────────────
+  {
+    id: 'cacciatore',
+    parentClassId: 'ranger',
+    name: 'Bounty Hunter',
+    nameOriginal: 'Cacciatore di Taglie',
+    description:
+      'Cacciatori di Taglie are professional manhunters who track down fugitives, debtors, and wanted criminals across the Boot for coin. Where the Mattatore hunts monsters, the Cacciatore hunts people -- and people are far more unpredictable. They are experts at reading body language, following trails through crowded cities, and bringing their quarry back alive (when the bounty requires it).',
+    features: [
+      {
+        id: 'manhunter',
+        name: 'Manhunter',
+        level: 3,
+        description:
+          'You specialize in tracking humanoids. You have advantage on Survival checks to track humanoids and on Investigation checks to gather information about a specific person. Additionally, you learn one language of your choice.',
+      },
+      {
+        id: 'bring-em-back',
+        name: 'Bring \'Em Back',
+        level: 3,
+        description:
+          'You have proficiency with nets and manacles. When you hit a creature with a net, it also takes 1d6 bludgeoning damage. When you reduce a creature to 0 hit points with a melee weapon attack, you can choose to knock it unconscious instead of killing it, with no penalty.',
+      },
+      {
+        id: 'nowhere-to-hide',
+        name: 'Nowhere to Hide',
+        level: 6,
+        description:
+          'You gain an uncanny ability to find your quarry. You can cast locate creature once per long rest without expending a spell slot, but only to find a specific humanoid you have previously seen or been given a detailed description of. Additionally, creatures you are tracking have disadvantage on Stealth checks against you.',
+      },
+    ],
+  },
+
+  // ─── Rogue - Ciarlatano (Charlatan) ─────────────────────────────
+  {
+    id: 'ciarlatano',
+    parentClassId: 'rogue',
+    name: 'Charlatan',
+    nameOriginal: 'Ciarlatano',
+    description:
+      'Ciarlatani are silver-tongued con artists, fraudsters, and snake-oil salesmen who ply their trade in the markets and piazzas of Brancalonia. They sell fake relics, counterfeit potions, and dubious cures with absolute conviction. Where the Brigand uses force, the Ciarlatano uses charm, misdirection, and an encyclopedic knowledge of human gullibility.',
+    features: [
+      {
+        id: 'silver-tongue',
+        name: 'Silver Tongue',
+        level: 3,
+        description:
+          'You have advantage on Deception and Persuasion checks when trying to sell something, convince someone of a falsehood, or negotiate a deal. Additionally, you can use Sneak Attack against a creature that is charmed by you or that considers you a friendly acquaintance.',
+      },
+      {
+        id: 'fake-it',
+        name: 'Fake It',
+        level: 3,
+        description:
+          'You can spend 1 minute to create a convincing forgery of any small document, credential, or letter you have seen. You also gain proficiency with forgery kits and disguise kits. Your proficiency bonus is doubled for checks using these tools.',
+      },
+      {
+        id: 'confidence-scheme',
+        name: 'Confidence Scheme',
+        level: 6,
+        description:
+          'You can set up an elaborate con. After spending 1 hour interacting with a target, you learn one of its personality traits, ideals, bonds, or flaws (your choice). You have advantage on all Deception and Persuasion checks against that target for 24 hours. Additionally, you can use your Cunning Action to take the Help action.',
+      },
+    ],
+  },
+
+  // ─── Sorcerer - Stregone (Witch) ────────────────────────────────
+  {
+    id: 'stregone',
+    parentClassId: 'sorcerer',
+    name: 'Witch',
+    nameOriginal: 'Stregone',
+    description:
+      'Stregoni are hereditary witches whose magical bloodline traces back to the ancient powers that lurk beneath Brancalonia\'s soil. Their magic is instinctive and wild, expressed through curses, blessings, and transformations learned at the knee of a grandmother or great-aunt. Unlike the fortune-telling Scaramanti, Stregoni wield raw, earthy power that smells of smoke and herbs.',
+    features: [
+      {
+        id: 'witchs-curse',
+        name: 'Witch\'s Curse',
+        level: 1,
+        description:
+          'You can spend 1 sorcery point to curse a creature within 30 feet as a bonus action. Choose one: the creature\'s speed is halved for 1 minute, it takes 1d6 necrotic damage at the start of each of its turns for 1 minute (CON save ends), or it has disadvantage on the next ability check it makes. A creature can only be affected by one of your curses at a time.',
+      },
+      {
+        id: 'ancestral-knowledge',
+        name: 'Ancestral Knowledge',
+        level: 1,
+        description:
+          'You have inherited folk remedies and secret lore from your lineage. You gain proficiency in Nature and Medicine. You can also cast detect poison and disease at will, without expending a spell slot.',
+      },
+      {
+        id: 'wild-transformation',
+        name: 'Wild Transformation',
+        level: 6,
+        description:
+          'You can spend 3 sorcery points to transform a creature within 30 feet into a harmless beast (as the polymorph spell) for 1 minute. The target must make a Wisdom saving throw. On a success, the spell fails. The creature can repeat the save at the end of each of its turns. You can use this feature once per long rest.',
+      },
+    ],
+  },
+
+  // ─── Warlock - Fattucchiere (Hexer) ─────────────────────────────
+  {
+    id: 'fattucchiere',
+    parentClassId: 'warlock',
+    name: 'Hexer',
+    nameOriginal: 'Fattucchiere',
+    description:
+      'Fattucchieri are warlocks who have made a pact with dark entities from the folklore of Brancalonia -- wicked fairies, malevolent saints, or demons of the countryside. Unlike the Menagrami who channel misfortune through the evil eye, Fattucchieri specialize in hexes, bindings, and sympathetic magic, using effigies, hair, and nail clippings to work their craft from afar.',
+    features: [
+      {
+        id: 'effigy-binding',
+        name: 'Effigy Binding',
+        level: 1,
+        description:
+          'You can create a small effigy of a creature using its hair, blood, or personal item. Creating an effigy takes 10 minutes. While you possess the effigy, your warlock spells targeting that creature have advantage on spell attack rolls and the target has disadvantage on saving throws against your spells. You can only have one effigy at a time.',
+      },
+      {
+        id: 'sympathetic-hex',
+        name: 'Sympathetic Hex',
+        level: 1,
+        description:
+          'When you cast a spell that targets a creature bound by your effigy, the range of the spell becomes unlimited as long as you are on the same plane. Additionally, you know the general direction and distance of a creature bound by your effigy.',
+      },
+      {
+        id: 'puppet-strings',
+        name: 'Puppet Strings',
+        level: 6,
+        description:
+          'You can spend an action to attempt to control a creature bound by your effigy. The creature must make a Wisdom saving throw against your spell save DC. On a failure, you can control the creature\'s movement on its next turn, or force it to make a single attack against a target of your choice. You can use this once per short rest.',
+      },
+    ],
+  },
+
+  // ─── Wizard - Alchimista (Alchemist) ────────────────────────────
+  {
+    id: 'alchimista',
+    parentClassId: 'wizard',
+    name: 'Alchemist',
+    nameOriginal: 'Alchimista',
+    description:
+      'Alchimisti are practical wizards who have traded dusty tomes for bubbling retorts and smoking alembics. They transform matter through a blend of arcane formulae and chemical experimentation, creating bombs, elixirs, and transmutations. In Brancalonia, Alchimisti often operate apothecaries or sell their wares in markets, offering everything from healing draughts to explosive surprises.',
+    features: [
+      {
+        id: 'alchemical-formulae',
+        name: 'Alchemical Formulae',
+        level: 2,
+        description:
+          'You learn to create alchemical items during a long rest. You can create a number of items equal to your Intelligence modifier (minimum 1). Choose from: Alchemist\'s Fire (2d6 fire, DEX save to extinguish), Smoke Bomb (20-ft cube of fog for 1 minute), Acid Flask (2d6 acid damage), Thunder Stone (15-ft radius, CON save or deafened and stunned for 1 round). Items expire after 24 hours.',
+      },
+      {
+        id: 'experimental-elixirs',
+        name: 'Experimental Elixirs',
+        level: 2,
+        description:
+          'You can create magical elixirs by expending spell slots. Spend a spell slot during a short rest to create an elixir with one of the following effects: healing (2d4+INT mod per spell level), speed (movement +10 ft for 1 hour), resilience (resistance to one damage type for 1 hour), or might (+1 to attack rolls for 10 minutes).',
+      },
+      {
+        id: 'volatile-transmutation',
+        name: 'Volatile Transmutation',
+        level: 6,
+        description:
+          'When you cast a spell that deals acid, fire, cold, or lightning damage, you can change the damage type to any other type from that list. Additionally, once per long rest, you can add your Intelligence modifier to the damage of one spell that deals acid, fire, cold, or lightning damage.',
+      },
+    ],
+  },
 ]
 
 export function getBrancaloniaSubclassById(id: string): BrancaloniaSubclass | undefined {

@@ -11,7 +11,9 @@ export interface Spell {
   classes: string[]
 }
 
-export const spells: readonly Spell[] = [
+import { spells4to9 } from './spells-4-9'
+
+const baseSpells: readonly Spell[] = [
   // ── Cantrips (Level 0) ──────────────────────────────────────────────
 
   { id: 'acid-splash', name: 'Acid Splash', level: 0, school: 'Conjuration', castingTime: '1 action', range: '60 feet', components: 'V, S', duration: 'Instantaneous', description: 'You hurl a bubble of acid. Choose one or two creatures within range. A target must succeed on a DEX save or take 1d6 acid damage.', classes: ['sorcerer', 'wizard'] },
@@ -83,6 +85,9 @@ export const spells: readonly Spell[] = [
   { id: '3-revivify', name: 'Revivify', level: 3, school: 'Necromancy', castingTime: '1 action', range: 'Touch', components: 'V, S, M', duration: 'Instantaneous', description: 'You touch a creature that has died within the last minute. That creature returns to life with 1 HP.', classes: ['cleric', 'paladin'] },
   { id: '3-spirit-guardians', name: 'Spirit Guardians', level: 3, school: 'Conjuration', castingTime: '1 action', range: 'Self (15-foot radius)', components: 'V, S, M', duration: 'Concentration, 10 minutes', description: 'You call forth spirits to protect you. An affected creature\'s speed is halved in the area, and it takes 3d8 radiant or necrotic damage on a failed WIS save.', classes: ['cleric'] },
 ]
+
+/** All SRD spells: cantrips through level 9 */
+export const spells: readonly Spell[] = [...baseSpells, ...spells4to9]
 
 export function getSpellById(id: string): Spell | undefined {
   return spells.find(s => s.id === id)
