@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { formatModifier, spellSaveDC, spellAttackBonus, feetToMeters } from '@/utils/calculations'
 import { usePdfExport } from '@/composables/usePdfExport'
+import { copyShareUrl } from '@/utils/shareCharacter'
 import { SKILLS } from '@/data/dnd5e/skills'
 import { getSpells, getClasses, getRaces, getBackgrounds, getApocalisseRules } from '@/data'
 import { whacksLevels } from '@/data/brancalonia/rules'
@@ -147,6 +148,18 @@ function downloadJson() {
 
 function printSheet() {
   window.print()
+}
+
+const shareMessage = ref<{ type: 'success' | 'error'; text: string } | null>(null)
+
+async function shareCharacter() {
+  const success = await copyShareUrl(char.value)
+  if (success) {
+    shareMessage.value = { type: 'success', text: t('review.shareCopied') }
+  } else {
+    shareMessage.value = { type: 'error', text: t('review.shareFailed') }
+  }
+  setTimeout(() => { shareMessage.value = null }, 3000)
 }
 
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -372,7 +385,7 @@ function handleImport(event: Event) {
       </div>
     </div>
 
-    <!-- Save confirmation banner -->
+    <!-- Save/Share confirmation banner -->
     <Transition name="fade">
       <div
         v-if="saveMessage"
@@ -382,6 +395,20 @@ function handleImport(event: Event) {
       >
         <span class="text-xl" aria-hidden="true">✅</span>
         <p class="flex-1 text-sm">{{ saveMessage.text }}</p>
+      </div>
+    </Transition>
+    <Transition name="fade">
+      <div
+        v-if="shareMessage"
+        :class="[
+          'mt-4 p-3 rounded-lg border flex items-center gap-3',
+          shareMessage.type === 'success' ? 'bg-blue-900/30 border-blue-700 text-blue-300' : 'bg-red-900/30 border-red-700 text-red-300'
+        ]"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="text-xl" aria-hidden="true">{{ shareMessage.type === 'success' ? '🔗' : '❌' }}</span>
+        <p class="flex-1 text-sm">{{ shareMessage.text }}</p>
       </div>
     </Transition>
 
@@ -402,6 +429,10 @@ function handleImport(event: Event) {
       <button @click="printSheet"
         class="px-6 py-2 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded-lg transition-colors cursor-pointer">
         {{ t('review.print') }}
+      </button>
+      <button @click="shareCharacter"
+        class="px-6 py-2 bg-blue-700 hover:bg-blue-600 text-stone-200 rounded-lg transition-colors cursor-pointer">
+        <span aria-hidden="true">🔗</span> {{ t('review.shareUrl') }}
       </button>
       <input ref="fileInput" type="file" accept=".json" class="hidden" @change="handleImport" aria-hidden="true" tabindex="-1" />
       <button @click="triggerImport"

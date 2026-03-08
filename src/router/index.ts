@@ -23,6 +23,11 @@ const router = createRouter({
       name: 'privacy',
       component: () => import('@/views/PrivacyView.vue'),
     },
+    {
+      path: '/share/:data',
+      name: 'share',
+      component: () => import('@/views/ShareView.vue'),
+    },
     // WSG 4.4: Setup error pages and redirection
     {
       path: '/:pathMatch(.*)*',

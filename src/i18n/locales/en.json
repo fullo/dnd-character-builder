@@ -208,7 +208,14 @@
     "noArmor": "None",
     "saveSuccess": "Character saved successfully to browser!",
     "maxHp": "Max HP",
-    "hitDie": "Hit Die"
+    "hitDie": "Hit Die",
+    "shareUrl": "Share Link",
+    "shareCopied": "Link copied to clipboard!",
+    "shareFailed": "Could not copy link. Try again."
+  },
+  "share": {
+    "error": "Invalid Share Link",
+    "errorDesc": "The share link is invalid or corrupted. Please ask for a new link."
   },
   "characters": {
     "storageWarning": "Saved characters are stored in your browser's localStorage. They will be deleted if you clear your cache or site data.",

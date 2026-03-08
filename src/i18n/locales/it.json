@@ -208,7 +208,14 @@
     "noArmor": "Nessuna",
     "saveSuccess": "Personaggio salvato con successo nel browser!",
     "maxHp": "PF Massimi",
-    "hitDie": "Dado Vita"
+    "hitDie": "Dado Vita",
+    "shareUrl": "Condividi Link",
+    "shareCopied": "Link copiato negli appunti!",
+    "shareFailed": "Impossibile copiare il link. Riprova."
+  },
+  "share": {
+    "error": "Link di Condivisione Non Valido",
+    "errorDesc": "Il link di condivisione non e' valido o corrotto. Chiedi un nuovo link."
   },
   "characters": {
     "storageWarning": "I personaggi salvati sono memorizzati nel localStorage del tuo browser. Verranno cancellati se pulisci la cache o i dati del sito.",
