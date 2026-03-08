@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fullo.github.io/dnd-character-builder/sitemap.xml
