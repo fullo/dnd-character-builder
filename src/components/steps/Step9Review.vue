@@ -391,6 +391,12 @@ function handleImport(event: Event) {
       </div>
     </div>
 
+    <!-- Session Notes -->
+    <div v-if="char.sessionNotes" class="bg-stone-800 border border-stone-700 rounded-lg p-4 mb-4">
+      <h3 class="font-semibold text-stone-300 mb-2">{{ t('details.sessionNotes') }}</h3>
+      <p class="text-stone-400 text-sm whitespace-pre-wrap">{{ char.sessionNotes }}</p>
+    </div>
+
     <!-- Save/Share confirmation banner -->
     <Transition name="fade">
       <div
@@ -426,7 +432,7 @@ function handleImport(event: Event) {
     </Transition>
 
     <!-- Export Buttons -->
-    <div class="flex flex-wrap gap-3 mt-6" role="group" :aria-label="t('review.export')">
+    <div class="flex flex-wrap gap-3 mt-6 no-print" role="group" :aria-label="t('review.export')">
       <button @click="exportPdf" :disabled="exporting"
         class="px-6 py-2 bg-amber-600 hover:bg-amber-500 text-stone-900 font-semibold rounded-lg transition-colors disabled:opacity-50 cursor-pointer">
         {{ exporting ? t('common.loading') : t('review.exportPdf') }}
@@ -454,7 +460,7 @@ function handleImport(event: Event) {
       </button>
     </div>
 
-    <VariantPromo :variant="char.variant" />
+    <VariantPromo :variant="char.variant" class="no-print" />
   </section>
 </template>
 

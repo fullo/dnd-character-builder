@@ -147,6 +147,14 @@ updateLevel()
         class="w-full bg-stone-800 border border-stone-700 rounded-lg p-3 text-stone-200 text-sm focus:border-amber-500 focus:outline-none" />
     </div>
 
+    <!-- Session Notes -->
+    <div class="mt-6">
+      <label for="session-notes" class="block text-sm font-semibold text-stone-300 mb-1">{{ t('details.sessionNotes') }}</label>
+      <textarea id="session-notes" v-model="characterStore.character.sessionNotes" rows="4"
+        :placeholder="t('details.sessionNotesPlaceholder')"
+        class="w-full bg-stone-800 border border-stone-700 rounded-lg p-3 text-stone-200 text-sm focus:border-amber-500 focus:outline-none" />
+    </div>
+
     <!-- HP Summary -->
     <div class="mt-6 bg-stone-800 border border-stone-700 rounded-lg p-4">
       <h3 class="font-semibold text-stone-300 mb-2">{{ t('review.hp') }}</h3>
@@ -275,6 +283,6 @@ updateLevel()
       </div>
     </div>
 
-    <VariantPromo :variant="characterStore.character.variant" />
+    <VariantPromo :variant="characterStore.character.variant" class="no-print" />
   </section>
 </template>

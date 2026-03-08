@@ -212,7 +212,8 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
   fields['Hair'] = char.hair
   fields['Skin'] = char.skin
   fields['Backstory'] = char.backstory
-  fields['Allies'] = char.allies
+  const alliesContent = [char.allies, char.sessionNotes].filter(Boolean).join('\n\n')
+  fields['Allies'] = alliesContent
   fields['Treasure'] = char.treasure
 
   // Page 3 - Spellcasting
@@ -315,7 +316,8 @@ export function getBrancaloniaFieldMapping(char: CharacterData): Record<string, 
   fields['Difetti'] = char.flaws
   fields['Privilegi'] = char.featuresTraits.join('\n')
   fields['Alleati'] = char.allies
-  fields['Note'] = char.backstory
+  const noteContent = [char.backstory, char.sessionNotes].filter(Boolean).join('\n\n')
+  fields['Note'] = noteContent
   fields['Malefatte'] = char.misdeeds || ''
 
   // Coins (silver standard)

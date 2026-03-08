@@ -178,7 +178,9 @@
     "selectMark": "Scegli il Marchio",
     "selectSpirit": "Scegli lo Spirito",
     "selectVirtue": "Scegli la Virtu'",
-    "selectSin": "Scegli il Peccato"
+    "selectSin": "Scegli il Peccato",
+    "sessionNotes": "Note di Sessione",
+    "sessionNotesPlaceholder": "Appunta note dalle sessioni, promemoria, obiettivi..."
   },
   "review": {
     "title": "Riepilogo del Personaggio",

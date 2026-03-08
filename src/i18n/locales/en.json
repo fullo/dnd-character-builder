@@ -178,7 +178,9 @@
     "selectMark": "Choose Mark",
     "selectSpirit": "Choose Spirit",
     "selectVirtue": "Choose Virtue",
-    "selectSin": "Choose Sin"
+    "selectSin": "Choose Sin",
+    "sessionNotes": "Session Notes",
+    "sessionNotesPlaceholder": "Jot down notes from your sessions, reminders, goals..."
   },
   "review": {
     "title": "Character Summary",

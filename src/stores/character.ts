@@ -78,6 +78,8 @@ export interface CharacterData {
   virtue: string
   sin: string
   humanity: number
+  // Session notes
+  sessionNotes: string
 }
 
 function createEmptyCharacter(): CharacterData {
@@ -139,12 +141,18 @@ function createEmptyCharacter(): CharacterData {
     virtue: '',
     sin: '',
     humanity: 10,
+    sessionNotes: '',
   }
 }
 
 export const useCharacterStore = defineStore('character', () => {
   const character = ref<CharacterData>(createEmptyCharacter())
   const savedCharacters = ref<CharacterData[]>([])
+
+  // Migration: add sessionNotes to existing saved characters
+  for (const c of savedCharacters.value) {
+    if ((c as any).sessionNotes === undefined) (c as any).sessionNotes = ''
+  }
 
   // Computed derived stats
   const abilityModifiers = computed(() => ({

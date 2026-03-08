@@ -23,6 +23,31 @@
   body {
     background: white !important;
     color: black !important;
+    font-size: 10pt !important;
+  }
+  /* Override dark theme backgrounds for print */
+  .bg-stone-800, .bg-stone-900, .bg-stone-700 {
+    background: white !important;
+    border-color: #ccc !important;
+  }
+  /* Ensure all text is readable on white background */
+  .text-stone-200, .text-stone-300, .text-stone-400, .text-amber-400, .text-amber-500,
+  .text-red-400, .text-green-400, .text-blue-300 {
+    color: black !important;
+  }
+  .text-stone-500 {
+    color: #555 !important;
+  }
+  /* Borders visible in print */
+  .border-stone-700, .border-amber-700\/30, .border-red-700\/30 {
+    border-color: #ccc !important;
+  }
+  /* Prevent page breaks inside sections */
+  .bg-stone-800 {
+    break-inside: avoid;
+  }
+  section {
+    break-inside: avoid;
   }
 }
 
