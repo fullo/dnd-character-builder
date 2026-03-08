@@ -430,18 +430,18 @@ export const brancaloniaClassNamesIt: Record<string, string> = {
  * Key is the class ID (lowercase).
  */
 export const apocalisseClassNamesIt: Record<string, string> = {
-  'barbarian': 'Martirio',
-  'bard': 'Lamenti',
-  'cleric': 'Rovina',
-  'druid': 'Piaghe',
+  'barbarian': 'Barbaro del Martirio',
+  'bard': 'Bardo della Rivelazione',
+  'cleric': 'Chierico della Rovina',
+  'druid': 'Druido della Piaga',
   'fighter': 'Furioso',
-  'monk': 'Sette Sigilli',
-  'paladin': 'Fine del Mondo',
-  'ranger': 'Bastione',
-  'rogue': 'Assenzio',
-  'sorcerer': 'Stirpe Ultraterrena',
-  'warlock': 'Lilith',
-  'wizard': 'Salomone',
+  'monk': 'Monaco dei Sette Sigilli',
+  'paladin': 'Paladino della Fine del Mondo',
+  'ranger': 'Baluardo',
+  'rogue': 'Spettro dell\'Assenzio',
+  'sorcerer': 'Stregone di Discendenza Ultraterrena',
+  'warlock': 'Warlock del Patto di Lilith',
+  'wizard': 'Mago della Scuola di Salomone',
 }
 
 // ─── Race Names ─────────────────────────────────────────────────────────────

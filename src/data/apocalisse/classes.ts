@@ -63,7 +63,7 @@ export const apocalisseSubclasses: readonly ApocalisseSubclass[] = [
     id: 'college-of-laments',
     parentClassId: 'bard',
     name: 'College of Revelation',
-    nameOriginal: 'Collegio dei Lamenti',
+    nameOriginal: 'Collegio della Rivelazione',
     description:
       'Bards of the College of Laments sing the sorrows of the Apocalypse, channeling grief and loss into hauntingly powerful magic. Their dirges can break the spirit of enemies and give solace to the dying.',
     features: [

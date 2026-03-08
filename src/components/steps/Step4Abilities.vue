@@ -62,18 +62,19 @@ function doRoll() {
 }
 
 const availableRolls = computed(() => {
-  const used = Object.values(assignedRolls.value).filter(v => v !== null)
-  return rolledScores.value.filter(v => {
-    const usedCount = used.filter(u => u === v).length
-    const totalCount = rolledScores.value.filter(s => s === v).length
-    return usedCount < totalCount
-  })
+  const usedIndices = new Set(
+    Object.values(assignedRolls.value).filter((v): v is number => v !== null)
+  )
+  return rolledScores.value
+    .map((score, index) => ({ index, score }))
+    .filter(item => !usedIndices.has(item.index))
 })
 
-function assignRoll(ability: keyof AbilityScores, value: number | null) {
-  assignedRolls.value[ability] = value
-  if (value !== null) {
-    characterStore.character.abilityScores[ability] = value
+function assignRoll(ability: keyof AbilityScores, val: string) {
+  const index = val === '' ? null : Number(val)
+  assignedRolls.value[ability] = index
+  if (index !== null && rolledScores.value[index] !== undefined) {
+    characterStore.character.abilityScores[ability] = rolledScores.value[index]
   }
 }
 
@@ -163,17 +164,17 @@ function setMethod(m: Method) {
           <span class="text-xs text-stone-500">({{ POINT_BUY_COSTS[pointBuyScores[ability]] ?? 0 }} pts)</span>
         </div>
 
-        <!-- Roll Assignment -->
+        <!-- Roll Assignment (index-based to handle duplicate rolled values) -->
         <div v-else-if="method === 'roll'">
           <select
-            :value="assignedRolls[ability]"
-            @change="assignRoll(ability, Number(($event.target as HTMLSelectElement).value) || null)"
+            :value="assignedRolls[ability] ?? ''"
+            @change="assignRoll(ability, ($event.target as HTMLSelectElement).value)"
             class="w-full bg-stone-700 text-stone-200 rounded px-2 py-1 text-sm"
           >
-            <option :value="null">--</option>
-            <option v-for="v in availableRolls" :key="v" :value="v">{{ v }}</option>
+            <option value="">--</option>
+            <option v-for="item in availableRolls" :key="item.index" :value="item.index">{{ item.score }}</option>
             <option v-if="assignedRolls[ability] !== null" :value="assignedRolls[ability]">
-              {{ assignedRolls[ability] }} (current)
+              {{ rolledScores[assignedRolls[ability]!] }} (current)
             </option>
           </select>
         </div>
