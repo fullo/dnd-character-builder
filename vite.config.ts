@@ -10,7 +10,7 @@ export default defineConfig({
     vue(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       includeAssets: ['favicon.svg', 'pwa-192x192.svg', 'pwa-512x512.svg'],
       manifest: {
         name: 'D&D Character Builder',
@@ -44,7 +44,7 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: {
               cacheName: 'pdf-templates',
-              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 7 },
             },
           },
         ],

@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { useAppStore } from '@/stores/app'
-import { decodeCharacterFromUrl } from '@/utils/shareCharacter'
+import { decodeCharacterFromUrl, MAX_SHARE_DATA_LENGTH } from '@/utils/shareCharacter'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,20 +18,26 @@ const characterName = ref('')
 onMounted(() => {
   try {
     const data = route.params.data as string
-    if (!data) {
+    if (!data || data.length > MAX_SHARE_DATA_LENGTH) {
       error.value = true
       return
     }
 
     const partial = decodeCharacterFromUrl(data)
-    if (!partial.variant) {
+    const validVariants = ['dnd5e', 'brancalonia', 'apocalisse']
+    if (!partial.variant || !validVariants.includes(partial.variant)) {
       error.value = true
       return
     }
 
-    // Reset and apply character data
+    // Reset and apply only known character fields (whitelist enforced by decodeCharacterFromUrl)
     characterStore.resetCharacter()
-    Object.assign(characterStore.character, partial)
+    const current = characterStore.character
+    for (const [key, value] of Object.entries(partial)) {
+      if (key in current) {
+        ;(current as Record<string, unknown>)[key] = value
+      }
+    }
     characterName.value = characterStore.character.name || t('common.unnamed')
 
     // Navigate to review step

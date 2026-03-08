@@ -5,6 +5,9 @@
  */
 import type { CharacterData } from '@/stores/character'
 
+/** Maximum encoded share URL data length (bytes). Prevents abuse / DoS. */
+export const MAX_SHARE_DATA_LENGTH = 20_000
+
 /** Compact keys for the most common character fields to reduce URL size */
 const COMPACT_KEYS: Record<string, string> = {
   variant: 'v',
@@ -55,6 +58,9 @@ const REVERSE_KEYS: Record<string, string> = Object.fromEntries(
   Object.entries(COMPACT_KEYS).map(([k, v]) => [v, k])
 )
 
+/** Set of allowed full-key property names (whitelist) */
+const ALLOWED_KEYS = new Set(Object.keys(COMPACT_KEYS))
+
 /** Create a compact representation of essential character data */
 function compactCharacter(char: CharacterData): Record<string, unknown> {
   const compact: Record<string, unknown> = {}
@@ -73,22 +79,38 @@ function compactCharacter(char: CharacterData): Record<string, unknown> {
   return compact
 }
 
-/** Restore full keys from compact representation */
+/** Restore full keys from compact representation (whitelist-only) */
 function expandCharacter(compact: Record<string, unknown>): Partial<CharacterData> {
   const expanded: Record<string, unknown> = {}
   for (const [shortKey, val] of Object.entries(compact)) {
-    const fullKey = REVERSE_KEYS[shortKey] || shortKey
+    const fullKey = REVERSE_KEYS[shortKey]
+    // Only accept keys that map to known CharacterData properties
+    if (!fullKey || !ALLOWED_KEYS.has(fullKey)) continue
     expanded[fullKey] = val
   }
   return expanded as Partial<CharacterData>
+}
+
+/** Convert a UTF-8 string to base64 (modern, no deprecated escape/unescape) */
+function utf8ToBase64(str: string): string {
+  const bytes = new TextEncoder().encode(str)
+  let binary = ''
+  for (const byte of bytes) binary += String.fromCharCode(byte)
+  return btoa(binary)
+}
+
+/** Convert base64 back to a UTF-8 string (modern, no deprecated escape/unescape) */
+function base64ToUtf8(b64: string): string {
+  const binary = atob(b64)
+  const bytes = Uint8Array.from(binary, ch => ch.charCodeAt(0))
+  return new TextDecoder().decode(bytes)
 }
 
 /** Encode character data to a URL-safe string */
 export function encodeCharacterToUrl(char: CharacterData): string {
   const compact = compactCharacter(char)
   const json = JSON.stringify(compact)
-  // Use btoa for base64 encoding, URL-safe variant
-  const encoded = btoa(unescape(encodeURIComponent(json)))
+  const encoded = utf8ToBase64(json)
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
     .replace(/=+$/, '')
@@ -97,13 +119,19 @@ export function encodeCharacterToUrl(char: CharacterData): string {
 
 /** Decode character data from URL-safe string */
 export function decodeCharacterFromUrl(encoded: string): Partial<CharacterData> {
+  if (encoded.length > MAX_SHARE_DATA_LENGTH) {
+    throw new Error('Share data exceeds maximum allowed size')
+  }
   // Restore base64 padding
   const padded = encoded
     .replace(/-/g, '+')
     .replace(/_/g, '/')
   const paddedWithEquals = padded + '='.repeat((4 - padded.length % 4) % 4)
-  const json = decodeURIComponent(escape(atob(paddedWithEquals)))
+  const json = base64ToUtf8(paddedWithEquals)
   const compact = JSON.parse(json)
+  if (typeof compact !== 'object' || compact === null || Array.isArray(compact)) {
+    throw new Error('Invalid share data format')
+  }
   return expandCharacter(compact)
 }
 

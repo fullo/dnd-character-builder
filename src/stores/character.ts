@@ -201,9 +201,22 @@ export const useCharacterStore = defineStore('character', () => {
     character.value = createEmptyCharacter()
   }
 
+  /** Maximum localStorage budget for saved characters (5 MB) */
+  const MAX_STORAGE_BYTES = 5 * 1024 * 1024
+
   function saveCharacter() {
     const idx = savedCharacters.value.findIndex(c => c.id === character.value.id)
     const copy = JSON.parse(JSON.stringify(character.value))
+
+    // Estimate storage size before saving
+    const tentative = idx >= 0
+      ? [...savedCharacters.value.slice(0, idx), copy, ...savedCharacters.value.slice(idx + 1)]
+      : [...savedCharacters.value, copy]
+    const estimatedSize = new Blob([JSON.stringify(tentative)]).size
+    if (estimatedSize > MAX_STORAGE_BYTES) {
+      throw new Error('STORAGE_LIMIT_EXCEEDED')
+    }
+
     if (idx >= 0) {
       savedCharacters.value[idx] = copy
     } else {
@@ -462,11 +475,57 @@ export const useCharacterStore = defineStore('character', () => {
     }
 
     // Build a valid character, filling in defaults for missing optional fields
+    // Only copy known CharacterData properties (whitelist approach)
     const empty = createEmptyCharacter()
+    const allowedKeys = new Set(Object.keys(empty))
+    const safeRaw: Record<string, unknown> = {}
+    for (const [key, value] of Object.entries(raw)) {
+      if (allowedKeys.has(key)) safeRaw[key] = value
+    }
+
+    // Deep-validate array contents: string arrays should contain only strings
+    const stringArrayFields = [
+      'skillProficiencies', 'skillExpertise', 'savingThrowProficiencies',
+      'languages', 'proficienciesOther', 'equipment', 'featuresTraits',
+      'cantrips', 'spellsKnown', 'spellsPrepared', 'brawlingMoves',
+    ] as const
+    for (const field of stringArrayFields) {
+      if (Array.isArray(safeRaw[field])) {
+        safeRaw[field] = (safeRaw[field] as unknown[]).filter(
+          (item): item is string => typeof item === 'string' && item.length < 500
+        )
+      }
+    }
+
+    // Validate weapons array contents
+    if (Array.isArray(safeRaw.weapons)) {
+      safeRaw.weapons = (safeRaw.weapons as unknown[]).filter((w): w is Weapon =>
+        typeof w === 'object' && w !== null &&
+        typeof (w as Record<string, unknown>).name === 'string' &&
+        typeof (w as Record<string, unknown>).damage === 'string'
+      )
+    }
+
+    // Validate classes array contents
+    if (Array.isArray(safeRaw.classes)) {
+      safeRaw.classes = (safeRaw.classes as unknown[]).filter((c): c is ClassEntry =>
+        typeof c === 'object' && c !== null &&
+        typeof (c as Record<string, unknown>).classId === 'string' &&
+        typeof (c as Record<string, unknown>).level === 'number'
+      )
+    }
+
+    // Truncate long strings to prevent abuse
+    for (const [key, value] of Object.entries(safeRaw)) {
+      if (typeof value === 'string' && value.length > 5000) {
+        safeRaw[key] = (value as string).slice(0, 5000)
+      }
+    }
+
     const data: CharacterData = {
       ...empty,
-      ...(raw as Partial<CharacterData>),
-      id: (raw.id as string) || crypto.randomUUID(),
+      ...(safeRaw as Partial<CharacterData>),
+      id: (typeof raw.id === 'string' && raw.id.length < 100) ? raw.id : crypto.randomUUID(),
       variant: raw.variant as GameVariant,
     }
 

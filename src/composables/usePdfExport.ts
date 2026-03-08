@@ -26,6 +26,8 @@ export function usePdfExport() {
         ? getBrancaloniaFieldMapping(char)
         : getDnd5eFieldMapping(char)
 
+      const MAX_FIELD_LENGTH = 1000
+      const skippedFields: string[] = []
       for (const [fieldName, value] of Object.entries(fieldMapping)) {
         try {
           if (typeof value === 'boolean') {
@@ -35,11 +37,15 @@ export function usePdfExport() {
             }
           } else if (value) {
             const textField = form.getTextField(fieldName)
-            textField.setText(String(value))
+            const text = String(value)
+            textField.setText(text.length > MAX_FIELD_LENGTH ? text.slice(0, MAX_FIELD_LENGTH) : text)
           }
         } catch {
-          // Field not found in PDF, skip silently
+          skippedFields.push(fieldName)
         }
+      }
+      if (skippedFields.length > 0) {
+        console.warn(`PDF export: ${skippedFields.length} field(s) not found in template:`, skippedFields)
       }
 
       const filledPdfBytes = await pdfDoc.save()

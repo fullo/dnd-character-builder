@@ -8,7 +8,12 @@ import './style.css'
 
 // GitHub Pages SPA redirect: restore path from 404.html redirect query param
 const params = new URLSearchParams(window.location.search)
-const redirectRoute = params.get('route')
+const rawRedirectRoute = params.get('route')
+// Validate: only allow alphanumeric, slashes, hyphens, dots (no protocol, no //, no external URLs)
+const SAFE_ROUTE_RE = /^[a-zA-Z0-9/_\-.]+(#[a-zA-Z0-9_-]*)?$/
+const redirectRoute = rawRedirectRoute && SAFE_ROUTE_RE.test(rawRedirectRoute) && rawRedirectRoute.length < 2000
+  ? rawRedirectRoute
+  : null
 if (redirectRoute) {
   const cleanUrl = window.location.pathname
   window.history.replaceState(null, '', cleanUrl + '#restored')

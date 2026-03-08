@@ -27,6 +27,12 @@ const router = createRouter({
       path: '/share/:data',
       name: 'share',
       component: () => import('@/views/ShareView.vue'),
+      beforeEnter: (to) => {
+        const data = to.params.data as string
+        // Reject share URLs over 20KB to prevent DoS
+        if (!data || data.length > 20_000) return { name: 'home' }
+        return true
+      },
     },
     // WSG 4.4: Setup error pages and redirection
     {
