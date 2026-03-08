@@ -187,7 +187,18 @@
     "charBackground": "Background",
     "armorLabel": "Armor",
     "shieldBonus": "+ Shield (+2 AC)",
-    "noArmor": "None"
+    "noArmor": "None",
+    "saveSuccess": "Character saved successfully to browser!"
+  },
+  "characters": {
+    "storageWarning": "Saved characters are stored in your browser's localStorage. They will be deleted if you clear your cache or site data.",
+    "backupAdvice": "We recommend regularly exporting your characters as JSON files for local backup.",
+    "noCharacters": "You don't have any saved characters yet.",
+    "createFirst": "Create your first character",
+    "edit": "Edit",
+    "editLabel": "Edit {name}",
+    "exportLabel": "Export JSON of {name}",
+    "deleteLabel": "Delete {name}"
   },
   "common": {
     "next": "Next",

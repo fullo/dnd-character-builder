@@ -5,6 +5,7 @@ import { useCharacterStore } from '@/stores/character'
 import type { AbilityScores } from '@/stores/character'
 import { rollAbilityScores, STANDARD_ARRAY, POINT_BUY_COSTS, pointBuyRemaining } from '@/utils/diceRoller'
 import { modifier, formatModifier } from '@/utils/calculations'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -191,5 +192,7 @@ function setMethod(m: Method) {
         </div>
       </div>
     </div>
+
+    <VariantPromo :variant="characterStore.character.variant" />
   </div>
 </template>

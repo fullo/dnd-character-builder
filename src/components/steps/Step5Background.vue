@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { getBackgrounds } from '@/data'
 import type { Background } from '@/data/dnd5e/backgrounds'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -86,5 +87,7 @@ function selectBackground(bg: Background) {
           class="w-full bg-stone-800 border border-stone-700 rounded-lg p-3 text-stone-200 text-sm focus:border-amber-500 focus:outline-none" />
       </div>
     </div>
+
+    <VariantPromo :variant="characterStore.character.variant" />
   </div>
 </template>

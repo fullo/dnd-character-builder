@@ -5,6 +5,7 @@ import { useCharacterStore } from '@/stores/character'
 import { getSpells, getSpellSlots, getCantripsKnown, getSpellsKnownCount } from '@/data'
 import { useGameTerms } from '@/composables/useGameTerms'
 import type { Spell } from '@/data/dnd5e/spells'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -167,5 +168,7 @@ function showDetail(spell: Spell) {
         </div>
       </div>
     </template>
+
+    <VariantPromo :variant="characterStore.character.variant" />
   </div>
 </template>

@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { getEquipment } from '@/data'
 import { useGameTerms } from '@/composables/useGameTerms'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -156,5 +157,7 @@ function removeItem(idx: number) {
         </span>
       </div>
     </div>
+
+    <VariantPromo :variant="characterStore.character.variant" />
   </div>
 </template>

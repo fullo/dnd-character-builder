@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
   <rect width="192" height="192" rx="24" fill="#292524"/>
-  <text x="96" y="124" text-anchor="middle" font-size="100">&#x2694;</text>
+  <polygon points="96,18 162,66 144,156 48,156 30,66" fill="none" stroke="#f59e0b" stroke-width="6"/>
+  <polygon points="96,18 30,66 162,66" fill="none" stroke="#f59e0b" stroke-width="4" opacity="0.6"/>
+  <line x1="30" y1="66" x2="144" y2="156" stroke="#f59e0b" stroke-width="3" opacity="0.4"/>
+  <line x1="162" y1="66" x2="48" y2="156" stroke="#f59e0b" stroke-width="3" opacity="0.4"/>
+  <line x1="96" y1="18" x2="96" y2="156" stroke="#f59e0b" stroke-width="3" opacity="0.3"/>
+  <text x="96" y="120" text-anchor="middle" font-family="serif" font-weight="bold" font-size="54" fill="#f59e0b">20</text>
 </svg>

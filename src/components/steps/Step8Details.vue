@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { totalHp } from '@/utils/calculations'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -114,5 +115,7 @@ updateLevel()
         </div>
       </div>
     </div>
+
+    <VariantPromo :variant="characterStore.character.variant" />
   </div>
 </template>

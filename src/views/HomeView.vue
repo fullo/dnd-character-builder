@@ -20,7 +20,8 @@ const importMessage = ref<{ type: 'error' | 'warning' | 'success'; text: string 
 function startNew(variant: GameVariant) {
   characterStore.resetCharacter()
   characterStore.character.variant = variant
-  appStore.setStep(0)
+  // Skip Step1 (variant selection) — already chosen from the home card
+  appStore.setStep(1)
   router.push('/builder')
 }
 

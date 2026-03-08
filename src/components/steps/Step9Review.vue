@@ -7,6 +7,7 @@ import { usePdfExport } from '@/composables/usePdfExport'
 import { SKILLS } from '@/data/dnd5e/skills'
 import { getSpells, getClasses } from '@/data'
 import { useGameTerms } from '@/composables/useGameTerms'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -16,6 +17,8 @@ const gt = useGameTerms()
 const char = computed(() => characterStore.character)
 const mods = computed(() => characterStore.abilityModifiers)
 const prof = computed(() => characterStore.profBonus)
+
+const saveMessage = ref<{ type: 'success' | 'info'; text: string } | null>(null)
 
 const savingThrows = computed(() => {
   const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'] as const
@@ -69,6 +72,8 @@ const subclassName = computed(() => {
 
 function saveChar() {
   characterStore.saveCharacter()
+  saveMessage.value = { type: 'success', text: t('review.saveSuccess') }
+  setTimeout(() => { saveMessage.value = null }, 3000)
 }
 
 function downloadJson() {
@@ -259,6 +264,19 @@ function handleImport(event: Event) {
       </div>
     </div>
 
+    <!-- Save confirmation banner -->
+    <Transition name="fade">
+      <div
+        v-if="saveMessage"
+        class="mt-4 p-3 rounded-lg border flex items-center gap-3 bg-green-900/30 border-green-700 text-green-300"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="text-xl" aria-hidden="true">✅</span>
+        <p class="flex-1 text-sm">{{ saveMessage.text }}</p>
+      </div>
+    </Transition>
+
     <!-- Export Buttons -->
     <div class="flex flex-wrap gap-3 mt-6" role="group" :aria-label="t('review.export')">
       <button @click="exportPdf" :disabled="exporting"
@@ -284,34 +302,15 @@ function handleImport(event: Event) {
       </button>
     </div>
 
-    <!-- Brancalonia promo -->
-    <div v-if="char.variant === 'brancalonia'" class="mt-6 bg-stone-800/50 border border-amber-700/20 rounded-lg p-4 text-center">
-      <p class="text-stone-400 text-sm">
-        {{ t('variant.brancaloniaPromo') }}
-        <a
-          href="https://www.drivethrurpg.com/en/browse?affiliate_id=2960765&keyword=brancalonia"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-amber-400 hover:text-amber-300 underline ml-1"
-        >
-          DriveThruRPG
-        </a>
-      </p>
-    </div>
-
-    <!-- Apocalisse promo -->
-    <div v-if="char.variant === 'apocalisse'" class="mt-6 bg-stone-800/50 border border-red-700/20 rounded-lg p-4 text-center">
-      <p class="text-stone-400 text-sm">
-        {{ t('variant.apocalissePromo') }}
-        <a
-          href="https://www.drivethrurpg.com/en/publisher/9086/acheron-games/category/44511/apocalisse?affiliate_id=2960765"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-amber-400 hover:text-amber-300 underline ml-1"
-        >
-          DriveThruRPG
-        </a>
-      </p>
-    </div>
+    <VariantPromo :variant="char.variant" />
   </section>
 </template>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>

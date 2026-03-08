@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { useAppStore } from '@/stores/app'
 import type { GameVariant } from '@/stores/app'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -59,34 +60,7 @@ function selectVariant(variant: GameVariant) {
       </button>
     </div>
 
-    <!-- Brancalonia promo -->
-    <div class="mt-6 bg-stone-800/50 border border-amber-700/20 rounded-lg p-4 text-center">
-      <p class="text-stone-400 text-sm">
-        {{ t('variant.brancaloniaPromo') }}
-        <a
-          href="https://www.drivethrurpg.com/en/browse?affiliate_id=2960765&keyword=brancalonia"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-amber-400 hover:text-amber-300 underline ml-1"
-        >
-          DriveThruRPG
-        </a>
-      </p>
-    </div>
-
-    <!-- Apocalisse promo -->
-    <div class="mt-3 bg-stone-800/50 border border-red-700/20 rounded-lg p-4 text-center">
-      <p class="text-stone-400 text-sm">
-        {{ t('variant.apocalissePromo') }}
-        <a
-          href="https://www.drivethrurpg.com/en/publisher/9086/acheron-games/category/44511/apocalisse?affiliate_id=2960765"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-amber-400 hover:text-amber-300 underline ml-1"
-        >
-          DriveThruRPG
-        </a>
-      </p>
-    </div>
+    <VariantPromo variant="brancalonia" />
+    <VariantPromo variant="apocalisse" />
   </div>
 </template>

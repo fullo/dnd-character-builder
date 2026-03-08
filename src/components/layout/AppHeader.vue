@@ -1,49 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import { useCharacterStore } from '@/stores/character'
-import { useAppStore } from '@/stores/app'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 
 const { t } = useI18n()
-const router = useRouter()
-const characterStore = useCharacterStore()
-const appStore = useAppStore()
-const fileInput = ref<HTMLInputElement | null>(null)
 const mobileOpen = ref(false)
 
-function triggerImport() {
+function closeMobile() {
   mobileOpen.value = false
-  fileInput.value?.click()
-}
-
-function handleImport(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (!file) return
-  const reader = new FileReader()
-  reader.onload = (e) => {
-    try {
-      characterStore.importJson(e.target?.result as string)
-      appStore.setStep(8)
-      router.push('/builder')
-    } catch (err) {
-      const msg = (err as Error).message
-      if (msg.startsWith('VALIDATION:')) {
-        const codes = msg.replace('VALIDATION:', '').split(',')
-        alert(codes.map(c => t(`import.${c}`)).join('\n'))
-      } else {
-        alert(t(`import.${msg}`, t('import.unknownError')))
-      }
-    }
-  }
-  reader.readAsText(file)
-  if (fileInput.value) fileInput.value.value = ''
-}
-
-function navTo(path: string) {
-  mobileOpen.value = false
-  router.push(path)
 }
 </script>
 
@@ -75,21 +39,15 @@ function navTo(path: string) {
       <!-- Desktop nav -->
       <nav id="main-nav" class="hidden sm:flex items-center gap-4" role="navigation" :aria-label="t('nav.home')">
         <router-link
-          to="/builder"
+          to="/"
           class="text-stone-300 hover:text-amber-400 transition-colors text-sm"
         >{{ t('nav.newCharacter') }}</router-link>
-        <button
-          @click="triggerImport"
-          class="text-stone-300 hover:text-amber-400 transition-colors text-sm bg-transparent border-none cursor-pointer p-0"
-        >{{ t('nav.importCharacter') }}</button>
         <router-link
           to="/characters"
           class="text-stone-300 hover:text-amber-400 transition-colors text-sm"
         >{{ t('nav.characters') }}</router-link>
         <LanguageSwitcher />
       </nav>
-
-      <input ref="fileInput" type="file" accept=".json" class="hidden" @change="handleImport" aria-hidden="true" />
     </div>
 
     <!-- Mobile nav -->
@@ -99,15 +57,12 @@ function navTo(path: string) {
       role="navigation"
       :aria-label="t('nav.home')"
     >
-      <button @click="navTo('/builder')" class="text-left text-stone-300 hover:text-amber-400 text-sm bg-transparent border-none cursor-pointer p-0">
+      <router-link to="/" @click="closeMobile" class="text-stone-300 hover:text-amber-400 text-sm no-underline">
         {{ t('nav.newCharacter') }}
-      </button>
-      <button @click="triggerImport" class="text-left text-stone-300 hover:text-amber-400 text-sm bg-transparent border-none cursor-pointer p-0">
-        {{ t('nav.importCharacter') }}
-      </button>
-      <button @click="navTo('/characters')" class="text-left text-stone-300 hover:text-amber-400 text-sm bg-transparent border-none cursor-pointer p-0">
+      </router-link>
+      <router-link to="/characters" @click="closeMobile" class="text-stone-300 hover:text-amber-400 text-sm no-underline">
         {{ t('nav.characters') }}
-      </button>
+      </router-link>
       <LanguageSwitcher />
     </nav>
   </header>

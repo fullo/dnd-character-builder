@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { getClasses } from '@/data'
 import type { CharacterClass } from '@/data/dnd5e/classes'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -119,5 +120,7 @@ function toggleSkill(skill: string) {
         </div>
       </div>
     </div>
+
+    <VariantPromo :variant="characterStore.character.variant" />
   </div>
 </template>

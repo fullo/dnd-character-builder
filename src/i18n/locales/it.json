@@ -187,7 +187,18 @@
     "charBackground": "Background",
     "armorLabel": "Armatura",
     "shieldBonus": "+ Scudo (+2 CA)",
-    "noArmor": "Nessuna"
+    "noArmor": "Nessuna",
+    "saveSuccess": "Personaggio salvato con successo nel browser!"
+  },
+  "characters": {
+    "storageWarning": "I personaggi salvati sono memorizzati nel localStorage del tuo browser. Verranno cancellati se pulisci la cache o i dati del sito.",
+    "backupAdvice": "Ti consigliamo di esportare regolarmente i tuoi personaggi in formato JSON come backup locale.",
+    "noCharacters": "Non hai ancora nessun personaggio salvato.",
+    "createFirst": "Crea il tuo primo personaggio",
+    "edit": "Modifica",
+    "editLabel": "Modifica {name}",
+    "exportLabel": "Esporta JSON di {name}",
+    "deleteLabel": "Elimina {name}"
   },
   "common": {
     "next": "Avanti",

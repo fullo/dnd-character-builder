@@ -1,14 +1,42 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useCharacterStore } from '@/stores/character'
+import { useAppStore } from '@/stores/app'
+import type { GameVariant } from '@/stores/app'
 
 const { t } = useI18n()
 const router = useRouter()
 const characterStore = useCharacterStore()
+const appStore = useAppStore()
+
+const variantSections: { id: GameVariant; emoji: string; color: string; border: string }[] = [
+  { id: 'dnd5e', emoji: '\uD83D\uDC09', color: 'amber', border: 'border-amber-600/40' },
+  { id: 'brancalonia', emoji: '\uD83C\uDF72', color: 'emerald', border: 'border-emerald-600/40' },
+  { id: 'apocalisse', emoji: '\uD83D\uDD25', color: 'red', border: 'border-red-600/40' },
+]
+
+const groupedCharacters = computed(() => {
+  const groups: Record<GameVariant, typeof characterStore.savedCharacters> = {
+    dnd5e: [],
+    brancalonia: [],
+    apocalisse: [],
+  }
+  for (const char of characterStore.savedCharacters) {
+    const variant = char.variant || 'dnd5e'
+    if (groups[variant]) {
+      groups[variant].push(char)
+    }
+  }
+  return groups
+})
+
+const totalCount = computed(() => characterStore.savedCharacters.length)
 
 function editCharacter(id: string) {
   characterStore.loadCharacter(id)
+  appStore.setStep(8)
   router.push('/builder')
 }
 
@@ -32,45 +60,88 @@ function downloadJson(id: string) {
 
 <template>
   <div class="max-w-3xl mx-auto py-8">
-    <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('nav.characters') }}</h2>
+    <h2 class="text-2xl font-bold text-amber-500 mb-2 font-gothic">{{ t('nav.characters') }}</h2>
 
-    <div v-if="characterStore.savedCharacters.length === 0" class="text-center py-12 text-stone-500">
-      <p class="text-lg">{{ t('common.noResults') }}</p>
-      <router-link to="/builder" class="text-amber-500 hover:text-amber-400 mt-4 inline-block">
-        {{ t('home.startButton') }}
+    <!-- localStorage warning -->
+    <div class="bg-stone-800/60 border border-stone-700 rounded-lg p-4 mb-6 flex items-start gap-3">
+      <span class="text-xl shrink-0" aria-hidden="true">💾</span>
+      <div class="text-sm text-stone-400">
+        <p>{{ t('characters.storageWarning') }}</p>
+        <p class="mt-1 text-stone-500">{{ t('characters.backupAdvice') }}</p>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div v-if="totalCount === 0" class="text-center py-12 text-stone-500">
+      <p class="text-4xl mb-3" aria-hidden="true">📜</p>
+      <p class="text-lg">{{ t('characters.noCharacters') }}</p>
+      <router-link to="/" class="text-amber-500 hover:text-amber-400 mt-4 inline-block">
+        {{ t('characters.createFirst') }}
       </router-link>
     </div>
 
-    <div v-else class="space-y-3">
-      <div
-        v-for="char in characterStore.savedCharacters"
-        :key="char.id"
-        class="bg-stone-800 rounded-lg p-4 border border-stone-700"
-      >
-        <div class="flex items-center justify-between">
-          <div>
-            <span class="font-medium text-amber-400 text-lg">{{ char.name || 'Senza Nome' }}</span>
-            <div class="text-stone-400 text-sm mt-1">
-              {{ char.race }} {{ char.className }} Lv.{{ char.level }}
-              <span class="text-stone-500 ml-2">{{ char.variant === 'brancalonia' ? 'Brancalonia' : 'D&D 5e' }}</span>
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <button
-              @click="editCharacter(char.id)"
-              class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-stone-900 rounded text-sm font-medium transition-colors cursor-pointer"
-            >{{ t('common.select') }}</button>
-            <button
-              @click="downloadJson(char.id)"
-              class="px-3 py-1 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded text-sm transition-colors cursor-pointer"
-            >JSON</button>
-            <button
-              @click="removeCharacter(char.id)"
-              class="px-3 py-1 bg-red-800 hover:bg-red-700 text-stone-200 rounded text-sm transition-colors cursor-pointer"
-            >{{ t('common.remove') }}</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Grouped by variant -->
+    <template v-else>
+      <template v-for="section in variantSections" :key="section.id">
+        <section
+          v-if="groupedCharacters[section.id].length > 0"
+          class="mb-8"
+          :aria-label="t(`variant.${section.id}`)"
+        >
+          <h3 :class="[
+            'text-lg font-semibold mb-3 font-gothic flex items-center gap-2',
+            section.id === 'dnd5e' ? 'text-amber-400' :
+            section.id === 'brancalonia' ? 'text-emerald-400' :
+            'text-red-400'
+          ]">
+            <span aria-hidden="true">{{ section.emoji }}</span>
+            {{ t(`variant.${section.id}`) }}
+            <span class="text-xs font-normal text-stone-500 ml-1">({{ groupedCharacters[section.id].length }})</span>
+          </h3>
+
+          <ul class="space-y-2" role="list">
+            <li
+              v-for="char in groupedCharacters[section.id]"
+              :key="char.id"
+            >
+              <div :class="['bg-stone-800 rounded-lg p-4 border', section.border]">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div class="flex-1 min-w-0">
+                    <span class="font-medium text-amber-400 text-lg truncate block">
+                      {{ char.name || t('common.unnamed') }}
+                    </span>
+                    <div class="text-stone-400 text-sm mt-1">
+                      {{ char.race }} {{ char.className }} Lv.{{ char.level }}
+                    </div>
+                  </div>
+                  <div class="flex gap-2 shrink-0">
+                    <button
+                      @click="editCharacter(char.id)"
+                      :class="[
+                        'px-3 py-1.5 rounded text-sm font-medium transition-colors cursor-pointer',
+                        section.id === 'dnd5e' ? 'bg-amber-600 hover:bg-amber-500 text-stone-900' :
+                        section.id === 'brancalonia' ? 'bg-emerald-600 hover:bg-emerald-500 text-stone-900' :
+                        'bg-red-600 hover:bg-red-500 text-stone-100'
+                      ]"
+                      :aria-label="t('characters.editLabel', { name: char.name || t('common.unnamed') })"
+                    >{{ t('characters.edit') }}</button>
+                    <button
+                      @click="downloadJson(char.id)"
+                      class="px-3 py-1.5 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded text-sm transition-colors cursor-pointer"
+                      :aria-label="t('characters.exportLabel', { name: char.name || t('common.unnamed') })"
+                    >JSON</button>
+                    <button
+                      @click="removeCharacter(char.id)"
+                      class="px-3 py-1.5 bg-red-900/60 hover:bg-red-800 text-red-300 rounded text-sm transition-colors cursor-pointer"
+                      :aria-label="t('characters.deleteLabel', { name: char.name || t('common.unnamed') })"
+                    >{{ t('common.remove') }}</button>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </template>
+    </template>
   </div>
 </template>

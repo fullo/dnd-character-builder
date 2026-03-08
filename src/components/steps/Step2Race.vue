@@ -5,6 +5,7 @@ import { useCharacterStore } from '@/stores/character'
 import { getRaces } from '@/data'
 import type { Race } from '@/data/dnd5e/races'
 import { formatModifier } from '@/utils/calculations'
+import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
@@ -113,5 +114,7 @@ function bonusString(bonuses: Record<string, number>): string {
         </div>
       </div>
     </div>
+
+    <VariantPromo :variant="characterStore.character.variant" />
   </div>
 </template>
