@@ -5,6 +5,7 @@ import { useCharacterStore } from '@/stores/character'
 import type { AbilityScores } from '@/stores/character'
 import { rollAbilityScores, STANDARD_ARRAY, POINT_BUY_COSTS, pointBuyRemaining } from '@/utils/diceRoller'
 import { modifier, formatModifier } from '@/utils/calculations'
+import DiceRoller from '@/components/shared/DiceRoller.vue'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
@@ -55,10 +56,17 @@ function adjustPointBuy(ability: keyof AbilityScores, delta: number) {
 }
 
 // Roll
+const isRolling = ref(false)
+
 function doRoll() {
   const result = rollAbilityScores()
   rolledScores.value = result.totals
   assignedRolls.value = { str: null, dex: null, con: null, int: null, wis: null, cha: null }
+  isRolling.value = true
+}
+
+function onAnimationDone() {
+  isRolling.value = false
 }
 
 const availableRolls = computed(() => {
@@ -118,16 +126,26 @@ function setMethod(m: Method) {
     </div>
 
     <!-- Roll button -->
-    <div v-if="method === 'roll'" class="mb-4 flex gap-3 items-center">
-      <button
-        @click="doRoll"
-        class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-stone-900 rounded-lg font-medium transition-colors cursor-pointer"
-      >{{ t('abilities.rollDice') }}</button>
-      <div v-if="rolledScores.length" class="flex gap-2">
-        <span v-for="(score, i) in rolledScores" :key="i"
-          class="px-2 py-1 bg-stone-700 rounded text-sm text-amber-400 font-bold">
-          {{ score }}
-        </span>
+    <div v-if="method === 'roll'" class="mb-4">
+      <div class="flex gap-3 items-center">
+        <button
+          @click="doRoll"
+          :disabled="isRolling"
+          class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-stone-900 rounded-lg font-medium transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <span v-if="isRolling" class="inline-flex items-center gap-1">
+            <span class="animate-spin inline-block w-4 h-4 border-2 border-stone-900 border-t-transparent rounded-full" aria-hidden="true"></span>
+            {{ t('abilities.rollDice') }}
+          </span>
+          <span v-else><span aria-hidden="true">🎲</span> {{ t('abilities.rollDice') }}</span>
+        </button>
+        <button v-if="rolledScores.length && !isRolling"
+          @click="doRoll"
+          class="px-3 py-2 bg-stone-700 hover:bg-stone-600 text-stone-300 rounded-lg text-sm transition-colors cursor-pointer"
+        ><span aria-hidden="true">🔄</span> {{ t('abilities.reroll') }}</button>
+      </div>
+      <div v-if="rolledScores.length" class="mt-3">
+        <DiceRoller :scores="rolledScores" :rolling="isRolling" @animation-done="onAnimationDone" />
       </div>
     </div>
 
