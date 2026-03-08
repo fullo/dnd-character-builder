@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { GameVariant } from './app'
-import { modifier, proficiencyBonus } from '@/utils/calculations'
+import { modifier, proficiencyBonus, hpPerLevel } from '@/utils/calculations'
+import { getMaxLevel, getClasses } from '@/data'
 
 export interface AbilityScores {
   str: number
@@ -210,6 +211,61 @@ export const useCharacterStore = defineStore('character', () => {
     savedCharacters.value = savedCharacters.value.filter(c => c.id !== id)
   }
 
+  /**
+   * Level up the current character.
+   * Returns { hpGained, newFeatures } or null if at max level.
+   */
+  function levelUp(): { hpGained: number; newFeatures: string[] } | null {
+    const char = character.value
+    const maxLv = getMaxLevel(char.variant)
+    if (char.level >= maxLv) return null
+
+    char.level += 1
+
+    // HP gain: hitDie/2 + 1 + CON modifier
+    const conMod = modifier(
+      char.abilityScores.con + (char.racialBonuses.con || 0),
+    )
+    const hpGained = hpPerLevel(char.hitDie, conMod)
+    char.maxHp += hpGained
+    char.currentHp = char.maxHp
+
+    // Gather new features from class + subclass for the new level
+    const newFeatures: string[] = []
+    const classes = getClasses(char.variant)
+    const cls = classes.find(c => c.id === char.className)
+    if (cls) {
+      const classFeats = cls.features.filter(f => f.level === char.level)
+      for (const feat of classFeats) {
+        if (!char.featuresTraits.includes(feat.name)) {
+          char.featuresTraits.push(feat.name)
+          newFeatures.push(feat.name)
+        }
+      }
+      // Subclass features
+      if (char.subclass) {
+        const sub = cls.subclasses.find(s => s.id === char.subclass)
+        if (sub) {
+          const subFeats = sub.features.filter(f => f.level === char.level)
+          for (const feat of subFeats) {
+            if (!char.featuresTraits.includes(feat.name)) {
+              char.featuresTraits.push(feat.name)
+              newFeatures.push(feat.name)
+            }
+          }
+        }
+      }
+    }
+
+    // Auto-save if the character exists in saved list
+    const idx = savedCharacters.value.findIndex(c => c.id === char.id)
+    if (idx >= 0) {
+      savedCharacters.value[idx] = JSON.parse(JSON.stringify(char))
+    }
+
+    return { hpGained, newFeatures }
+  }
+
   function exportJson(): string {
     return JSON.stringify(character.value, null, 2)
   }
@@ -312,6 +368,7 @@ export const useCharacterStore = defineStore('character', () => {
     saveCharacter,
     loadCharacter,
     deleteCharacter,
+    levelUp,
     exportJson,
     importJson,
   }

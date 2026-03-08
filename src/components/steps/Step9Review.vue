@@ -6,7 +6,7 @@ import { formatModifier, spellSaveDC, spellAttackBonus, feetToMeters } from '@/u
 import { usePdfExport } from '@/composables/usePdfExport'
 import { copyShareUrl } from '@/utils/shareCharacter'
 import { SKILLS } from '@/data/dnd5e/skills'
-import { getSpells, getClasses, getRaces, getBackgrounds, getApocalisseRules } from '@/data'
+import { getSpells, getClasses, getRaces, getBackgrounds, getApocalisseRules, getMaxLevel } from '@/data'
 import { whacksLevels } from '@/data/brancalonia/rules'
 import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
@@ -166,6 +166,23 @@ async function shareCharacter() {
     shareMessage.value = { type: 'error', text: t('review.shareFailed') }
     setTimeout(() => { shareMessage.value = null }, 5000)
   }
+}
+
+const canLevelUp = computed(() => char.value.level < getMaxLevel(char.value.variant))
+const levelUpMessage = ref<string | null>(null)
+
+function doLevelUp() {
+  const result = characterStore.levelUp()
+  if (!result) {
+    levelUpMessage.value = t('characters.maxLevel')
+  } else {
+    const parts = [`+${result.hpGained} HP`]
+    if (result.newFeatures.length > 0) {
+      parts.push(result.newFeatures.join(', '))
+    }
+    levelUpMessage.value = t('characters.levelUpSuccess', { details: parts.join(' | ') })
+  }
+  setTimeout(() => { levelUpMessage.value = null }, 5000)
 }
 
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -458,7 +475,24 @@ function handleImport(event: Event) {
         class="px-6 py-2 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded-lg transition-colors cursor-pointer">
         {{ t('review.importJson') }}
       </button>
+      <button v-if="canLevelUp" @click="doLevelUp"
+        class="px-6 py-2 bg-purple-700 hover:bg-purple-600 text-purple-100 rounded-lg font-semibold transition-colors cursor-pointer">
+        <span aria-hidden="true">⬆</span> {{ t('review.levelUp') }}
+      </button>
     </div>
+
+    <!-- Level Up feedback -->
+    <Transition name="fade">
+      <div
+        v-if="levelUpMessage"
+        class="mt-4 p-3 bg-purple-900/30 border border-purple-700 text-purple-300 rounded-lg flex items-center gap-3"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="text-xl" aria-hidden="true">✨</span>
+        <p class="flex-1 text-sm">{{ levelUpMessage }}</p>
+      </div>
+    </Transition>
 
     <VariantPromo :variant="char.variant" class="no-print" />
   </section>

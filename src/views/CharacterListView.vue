@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useCharacterStore } from '@/stores/character'
 import { useAppStore } from '@/stores/app'
 import type { GameVariant } from '@/stores/app'
 import { useGameTerms } from '@/composables/useGameTerms'
+import { getMaxLevel } from '@/data'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -44,6 +45,26 @@ function editCharacter(id: string) {
 
 function removeCharacter(id: string) {
   characterStore.deleteCharacter(id)
+}
+
+const levelUpMessage = ref<{ charId: string; text: string } | null>(null)
+
+function levelUpCharacter(id: string) {
+  characterStore.loadCharacter(id)
+  const result = characterStore.levelUp()
+  if (!result) {
+    levelUpMessage.value = { charId: id, text: t('characters.maxLevel') }
+  } else {
+    const parts = [`+${result.hpGained} HP`]
+    if (result.newFeatures.length > 0) {
+      parts.push(result.newFeatures.join(', '))
+    }
+    levelUpMessage.value = {
+      charId: id,
+      text: t('characters.levelUpSuccess', { details: parts.join(' | ') }),
+    }
+  }
+  setTimeout(() => { levelUpMessage.value = null }, 5000)
 }
 
 function downloadJson(id: string) {
@@ -128,6 +149,12 @@ function downloadJson(id: string) {
                       :aria-label="t('characters.editLabel', { name: char.name || t('common.unnamed') })"
                     >{{ t('characters.edit') }}</button>
                     <button
+                      v-if="char.level < getMaxLevel(char.variant || 'dnd5e')"
+                      @click="levelUpCharacter(char.id)"
+                      class="px-3 py-1.5 bg-purple-700 hover:bg-purple-600 text-purple-100 rounded text-sm font-medium transition-colors cursor-pointer"
+                      :aria-label="t('characters.levelUpLabel', { name: char.name || t('common.unnamed') })"
+                    ><span aria-hidden="true">⬆</span> {{ t('characters.levelUp') }}</button>
+                    <button
                       @click="downloadJson(char.id)"
                       class="px-3 py-1.5 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded text-sm transition-colors cursor-pointer"
                       :aria-label="t('characters.exportLabel', { name: char.name || t('common.unnamed') })"
@@ -138,6 +165,15 @@ function downloadJson(id: string) {
                       :aria-label="t('characters.deleteLabel', { name: char.name || t('common.unnamed') })"
                     >{{ t('common.remove') }}</button>
                   </div>
+                </div>
+                <!-- Level Up feedback -->
+                <div
+                  v-if="levelUpMessage?.charId === char.id"
+                  class="mt-2 p-2 bg-purple-900/30 border border-purple-700 text-purple-300 rounded text-sm"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <span aria-hidden="true">✨</span> {{ levelUpMessage.text }}
                 </div>
               </div>
             </li>

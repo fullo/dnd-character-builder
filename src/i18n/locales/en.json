@@ -214,7 +214,8 @@
     "shareUrl": "Share Link",
     "shareCopied": "Link copied to clipboard!",
     "shareManual": "Copy the link below to share your character:",
-    "shareFailed": "Could not generate share link. Try again."
+    "shareFailed": "Could not generate share link. Try again.",
+    "levelUp": "Level Up"
   },
   "share": {
     "error": "Invalid Share Link",
@@ -228,7 +229,11 @@
     "edit": "Edit",
     "editLabel": "Edit {name}",
     "exportLabel": "Export JSON of {name}",
-    "deleteLabel": "Delete {name}"
+    "deleteLabel": "Delete {name}",
+    "levelUp": "Level Up",
+    "levelUpLabel": "Level up {name}",
+    "levelUpSuccess": "Level Up! {details}",
+    "maxLevel": "Already at maximum level!"
   },
   "common": {
     "next": "Next",
