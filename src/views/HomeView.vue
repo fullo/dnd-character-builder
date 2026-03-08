@@ -114,6 +114,7 @@ const variants: { id: GameVariant; emoji: string; color: string; border: string 
   <section class="flex flex-col items-center py-8" aria-labelledby="home-heading">
     <div class="text-center max-w-3xl mb-8">
       <h2 id="home-heading" class="text-4xl font-bold text-amber-500 mb-3 font-gothic">{{ t('home.welcome') }}</h2>
+      <p class="text-stone-400 text-base leading-relaxed">{{ t('home.description') }}</p>
     </div>
 
     <!-- Import message banner -->

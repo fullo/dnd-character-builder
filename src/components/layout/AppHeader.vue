@@ -18,7 +18,6 @@ function closeMobile() {
         <span class="text-3xl" aria-hidden="true">&#x2694;&#xFE0F;</span>
         <div>
           <h1 class="text-xl font-bold text-amber-500 leading-tight font-gothic">{{ t('app.title') }}</h1>
-          <p class="text-xs text-stone-400">{{ t('app.subtitle') }}</p>
         </div>
       </router-link>
 

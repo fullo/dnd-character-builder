@@ -70,6 +70,14 @@ export interface CharacterData {
   // Brancalonia specific
   brawlingMoves: string[]
   misdeeds: string
+  size: string
+  whacksLevel: number
+  // Apocalisse specific
+  mark: string
+  markSpirit: string
+  virtue: string
+  sin: string
+  humanity: number
 }
 
 function createEmptyCharacter(): CharacterData {
@@ -124,6 +132,13 @@ function createEmptyCharacter(): CharacterData {
     speed: 30,
     brawlingMoves: [],
     misdeeds: '',
+    size: '',
+    whacksLevel: 0,
+    mark: '',
+    markSpirit: '',
+    virtue: '',
+    sin: '',
+    humanity: 10,
   }
 }
 

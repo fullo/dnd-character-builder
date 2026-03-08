@@ -5,11 +5,12 @@ import { useCharacterStore } from '@/stores/character'
 import { formatModifier, spellSaveDC, spellAttackBonus } from '@/utils/calculations'
 import { usePdfExport } from '@/composables/usePdfExport'
 import { SKILLS } from '@/data/dnd5e/skills'
-import { getSpells, getClasses, getRaces, getBackgrounds } from '@/data'
+import { getSpells, getClasses, getRaces, getBackgrounds, getApocalisseRules } from '@/data'
+import { whacksLevels } from '@/data/brancalonia/rules'
 import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const characterStore = useCharacterStore()
 const { exportPdf, exporting } = usePdfExport()
 const gt = useGameTerms()
@@ -87,6 +88,44 @@ const displayBackground = computed(() => {
   if (!bg) return char.value.background
   if ((bg as any).nameOriginal) return (bg as any).nameOriginal
   return gt.background(bg.name)
+})
+
+const isBrancalonia = computed(() => char.value.variant === 'brancalonia')
+const isApocalisse = computed(() => char.value.variant === 'apocalisse')
+
+// Apocalisse display helpers
+const apoRules = computed(() => getApocalisseRules(char.value.variant))
+function displayNameLocale(item: { name: string; nameOriginal?: string } | undefined): string {
+  if (!item) return '--'
+  if (locale.value === 'it' && item.nameOriginal) return item.nameOriginal
+  return item.name
+}
+const displayMark = computed(() => {
+  if (!char.value.mark) return '--'
+  const mark = apoRules.value?.marks.find(m => m.id === char.value.mark)
+  return displayNameLocale(mark)
+})
+const displaySpirit = computed(() => {
+  if (!char.value.markSpirit || !char.value.mark) return ''
+  const mark = apoRules.value?.marks.find(m => m.id === char.value.mark)
+  const spirit = mark?.spirits.find(s => s.id === char.value.markSpirit)
+  return displayNameLocale(spirit)
+})
+const displayVirtue = computed(() => {
+  if (!char.value.virtue) return '--'
+  const v = apoRules.value?.virtues.find(x => x.id === char.value.virtue)
+  return displayNameLocale(v)
+})
+const displaySin = computed(() => {
+  if (!char.value.sin) return '--'
+  const s = apoRules.value?.sins.find(x => x.id === char.value.sin)
+  return displayNameLocale(s)
+})
+
+// Brancalonia display helpers
+const whacksDisplay = computed(() => {
+  const wl = whacksLevels.find(w => w.level === char.value.whacksLevel)
+  return wl ? `${wl.level} - ${wl.name}` : String(char.value.whacksLevel)
 })
 
 function saveChar() {
@@ -279,6 +318,56 @@ function handleImport(event: Event) {
       <div class="space-y-1">
         <div v-for="(feat, i) in char.featuresTraits" :key="i" class="text-sm text-stone-400">
           {{ feat }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Brancalonia: Brawling Info -->
+    <div v-if="isBrancalonia" class="bg-stone-800 border border-amber-700/30 rounded-lg p-4 mb-4">
+      <h3 class="font-semibold text-amber-400 mb-2">{{ t('details.brawling') }}</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+        <div>
+          <span class="text-stone-500">{{ t('details.size') }}:</span>
+          <span class="text-stone-200 ml-1">{{ char.size || 'Medium' }}</span>
+        </div>
+        <div>
+          <span class="text-stone-500">{{ t('details.whacksLevel') }}:</span>
+          <span class="text-stone-200 ml-1">{{ whacksDisplay }}</span>
+        </div>
+      </div>
+      <div v-if="char.brawlingMoves.length" class="mt-2">
+        <span class="text-stone-500 text-sm">{{ t('details.brawlingMoves') }}:</span>
+        <span class="text-stone-300 text-sm ml-1">{{ char.brawlingMoves.join(', ') }}</span>
+      </div>
+      <div v-if="char.misdeeds" class="mt-2">
+        <span class="text-stone-500 text-sm">{{ t('details.misdeeds') }}:</span>
+        <span class="text-stone-300 text-sm ml-1">{{ char.misdeeds }}</span>
+      </div>
+    </div>
+
+    <!-- Apocalisse: Mark, Virtue, Sin, Humanity -->
+    <div v-if="isApocalisse" class="bg-stone-800 border border-red-700/30 rounded-lg p-4 mb-4">
+      <h3 class="font-semibold text-red-400 mb-2">{{ t('details.markSection') }}</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+        <div>
+          <span class="text-stone-500">{{ t('details.mark') }}:</span>
+          <span class="text-stone-200 ml-1">{{ displayMark }}</span>
+        </div>
+        <div v-if="displaySpirit">
+          <span class="text-stone-500">{{ t('details.markSpirit') }}:</span>
+          <span class="text-stone-200 ml-1">{{ displaySpirit }}</span>
+        </div>
+        <div>
+          <span class="text-stone-500">{{ t('details.virtue') }}:</span>
+          <span class="text-stone-200 ml-1">{{ displayVirtue }}</span>
+        </div>
+        <div>
+          <span class="text-stone-500">{{ t('details.sin') }}:</span>
+          <span class="text-stone-200 ml-1">{{ displaySin }}</span>
+        </div>
+        <div>
+          <span class="text-stone-500">{{ t('details.humanity') }}:</span>
+          <span class="text-amber-400 font-bold ml-1">{{ char.humanity }}</span>
         </div>
       </div>
     </div>

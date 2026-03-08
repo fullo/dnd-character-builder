@@ -258,8 +258,8 @@ export function generateRandomCharacter(variant: GameVariant, forcedLevel?: numb
     variant,
     name,
     playerName: '',
-    race: race.name,
-    subrace: subrace?.name || '',
+    race: race.id,
+    subrace: subrace?.id || '',
     className: cls.id,
     subclass: subclass?.id || '',
     level,
@@ -304,6 +304,13 @@ export function generateRandomCharacter(variant: GameVariant, forcedLevel?: numb
     speed: race.speed,
     brawlingMoves: [],
     misdeeds: '',
+    size: race.size || 'Medium',
+    whacksLevel: 0,
+    mark: '',
+    markSpirit: '',
+    virtue: '',
+    sin: '',
+    humanity: 10,
   }
 }
 

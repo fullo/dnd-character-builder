@@ -1,5 +1,6 @@
 import type { CharacterData, AbilityScores } from '@/stores/character'
 import { modifier, proficiencyBonus, formatModifier, spellSaveDC, spellAttackBonus } from './calculations'
+import { apocalisseRules } from '@/data/apocalisse/rules'
 function totalAbility(char: CharacterData, ability: keyof AbilityScores): number {
   return char.abilityScores[ability] + (char.racialBonuses[ability] || 0)
 }
@@ -118,7 +119,30 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
   // Equipment & Other
   fields['Equipment'] = char.equipment.join(', ')
   fields['ProficienciesLang'] = [...char.proficienciesOther, ...char.languages.map(l => `Language: ${l}`)].join('\n')
-  fields['Features and Traits'] = char.featuresTraits.join('\n')
+  // Features and Traits - include Apocalisse mark/virtue/sin/humanity if applicable
+  const featureLines = [...char.featuresTraits]
+  if (char.variant === 'apocalisse') {
+    if (char.mark) {
+      const markObj = apocalisseRules.marks.find(m => m.id === char.mark)
+      if (markObj) {
+        featureLines.push(`Marchio: ${markObj.nameOriginal}`)
+        if (char.markSpirit) {
+          const spirit = markObj.spirits.find(s => s.id === char.markSpirit)
+          if (spirit) featureLines.push(`Spirito: ${spirit.nameOriginal}`)
+        }
+      }
+    }
+    if (char.virtue) {
+      const virtueObj = apocalisseRules.virtues.find(v => v.id === char.virtue)
+      if (virtueObj) featureLines.push(`Virtu': ${virtueObj.nameOriginal}`)
+    }
+    if (char.sin) {
+      const sinObj = apocalisseRules.sins.find(s => s.id === char.sin)
+      if (sinObj) featureLines.push(`Peccato: ${sinObj.nameOriginal}`)
+    }
+    featureLines.push(`Umanita': ${char.humanity}`)
+  }
+  fields['Features and Traits'] = featureLines.join('\n')
   fields['PersonalityTraits '] = char.personalityTraits
   fields['Ideals'] = char.ideals
   fields['Bonds'] = char.bonds
@@ -165,7 +189,7 @@ export function getBrancaloniaFieldMapping(char: CharacterData): Record<string, 
   fields['Background'] = char.background
   fields['Nome Giocatore'] = char.playerName
   fields['Allineamento'] = char.alignment
-  fields['Taglia'] = ''
+  fields['Taglia'] = char.size || 'Medium'
   fields['Bonus Competenza'] = String(prof)
   fields['Ispirazione'] = ''
 

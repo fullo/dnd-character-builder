@@ -464,8 +464,13 @@ export const raceNamesIt: Record<string, string> = {
   'Marionette': 'Marionetta',
   'Morgant': 'Morgante',
   'Sylvan': 'Silvano',
-  // Apocalisse
-  'Last One': 'Ultimo',
+  // Apocalisse Origins (shown as standalone races)
+  'Child of the Old World': 'Figlio del Vecchio Mondo',
+  'Child of the Apocalypse': 'Figlio dell\'Apocalisse',
+  'Risen from Hell': 'Risorto dall\'Inferno',
+  'Risen from Heaven': 'Risorto dal Paradiso',
+  'Risen from Purgatory': 'Risorto dal Purgatorio',
+  'Risen from Limbo': 'Risorto dal Limbo',
 }
 
 /** Subrace names in Italian */
@@ -480,13 +485,6 @@ export const subraceNamesIt: Record<string, string> = {
   'Forest Gnome': 'Gnomo delle Foreste',
   'Lightfoot Halfling': 'Halfling Piedelesto',
   'Stout Halfling': 'Halfling Tozzo',
-  // Apocalisse Origins
-  'Child of the Old World': 'Figlio del Vecchio Mondo',
-  'Child of the Apocalypse': 'Figlio dell\'Apocalisse',
-  'Risen from Hell': 'Risorto dall\'Inferno',
-  'Risen from Heaven': 'Risorto dal Paradiso',
-  'Risen from Purgatory': 'Risorto dal Purgatorio',
-  'Risen from Limbo': 'Risorto dal Limbo',
 }
 
 // ─── Skill Names ────────────────────────────────────────────────────────────
