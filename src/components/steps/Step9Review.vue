@@ -91,10 +91,11 @@ const displayBackground = computed(() => {
   return gt.background(bg.name)
 })
 
-// Multiclass display
+// Multiclass display (defensive: classes may be undefined for old saved characters)
 const multiclassDisplay = computed(() => {
-  if (char.value.classes.length < 2) return ''
-  return char.value.classes
+  const classes = char.value.classes ?? []
+  if (classes.length < 2) return ''
+  return classes
     .map(c => {
       const cls = variantClasses.value.find(cl => cl.id === c.classId)
       const name = cls ? gt.className(cls.name, char.value.variant) : c.classId
@@ -104,10 +105,11 @@ const multiclassDisplay = computed(() => {
 })
 
 const hitDiceDisplay = computed(() => {
-  if (char.value.classes.length < 2) {
+  const classes = char.value.classes ?? []
+  if (classes.length < 2) {
     return `${char.value.level}d${char.value.hitDie}`
   }
-  return char.value.classes
+  return classes
     .map(c => `${c.level}d${c.hitDie}`)
     .join(' + ')
 })

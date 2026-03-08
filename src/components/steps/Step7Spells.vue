@@ -16,7 +16,7 @@ const gt = useGameTerms()
 const allSpells = computed(() => getSpells(characterStore.character.variant))
 const allClasses = computed(() => getClasses(characterStore.character.variant))
 
-const isMulticlass = computed(() => characterStore.character.classes.length >= 2)
+const isMulticlass = computed(() => (characterStore.character.classes ?? []).length >= 2)
 
 // For multiclass, check if ANY class is a caster
 const isCaster = computed(() => {

@@ -75,8 +75,9 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
 
   // Basic Info
   fields['CharacterName'] = char.name
-  if (char.classes.length >= 2) {
-    fields['ClassLevel'] = char.classes
+  const classes = char.classes ?? []
+  if (classes.length >= 2) {
+    fields['ClassLevel'] = classes
       .map(c => `${pdfClassName(c.classId, char.variant)} ${c.level}`)
       .join(' / ')
   } else {
@@ -126,8 +127,9 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
   fields['HPMax'] = String(char.maxHp)
   fields['HPCurrent'] = String(char.currentHp || char.maxHp)
   fields['HPTemp'] = String(char.tempHp || '')
-  if (char.classes.length >= 2) {
-    fields['HDTotal'] = char.classes.map(c => `${c.level}d${c.hitDie}`).join(' + ')
+  const hdClasses = char.classes ?? []
+  if (hdClasses.length >= 2) {
+    fields['HDTotal'] = hdClasses.map(c => `${c.level}d${c.hitDie}`).join(' + ')
   } else {
     fields['HDTotal'] = `${char.level}d${char.hitDie}`
   }

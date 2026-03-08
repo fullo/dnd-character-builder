@@ -67,8 +67,9 @@ const multiclassOptions = computed(() => {
 })
 
 const multiclassDisplay = computed(() => {
-  if (characterStore.character.classes.length < 2) return ''
-  return characterStore.character.classes
+  const cls_arr = characterStore.character.classes ?? []
+  if (cls_arr.length < 2) return ''
+  return cls_arr
     .map(c => {
       const cls = classes.value.find(cl => cl.id === c.classId)
       const name = cls ? gt.className(cls.name, variant.value) : c.classId
@@ -178,7 +179,7 @@ function removeSecondaryClass(clsId: string) {
       <h3 class="font-semibold text-purple-400 mb-3">{{ t('class.multiclass') }}</h3>
 
       <!-- Current multiclass breakdown -->
-      <div v-if="characterStore.character.classes.length >= 2" class="mb-3">
+      <div v-if="(characterStore.character.classes ?? []).length >= 2" class="mb-3">
         <p class="text-stone-300 text-sm font-medium mb-2">{{ multiclassDisplay }} ({{ t('common.level') }} {{ characterStore.character.level }})</p>
         <div class="flex flex-wrap gap-2">
           <div

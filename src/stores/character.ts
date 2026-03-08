@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { GameVariant } from './app'
 import { modifier, proficiencyBonus, hpPerLevel } from '@/utils/calculations'
 import { getMaxLevel, getClasses } from '@/data'
@@ -161,10 +161,15 @@ export const useCharacterStore = defineStore('character', () => {
   const savedCharacters = ref<CharacterData[]>([])
 
   // Migration: add new fields to existing saved characters
-  for (const c of savedCharacters.value) {
-    if ((c as any).sessionNotes === undefined) (c as any).sessionNotes = ''
-    if (!Array.isArray((c as any).classes)) (c as any).classes = []
+  // Runs as a watcher so it fires AFTER pinia-plugin-persistedstate hydrates from localStorage
+  function migrateCharacters() {
+    for (const c of savedCharacters.value) {
+      if ((c as any).sessionNotes === undefined) (c as any).sessionNotes = ''
+      if (!Array.isArray((c as any).classes)) (c as any).classes = []
+    }
   }
+  migrateCharacters()
+  watch(savedCharacters, migrateCharacters, { once: true })
 
   // Computed derived stats
   const abilityModifiers = computed(() => ({
@@ -236,7 +241,7 @@ export const useCharacterStore = defineStore('character', () => {
   }
 
   /** Whether current character is multiclass */
-  const isMulticlass = computed(() => character.value.classes.length >= 2)
+  const isMulticlass = computed(() => (character.value.classes ?? []).length >= 2)
 
   /**
    * Add a second (or third, etc.) class to the current D&D 5e character.
