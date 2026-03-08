@@ -180,7 +180,9 @@
   "footer": {
     "madeInEU": "Orgogliosamente fatto in EU",
     "privacy": "Privacy Policy",
-    "license": "Licenza MIT"
+    "license": "Licenza MIT",
+    "wsg": "Web Sustainability",
+    "wsgTitle": "Questo sito segue le W3C Web Sustainability Guidelines"
   },
   "privacy": {
     "title": "Privacy Policy",

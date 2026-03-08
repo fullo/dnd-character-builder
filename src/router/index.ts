@@ -23,6 +23,12 @@ const router = createRouter({
       name: 'privacy',
       component: () => import('@/views/PrivacyView.vue'),
     },
+    // WSG 4.4: Setup error pages and redirection
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('@/views/HomeView.vue'),
+    },
   ],
 })
 

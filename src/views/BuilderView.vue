@@ -1,30 +1,23 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/stores/app'
 import StepNavigation from '@/components/layout/StepNavigation.vue'
-import Step1Variant from '@/components/steps/Step1Variant.vue'
-import Step2Race from '@/components/steps/Step2Race.vue'
-import Step3Class from '@/components/steps/Step3Class.vue'
-import Step4Abilities from '@/components/steps/Step4Abilities.vue'
-import Step5Background from '@/components/steps/Step5Background.vue'
-import Step6Equipment from '@/components/steps/Step6Equipment.vue'
-import Step7Spells from '@/components/steps/Step7Spells.vue'
-import Step8Details from '@/components/steps/Step8Details.vue'
-import Step9Review from '@/components/steps/Step9Review.vue'
 
 const { t } = useI18n()
 const appStore = useAppStore()
 
+// WSG 3.8: Defer loading of non-critical resources — lazy load wizard steps
 const steps = [
-  Step1Variant,
-  Step2Race,
-  Step3Class,
-  Step4Abilities,
-  Step5Background,
-  Step6Equipment,
-  Step7Spells,
-  Step8Details,
-  Step9Review,
+  defineAsyncComponent(() => import('@/components/steps/Step1Variant.vue')),
+  defineAsyncComponent(() => import('@/components/steps/Step2Race.vue')),
+  defineAsyncComponent(() => import('@/components/steps/Step3Class.vue')),
+  defineAsyncComponent(() => import('@/components/steps/Step4Abilities.vue')),
+  defineAsyncComponent(() => import('@/components/steps/Step5Background.vue')),
+  defineAsyncComponent(() => import('@/components/steps/Step6Equipment.vue')),
+  defineAsyncComponent(() => import('@/components/steps/Step7Spells.vue')),
+  defineAsyncComponent(() => import('@/components/steps/Step8Details.vue')),
+  defineAsyncComponent(() => import('@/components/steps/Step9Review.vue')),
 ]
 </script>
 

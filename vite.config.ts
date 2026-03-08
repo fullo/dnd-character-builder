@@ -15,7 +15,7 @@ export default defineConfig({
       manifest: {
         name: 'D&D Character Builder',
         short_name: 'DnD Builder',
-        description: 'Create and manage your D&D 5e and Brancalonia characters',
+        description: 'Create and manage your D&D 5e, Brancalonia, and Apocalisse characters',
         theme_color: '#292524',
         background_color: '#1c1917',
         display: 'standalone',
@@ -61,17 +61,26 @@ export default defineConfig({
       output: {
         manualChunks: {
           'pdf-lib': ['pdf-lib'],
-          'game-data': [
+          // WSG 3.3: Modularize bandwidth-heavy components — split game data per variant
+          'game-data-dnd5e': [
             './src/data/dnd5e/classes.ts',
             './src/data/dnd5e/races.ts',
             './src/data/dnd5e/spells.ts',
             './src/data/dnd5e/equipment.ts',
             './src/data/dnd5e/backgrounds.ts',
             './src/data/dnd5e/rules.ts',
+          ],
+          'game-data-brancalonia': [
             './src/data/brancalonia/races.ts',
             './src/data/brancalonia/classes.ts',
             './src/data/brancalonia/backgrounds.ts',
             './src/data/brancalonia/rules.ts',
+          ],
+          'game-data-apocalisse': [
+            './src/data/apocalisse/races.ts',
+            './src/data/apocalisse/classes.ts',
+            './src/data/apocalisse/backgrounds.ts',
+            './src/data/apocalisse/rules.ts',
           ],
         },
       },

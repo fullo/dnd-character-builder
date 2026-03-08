@@ -42,13 +42,15 @@ function acceptGdpr() {
         >
           <span aria-hidden="true">☕</span> Buy me a coffee
         </a>
-        <div class="flex flex-wrap items-center justify-center gap-3 text-xs text-stone-500">
+        <nav class="flex flex-wrap items-center justify-center gap-3 text-xs text-stone-500" aria-label="Footer links">
           <span>🇪🇺 {{ t('footer.madeInEU') }}</span>
           <span aria-hidden="true">·</span>
           <router-link to="/privacy" class="hover:text-amber-400 transition-colors">{{ t('footer.privacy') }}</router-link>
           <span aria-hidden="true">·</span>
           <a href="https://github.com/fullo/dnd-character-builder" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors">{{ t('footer.license') }}</a>
-        </div>
+          <span aria-hidden="true">·</span>
+          <a href="https://www.w3.org/TR/web-sustainability-guidelines/" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors" :title="t('footer.wsgTitle')">{{ t('footer.wsg') }}</a>
+        </nav>
       </div>
     </footer>
 

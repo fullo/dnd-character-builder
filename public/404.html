@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>D&D Character Builder</title>
+    <script>
+      // GitHub Pages SPA redirect: redirect all 404s to index.html with path info
+      // WSG 4.4: Setup necessary error pages and redirection links
+      const path = window.location.pathname;
+      const base = '/dnd-character-builder/';
+      if (path.startsWith(base)) {
+        const route = path.slice(base.length);
+        window.location.replace(base + '?route=' + encodeURIComponent(route));
+      } else {
+        window.location.replace(base);
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>

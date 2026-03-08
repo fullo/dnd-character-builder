@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-/* Sustainable Web: respect reduced motion preference */
+/* WSG 3.12: Use sustainability beneficial user preference media queries */
+
+/* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -10,7 +12,7 @@
   }
 }
 
-/* Sustainable Web: efficient print styles */
+/* WSG 2.17: Reduce impact of downloadable documents — efficient print styles */
 @media print {
   header, footer, nav, .no-print {
     display: none !important;
@@ -24,7 +26,13 @@
   }
 }
 
-/* Accessibility: visible focus indicators */
+/* WSG 2.13: Use optimized web typography — system font stack, no external fonts */
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-rendering: optimizeSpeed;
+}
+
+/* Accessibility: visible focus indicators (WSG 2.2) */
 :focus-visible {
   outline: 2px solid #f59e0b;
   outline-offset: 2px;
