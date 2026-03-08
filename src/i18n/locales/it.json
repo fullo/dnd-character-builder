@@ -1,0 +1,202 @@
+{
+  "app": {
+    "title": "D&D Character Builder",
+    "subtitle": "Crea il tuo personaggio"
+  },
+  "nav": {
+    "home": "Home",
+    "newCharacter": "Nuovo Personaggio",
+    "importCharacter": "Importa Personaggio",
+    "characters": "Personaggi Salvati"
+  },
+  "home": {
+    "welcome": "Benvenuto nel Character Builder",
+    "description": "Crea e gestisci i tuoi personaggi per D&D 5e e Brancalonia",
+    "startButton": "Crea un Nuovo Personaggio",
+    "randomButton": "Genera Personaggio Casuale",
+    "randomDnd5e": "Casuale D&D 5e",
+    "randomBrancalonia": "Casuale Brancalonia",
+    "savedCharacters": "Personaggi Salvati",
+    "importJson": "Importa JSON"
+  },
+  "steps": {
+    "variant": "Variante",
+    "race": "Razza",
+    "class": "Classe",
+    "abilities": "Caratteristiche",
+    "background": "Background",
+    "equipment": "Equipaggiamento",
+    "spells": "Incantesimi",
+    "details": "Dettagli",
+    "review": "Riepilogo"
+  },
+  "variant": {
+    "title": "Scegli la Variante di Gioco",
+    "dnd5e": "D&D 5a Edizione",
+    "dnd5eDesc": "L'edizione classica di Dungeons & Dragons con tutte le classi e razze del SRD",
+    "brancalonia": "Brancalonia",
+    "brancaloniaDesc": "Spaghetti Fantasy ambientato in un'Italia medievale fantastica. Livello massimo 6."
+  },
+  "race": {
+    "title": "Scegli la Razza",
+    "abilityBonuses": "Bonus Caratteristiche",
+    "traits": "Tratti Razziali",
+    "speed": "Velocita'",
+    "languages": "Linguaggi",
+    "size": "Taglia",
+    "subrace": "Sottorazza"
+  },
+  "class": {
+    "title": "Scegli la Classe",
+    "hitDie": "Dado Vita",
+    "primaryAbility": "Caratteristica Primaria",
+    "savingThrows": "Tiri Salvezza",
+    "skillChoices": "Scegli {count} abilita'",
+    "subclass": "Sottoclasse",
+    "features": "Privilegi di Classe",
+    "proficiencies": "Competenze"
+  },
+  "abilities": {
+    "title": "Genera le Caratteristiche",
+    "method": "Metodo di Generazione",
+    "standardArray": "Array Standard",
+    "pointBuy": "Acquisto Punti",
+    "roll": "Tira i Dadi",
+    "pointsRemaining": "Punti rimanenti: {points}",
+    "rollDice": "Tira 4d6",
+    "reroll": "Ritira Tutti",
+    "assign": "Assegna alle Caratteristiche",
+    "modifier": "Modificatore",
+    "racialBonus": "Bonus Razziale",
+    "total": "Totale",
+    "str": "Forza",
+    "dex": "Destrezza",
+    "con": "Costituzione",
+    "int": "Intelligenza",
+    "wis": "Saggezza",
+    "cha": "Carisma"
+  },
+  "background": {
+    "title": "Scegli il Background",
+    "personalityTraits": "Tratti Caratteriali",
+    "ideals": "Ideali",
+    "bonds": "Legami",
+    "flaws": "Difetti",
+    "skillProficiencies": "Competenze nelle Abilita'",
+    "languageChoices": "linguaggi a scelta"
+  },
+  "equipment": {
+    "title": "Equipaggiamento",
+    "startingPack": "Pacchetto Iniziale",
+    "manual": "Selezione Manuale",
+    "weapons": "Armi",
+    "simpleWeapons": "Armi Semplici",
+    "martialWeapons": "Armi da Guerra",
+    "armor": "Armature",
+    "tools": "Strumenti",
+    "coins": "Monete",
+    "other": "Altro Equipaggiamento",
+    "addItem": "Aggiungi oggetto..."
+  },
+  "spells": {
+    "title": "Incantesimi",
+    "cantrips": "Trucchetti",
+    "knownSpells": "Incantesimi Conosciuti",
+    "preparedSpells": "Incantesimi Preparati",
+    "spellSlots": "Slot Incantesimi",
+    "level": "Livello {level}",
+    "school": "Scuola",
+    "castingTime": "Tempo di Lancio",
+    "range": "Gittata",
+    "components": "Componenti",
+    "duration": "Durata",
+    "description": "Descrizione",
+    "spellcastingAbility": "Caratteristica da Incantatore",
+    "spellSaveDC": "CD Tiro Salvezza",
+    "spellAttackBonus": "Bonus Attacco Incantesimi",
+    "selected": "Selezionati: {count}/{max}",
+    "notACaster": "La tua classe non ha capacita' di incantesimi.",
+    "pressNext": "Premi Avanti per continuare.",
+    "allLevels": "Tutti i livelli"
+  },
+  "details": {
+    "title": "Dettagli del Personaggio",
+    "name": "Nome del Personaggio",
+    "playerName": "Nome del Giocatore",
+    "age": "Eta'",
+    "height": "Altezza",
+    "weight": "Peso",
+    "eyes": "Occhi",
+    "hair": "Capelli",
+    "skin": "Carnagione",
+    "alignment": "Allineamento",
+    "backstory": "Storia del Personaggio"
+  },
+  "review": {
+    "title": "Riepilogo del Personaggio",
+    "export": "Esporta",
+    "exportPdf": "Esporta Scheda PDF",
+    "exportCustomPdf": "Esporta PDF Personalizzato",
+    "exportJson": "Esporta JSON",
+    "importJson": "Importa JSON",
+    "importError": "File JSON non valido",
+    "save": "Salva Personaggio",
+    "print": "Stampa Scheda",
+    "hp": "Punti Ferita",
+    "ac": "Classe Armatura",
+    "initiative": "Iniziativa",
+    "speed": "Velocita'",
+    "proficiencyBonus": "Bonus Competenza",
+    "savingThrows": "Tiri Salvezza",
+    "skills": "Abilita'",
+    "attacks": "Attacchi",
+    "passivePerception": "Percezione Passiva",
+    "charName": "Nome",
+    "classLevel": "Classe & Livello",
+    "charRace": "Razza",
+    "charBackground": "Background",
+    "armorLabel": "Armatura",
+    "shieldBonus": "+ Scudo (+2 CA)",
+    "noArmor": "Nessuna"
+  },
+  "common": {
+    "next": "Avanti",
+    "back": "Indietro",
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "select": "Seleziona",
+    "remove": "Rimuovi",
+    "level": "Livello",
+    "search": "Cerca",
+    "noResults": "Nessun risultato",
+    "loading": "Caricamento...",
+    "unnamed": "Senza Nome"
+  },
+  "footer": {
+    "madeInEU": "Orgogliosamente fatto in EU",
+    "privacy": "Privacy Policy",
+    "license": "Licenza MIT"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "noData": "Questa applicazione non raccoglie, memorizza o trasmette alcun dato personale a server esterni.",
+    "localStorage": "Tutti i dati dei personaggi vengono salvati esclusivamente nella memoria locale del tuo browser (localStorage). Nessun dato lascia il tuo dispositivo.",
+    "noCookies": "Non utilizziamo cookie di tracciamento, analytics o servizi di terze parti.",
+    "noAccount": "Non e' richiesta alcuna registrazione. L'applicazione funziona interamente offline dopo il primo caricamento."
+  },
+  "gdpr": {
+    "banner": "Questa app funziona interamente nel tuo browser. Nessun dato viene inviato a server esterni. Utilizziamo solo un cookie tecnico per salvare la preferenza della lingua.",
+    "accept": "Ho capito"
+  },
+  "alignments": {
+    "lg": "Legale Buono",
+    "ng": "Neutrale Buono",
+    "cg": "Caotico Buono",
+    "ln": "Legale Neutrale",
+    "tn": "Neutrale Puro",
+    "cn": "Caotico Neutrale",
+    "le": "Legale Malvagio",
+    "ne": "Neutrale Malvagio",
+    "ce": "Caotico Malvagio"
+  }
+}

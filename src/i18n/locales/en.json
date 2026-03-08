@@ -1,0 +1,202 @@
+{
+  "app": {
+    "title": "D&D Character Builder",
+    "subtitle": "Create your character"
+  },
+  "nav": {
+    "home": "Home",
+    "newCharacter": "New Character",
+    "importCharacter": "Import Character",
+    "characters": "Saved Characters"
+  },
+  "home": {
+    "welcome": "Welcome to Character Builder",
+    "description": "Create and manage your characters for D&D 5e and Brancalonia",
+    "startButton": "Create a New Character",
+    "randomButton": "Generate Random Character",
+    "randomDnd5e": "Random D&D 5e",
+    "randomBrancalonia": "Random Brancalonia",
+    "savedCharacters": "Saved Characters",
+    "importJson": "Import JSON"
+  },
+  "steps": {
+    "variant": "Variant",
+    "race": "Race",
+    "class": "Class",
+    "abilities": "Abilities",
+    "background": "Background",
+    "equipment": "Equipment",
+    "spells": "Spells",
+    "details": "Details",
+    "review": "Review"
+  },
+  "variant": {
+    "title": "Choose Game Variant",
+    "dnd5e": "D&D 5th Edition",
+    "dnd5eDesc": "The classic edition of Dungeons & Dragons with all SRD classes and races",
+    "brancalonia": "Brancalonia",
+    "brancaloniaDesc": "Spaghetti Fantasy set in a fantastical medieval Italy. Maximum level 6."
+  },
+  "race": {
+    "title": "Choose Race",
+    "abilityBonuses": "Ability Score Bonuses",
+    "traits": "Racial Traits",
+    "speed": "Speed",
+    "languages": "Languages",
+    "size": "Size",
+    "subrace": "Subrace"
+  },
+  "class": {
+    "title": "Choose Class",
+    "hitDie": "Hit Die",
+    "primaryAbility": "Primary Ability",
+    "savingThrows": "Saving Throws",
+    "skillChoices": "Choose {count} skills",
+    "subclass": "Subclass",
+    "features": "Class Features",
+    "proficiencies": "Proficiencies"
+  },
+  "abilities": {
+    "title": "Generate Ability Scores",
+    "method": "Generation Method",
+    "standardArray": "Standard Array",
+    "pointBuy": "Point Buy",
+    "roll": "Roll Dice",
+    "pointsRemaining": "Points remaining: {points}",
+    "rollDice": "Roll 4d6",
+    "reroll": "Reroll All",
+    "assign": "Assign to Abilities",
+    "modifier": "Modifier",
+    "racialBonus": "Racial Bonus",
+    "total": "Total",
+    "str": "Strength",
+    "dex": "Dexterity",
+    "con": "Constitution",
+    "int": "Intelligence",
+    "wis": "Wisdom",
+    "cha": "Charisma"
+  },
+  "background": {
+    "title": "Choose Background",
+    "personalityTraits": "Personality Traits",
+    "ideals": "Ideals",
+    "bonds": "Bonds",
+    "flaws": "Flaws",
+    "skillProficiencies": "Skill Proficiencies",
+    "languageChoices": "language(s) of your choice"
+  },
+  "equipment": {
+    "title": "Equipment",
+    "startingPack": "Starting Pack",
+    "manual": "Manual Selection",
+    "weapons": "Weapons",
+    "simpleWeapons": "Simple Weapons",
+    "martialWeapons": "Martial Weapons",
+    "armor": "Armor",
+    "tools": "Tools",
+    "coins": "Coins",
+    "other": "Other Equipment",
+    "addItem": "Add item..."
+  },
+  "spells": {
+    "title": "Spells",
+    "cantrips": "Cantrips",
+    "knownSpells": "Known Spells",
+    "preparedSpells": "Prepared Spells",
+    "spellSlots": "Spell Slots",
+    "level": "Level {level}",
+    "school": "School",
+    "castingTime": "Casting Time",
+    "range": "Range",
+    "components": "Components",
+    "duration": "Duration",
+    "description": "Description",
+    "spellcastingAbility": "Spellcasting Ability",
+    "spellSaveDC": "Spell Save DC",
+    "spellAttackBonus": "Spell Attack Bonus",
+    "selected": "Selected: {count}/{max}",
+    "notACaster": "Your class does not have spellcasting abilities.",
+    "pressNext": "Press Next to continue.",
+    "allLevels": "All levels"
+  },
+  "details": {
+    "title": "Character Details",
+    "name": "Character Name",
+    "playerName": "Player Name",
+    "age": "Age",
+    "height": "Height",
+    "weight": "Weight",
+    "eyes": "Eyes",
+    "hair": "Hair",
+    "skin": "Skin",
+    "alignment": "Alignment",
+    "backstory": "Character Backstory"
+  },
+  "review": {
+    "title": "Character Summary",
+    "export": "Export",
+    "exportPdf": "Export PDF Sheet",
+    "exportCustomPdf": "Export Custom PDF",
+    "exportJson": "Export JSON",
+    "importJson": "Import JSON",
+    "importError": "Invalid JSON file",
+    "save": "Save Character",
+    "print": "Print Sheet",
+    "hp": "Hit Points",
+    "ac": "Armor Class",
+    "initiative": "Initiative",
+    "speed": "Speed",
+    "proficiencyBonus": "Proficiency Bonus",
+    "savingThrows": "Saving Throws",
+    "skills": "Skills",
+    "attacks": "Attacks",
+    "passivePerception": "Passive Perception",
+    "charName": "Name",
+    "classLevel": "Class & Level",
+    "charRace": "Race",
+    "charBackground": "Background",
+    "armorLabel": "Armor",
+    "shieldBonus": "+ Shield (+2 AC)",
+    "noArmor": "None"
+  },
+  "common": {
+    "next": "Next",
+    "back": "Back",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "select": "Select",
+    "remove": "Remove",
+    "level": "Level",
+    "search": "Search",
+    "noResults": "No results",
+    "loading": "Loading...",
+    "unnamed": "Unnamed"
+  },
+  "footer": {
+    "madeInEU": "Proudly made in EU",
+    "privacy": "Privacy Policy",
+    "license": "MIT License"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "noData": "This application does not collect, store, or transmit any personal data to external servers.",
+    "localStorage": "All character data is saved exclusively in your browser's local storage (localStorage). No data leaves your device.",
+    "noCookies": "We do not use tracking cookies, analytics, or any third-party services.",
+    "noAccount": "No account registration is required. The application works entirely offline after the first load."
+  },
+  "gdpr": {
+    "banner": "This app works entirely in your browser. No data is sent to any server. We only use a technical cookie to save your language preference.",
+    "accept": "Got it"
+  },
+  "alignments": {
+    "lg": "Lawful Good",
+    "ng": "Neutral Good",
+    "cg": "Chaotic Good",
+    "ln": "Lawful Neutral",
+    "tn": "True Neutral",
+    "cn": "Chaotic Neutral",
+    "le": "Lawful Evil",
+    "ne": "Neutral Evil",
+    "ce": "Chaotic Evil"
+  }
+}

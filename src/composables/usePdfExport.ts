@@ -1,0 +1,60 @@
+import { ref } from 'vue'
+import { PDFDocument } from 'pdf-lib'
+import { useCharacterStore } from '@/stores/character'
+import { getDnd5eFieldMapping, getBrancaloniaFieldMapping } from '@/utils/pdfFieldMapping'
+
+export function usePdfExport() {
+  const exporting = ref(false)
+
+  async function exportPdf() {
+    const characterStore = useCharacterStore()
+    const char = characterStore.character
+    exporting.value = true
+
+    try {
+      const pdfUrl = char.variant === 'brancalonia'
+        ? '/pdf/brancalonia-sheet.pdf'
+        : '/pdf/dnd-5e-sheet.pdf'
+
+      const pdfBytes = await fetch(pdfUrl).then(r => r.arrayBuffer())
+      const pdfDoc = await PDFDocument.load(pdfBytes)
+      const form = pdfDoc.getForm()
+
+      const fieldMapping = char.variant === 'brancalonia'
+        ? getBrancaloniaFieldMapping(char)
+        : getDnd5eFieldMapping(char)
+
+      for (const [fieldName, value] of Object.entries(fieldMapping)) {
+        try {
+          if (typeof value === 'boolean') {
+            if (value) {
+              const checkbox = form.getCheckBox(fieldName)
+              checkbox.check()
+            }
+          } else if (value) {
+            const textField = form.getTextField(fieldName)
+            textField.setText(String(value))
+          }
+        } catch {
+          // Field not found in PDF, skip silently
+        }
+      }
+
+      const filledPdfBytes = await pdfDoc.save()
+      const blob = new Blob([filledPdfBytes as BlobPart], { type: 'application/pdf' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${char.name || 'character'}-sheet.pdf`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('PDF export failed:', error)
+      alert('Errore durante l\'esportazione del PDF. Riprova.')
+    } finally {
+      exporting.value = false
+    }
+  }
+
+  return { exportPdf, exporting }
+}

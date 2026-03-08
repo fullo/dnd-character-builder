@@ -1,0 +1,49 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import { useCharacterStore } from '@/stores/character'
+import { useAppStore } from '@/stores/app'
+import type { GameVariant } from '@/stores/app'
+
+const { t } = useI18n()
+const characterStore = useCharacterStore()
+const appStore = useAppStore()
+
+function selectVariant(variant: GameVariant) {
+  characterStore.character.variant = variant
+  appStore.nextStep()
+}
+</script>
+
+<template>
+  <div>
+    <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('variant.title') }}</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <button
+        @click="selectVariant('dnd5e')"
+        class="group bg-stone-800 border-2 rounded-xl p-6 text-left transition-all cursor-pointer hover:shadow-lg"
+        :class="characterStore.character.variant === 'dnd5e' ? 'border-amber-500 shadow-amber-500/20' : 'border-stone-700 hover:border-amber-600/50'"
+      >
+        <div class="text-4xl mb-3">&#x1F409;</div>
+        <h3 class="text-xl font-bold text-amber-400 mb-2">{{ t('variant.dnd5e') }}</h3>
+        <p class="text-stone-400 text-sm">{{ t('variant.dnd5eDesc') }}</p>
+        <div class="mt-4 text-xs text-stone-500">
+          12 classi &bull; 9 razze &bull; Livello 1-20
+        </div>
+      </button>
+
+      <button
+        @click="selectVariant('brancalonia')"
+        class="group bg-stone-800 border-2 rounded-xl p-6 text-left transition-all cursor-pointer hover:shadow-lg"
+        :class="characterStore.character.variant === 'brancalonia' ? 'border-amber-500 shadow-amber-500/20' : 'border-stone-700 hover:border-amber-600/50'"
+      >
+        <div class="text-4xl mb-3">&#x1F35D;</div>
+        <h3 class="text-xl font-bold text-amber-400 mb-2">{{ t('variant.brancalonia') }}</h3>
+        <p class="text-stone-400 text-sm">{{ t('variant.brancaloniaDesc') }}</p>
+        <div class="mt-4 text-xs text-stone-500">
+          12 sottoclassi &bull; 6 razze &bull; Livello 1-6
+        </div>
+      </button>
+    </div>
+  </div>
+</template>
