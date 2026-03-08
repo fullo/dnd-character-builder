@@ -45,3 +45,10 @@ export function spellAttackBonus(profBonus: number, abilityMod: number): number 
 export function formatModifier(mod: number): string {
   return mod >= 0 ? `+${mod}` : `${mod}`
 }
+
+/** Convert feet to meters (D&D metric: 5ft = 1.5m) */
+export function feetToMeters(feet: number): string {
+  const meters = feet * 0.3
+  // Clean up floating-point: 9.000000001 → 9, 7.5 → 7.5
+  return Number.isInteger(meters) ? String(meters) : meters.toFixed(1).replace(/\.0$/, '')
+}

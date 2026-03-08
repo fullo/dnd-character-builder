@@ -1,6 +1,53 @@
 import type { CharacterData, AbilityScores } from '@/stores/character'
-import { modifier, proficiencyBonus, formatModifier, spellSaveDC, spellAttackBonus } from './calculations'
+import { modifier, proficiencyBonus, formatModifier, spellSaveDC, spellAttackBonus, feetToMeters } from './calculations'
 import { apocalisseRules } from '@/data/apocalisse/rules'
+import { classNamesIt, brancaloniaClassNamesIt, apocalisseClassNamesIt, raceNamesIt, subraceNamesIt, backgroundNamesIt } from '@/i18n/gameTerms'
+
+/** Capitalize a class ID for English display (e.g., "barbarian" → "Barbarian") */
+function capitalizeId(id: string): string {
+  return id.charAt(0).toUpperCase() + id.slice(1)
+}
+
+/** Get display class name for PDF based on variant */
+function pdfClassName(classId: string, variant: string): string {
+  if (variant === 'brancalonia') {
+    return brancaloniaClassNamesIt[classId] ?? classNamesIt[capitalizeId(classId)] ?? capitalizeId(classId)
+  }
+  if (variant === 'apocalisse') {
+    return apocalisseClassNamesIt[classId] ?? classNamesIt[capitalizeId(classId)] ?? capitalizeId(classId)
+  }
+  return capitalizeId(classId)
+}
+
+/** Get display race name for PDF based on variant */
+function pdfRaceName(raceId: string, variant: string): string {
+  if (variant === 'brancalonia' || variant === 'apocalisse') {
+    // Try direct lookup, then capitalized
+    const capitalized = raceId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-')
+    return raceNamesIt[capitalized] ?? raceNamesIt[capitalized.replace(/-/g, ' ')] ?? capitalizeId(raceId)
+  }
+  // For D&D 5e, capitalize the ID
+  return raceId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-')
+}
+
+/** Get display subrace name for PDF */
+function pdfSubraceName(subraceId: string, variant: string): string {
+  if (!subraceId) return ''
+  if (variant === 'brancalonia' || variant === 'apocalisse') {
+    const capitalized = subraceId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    return subraceNamesIt[capitalized] ?? capitalized
+  }
+  return subraceId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+}
+
+/** Get display background name for PDF based on variant */
+function pdfBackgroundName(bgId: string, variant: string): string {
+  if (variant === 'brancalonia' || variant === 'apocalisse') {
+    const capitalized = bgId.split(/[-\s]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    return backgroundNamesIt[capitalized] ?? backgroundNamesIt[bgId] ?? capitalized
+  }
+  return bgId.split(/[-\s]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+}
 function totalAbility(char: CharacterData, ability: keyof AbilityScores): number {
   return char.abilityScores[ability] + (char.racialBonuses[ability] || 0)
 }
@@ -28,10 +75,12 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
 
   // Basic Info
   fields['CharacterName'] = char.name
-  fields['ClassLevel'] = `${char.className} ${char.level}`
-  fields['Background'] = char.background
+  fields['ClassLevel'] = `${pdfClassName(char.className, char.variant)} ${char.level}`
+  fields['Background'] = pdfBackgroundName(char.background, char.variant)
   fields['PlayerName'] = char.playerName
-  fields['Race '] = `${char.race}${char.subrace ? ` (${char.subrace})` : ''}`
+  const raceDisplay = pdfRaceName(char.race, char.variant)
+  const subraceDisplay = pdfSubraceName(char.subrace, char.variant)
+  fields['Race '] = subraceDisplay ? `${raceDisplay} (${subraceDisplay})` : raceDisplay
   fields['Alignment'] = char.alignment
   fields['XP'] = String(char.experiencePoints)
 
@@ -67,7 +116,7 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
   // Combat Stats
   fields['AC'] = String(10 + abilityMod(char, 'dex'))
   fields['Initiative'] = String(abilityMod(char, 'dex'))
-  fields['Speed'] = String(char.speed)
+  fields['Speed'] = `${feetToMeters(char.speed)}m`
   fields['HPMax'] = String(char.maxHp)
   fields['HPCurrent'] = String(char.currentHp || char.maxHp)
   fields['HPTemp'] = String(char.tempHp || '')
@@ -168,7 +217,7 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
 
   // Page 3 - Spellcasting
   if (char.spellcastingAbility) {
-    fields['Spellcasting Class 2'] = char.spellcastingClass
+    fields['Spellcasting Class 2'] = pdfClassName(char.spellcastingClass, char.variant)
     fields['SpellcastingAbility 2'] = char.spellcastingAbility.toUpperCase()
     const sMod = abilityMod(char, char.spellcastingAbility as keyof AbilityScores)
     fields['SpellSaveDC  2'] = String(spellSaveDC(prof, sMod))
@@ -184,12 +233,12 @@ export function getBrancaloniaFieldMapping(char: CharacterData): Record<string, 
 
   // Basic Info
   fields['Nome'] = char.name
-  fields['Classe'] = char.className
+  fields['Classe'] = pdfClassName(char.className, 'brancalonia')
   fields['Liv'] = String(char.level)
-  fields['Background'] = char.background
+  fields['Background'] = pdfBackgroundName(char.background, 'brancalonia')
   fields['Nome Giocatore'] = char.playerName
   fields['Allineamento'] = char.alignment
-  fields['Taglia'] = char.size || 'Medium'
+  fields['Taglia'] = char.size || 'Media'
   fields['Bonus Competenza'] = String(prof)
   fields['Ispirazione'] = ''
 
@@ -277,7 +326,7 @@ export function getBrancaloniaFieldMapping(char: CharacterData): Record<string, 
 
   // Spellcasting
   if (char.spellcastingAbility) {
-    fields['Classe Incantatore '] = char.spellcastingClass
+    fields['Classe Incantatore '] = pdfClassName(char.spellcastingClass, 'brancalonia')
     fields['Caratteristica da incantatore'] = char.spellcastingAbility.toUpperCase()
     const sMod = abilityMod(char, char.spellcastingAbility as keyof AbilityScores)
     fields['CD TS incantesimi'] = String(spellSaveDC(prof, sMod))

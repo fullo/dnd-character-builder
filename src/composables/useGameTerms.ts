@@ -76,5 +76,21 @@ export function useGameTerms() {
     return translate(name, 'skill')
   }
 
-  return { weapon, armorName, spell, school, damageType, pack, background, className, raceName, subraceName, skill }
+  /**
+   * Translate an armor/weapon proficiency label to Italian.
+   * @param name - English proficiency label (e.g., "light", "martial", "shields")
+   */
+  function proficiency(name: string): string {
+    return translate(name, 'proficiency')
+  }
+
+  /**
+   * Translate a class feature name to Italian.
+   * @param name - English feature name (e.g., "Rage", "Sneak Attack")
+   */
+  function feature(name: string): string {
+    return translate(name, 'feature')
+  }
+
+  return { weapon, armorName, spell, school, damageType, pack, background, className, raceName, subraceName, skill, proficiency, feature }
 }

@@ -65,7 +65,8 @@
     "brancaloniaPromo": "Se ti piace Brancalonia, compra i manuali su",
     "apocalisse": "Apocalisse",
     "apocalisseDesc": "Dark Fantasy post-apocalittico ambientato nella Piana dell'Armageddon. Usa le classi base D&D 5e con 12 archetipi apocalittici unici.",
-    "apocalissePromo": "Se ti piace Apocalisse, compra i manuali su"
+    "apocalissePromo": "Se ti piace Apocalisse, compra i manuali su",
+    "dnd5ePromo": "Se ti piace D&D 5e, compra i manuali su"
   },
   "race": {
     "title": "Scegli la Razza",
@@ -205,7 +206,9 @@
     "armorLabel": "Armatura",
     "shieldBonus": "+ Scudo (+2 CA)",
     "noArmor": "Nessuna",
-    "saveSuccess": "Personaggio salvato con successo nel browser!"
+    "saveSuccess": "Personaggio salvato con successo nel browser!",
+    "maxHp": "PF Massimi",
+    "hitDie": "Dado Vita"
   },
   "characters": {
     "storageWarning": "I personaggi salvati sono memorizzati nel localStorage del tuo browser. Verranno cancellati se pulisci la cache o i dati del sito.",

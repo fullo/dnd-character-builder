@@ -152,11 +152,11 @@ updateLevel()
       <h3 class="font-semibold text-stone-300 mb-2">{{ t('review.hp') }}</h3>
       <div class="flex gap-6 text-sm">
         <div>
-          <span class="text-stone-400">Max HP:</span>
+          <span class="text-stone-400">{{ t('review.maxHp') }}:</span>
           <span class="text-amber-400 font-bold ml-1">{{ characterStore.character.maxHp }}</span>
         </div>
         <div>
-          <span class="text-stone-400">Hit Die:</span>
+          <span class="text-stone-400">{{ t('review.hitDie') }}:</span>
           <span class="text-stone-200 ml-1">{{ characterStore.character.level }}d{{ characterStore.character.hitDie }}</span>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { getRaces } from '@/data'
 import type { Race } from '@/data/dnd5e/races'
-import { formatModifier } from '@/utils/calculations'
+import { formatModifier, feetToMeters } from '@/utils/calculations'
 import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
@@ -66,7 +66,7 @@ function bonusString(bonuses: Record<string, number>): string {
       >
         <h3 class="font-bold text-amber-400">{{ gt.raceName(race.name) }}</h3>
         <p class="text-xs text-stone-400 mt-1">{{ bonusString(race.abilityBonuses) }}</p>
-        <p class="text-xs text-stone-500 mt-1">{{ t('race.speed') }}: {{ race.speed }}ft &bull; {{ race.size }}</p>
+        <p class="text-xs text-stone-500 mt-1">{{ t('race.speed') }}: {{ feetToMeters(race.speed) }}m &bull; {{ race.size }}</p>
       </button>
     </div>
 
@@ -81,7 +81,7 @@ function bonusString(bonuses: Record<string, number>): string {
         </div>
         <div>
           <h4 class="font-semibold text-stone-300 mb-1">{{ t('race.speed') }}</h4>
-          <p class="text-stone-400">{{ selectedRace.speed }} ft</p>
+          <p class="text-stone-400">{{ feetToMeters(selectedRace.speed) }}m</p>
         </div>
         <div>
           <h4 class="font-semibold text-stone-300 mb-1">{{ t('race.size') }}</h4>

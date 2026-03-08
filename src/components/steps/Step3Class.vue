@@ -85,8 +85,8 @@ function toggleSkill(skill: string) {
         <div>
           <h4 class="font-semibold text-stone-300 mb-1">{{ t('class.proficiencies') }}</h4>
           <p class="text-stone-400 text-xs">
-            {{ selectedClass.armorProficiencies.join(', ') }}<br>
-            {{ selectedClass.weaponProficiencies.join(', ') }}
+            {{ selectedClass.armorProficiencies.map(p => gt.proficiency(p)).join(', ') }}<br>
+            {{ selectedClass.weaponProficiencies.map(p => gt.proficiency(p)).join(', ') }}
           </p>
         </div>
         <div v-if="selectedClass.spellcasting">
@@ -124,7 +124,7 @@ function toggleSkill(skill: string) {
         <div class="space-y-2">
           <div v-for="feature in selectedClass.features.filter(f => f.level <= characterStore.character.level)" :key="feature.name" class="text-sm">
             <span class="text-amber-400 font-medium">Lv.{{ feature.level }}:</span>
-            <span class="text-stone-400 ml-1">{{ feature.name }}</span>
+            <span class="text-stone-400 ml-1">{{ gt.feature(feature.name) }}</span>
             <p v-if="feature.description" class="text-stone-500 text-xs ml-4">{{ feature.description }}</p>
           </div>
         </div>

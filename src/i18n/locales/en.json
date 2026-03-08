@@ -65,7 +65,8 @@
     "brancaloniaPromo": "If you like Brancalonia, buy the manuals on",
     "apocalisse": "Apocalisse",
     "apocalisseDesc": "Post-apocalyptic Dark Fantasy set on the Plain of Armageddon. Uses D&D 5e base classes with 12 unique apocalyptic archetypes.",
-    "apocalissePromo": "If you like Apocalisse, buy the manuals on"
+    "apocalissePromo": "If you like Apocalisse, buy the manuals on",
+    "dnd5ePromo": "If you like D&D 5e, buy the manuals on"
   },
   "race": {
     "title": "Choose Race",
@@ -205,7 +206,9 @@
     "armorLabel": "Armor",
     "shieldBonus": "+ Shield (+2 AC)",
     "noArmor": "None",
-    "saveSuccess": "Character saved successfully to browser!"
+    "saveSuccess": "Character saved successfully to browser!",
+    "maxHp": "Max HP",
+    "hitDie": "Hit Die"
   },
   "characters": {
     "storageWarning": "Saved characters are stored in your browser's localStorage. They will be deleted if you clear your cache or site data.",

@@ -11,12 +11,12 @@ export interface ApocalisseSubclass {
 }
 
 export const apocalisseSubclasses: readonly ApocalisseSubclass[] = [
-  // ─── Barbarian - Path of the Horseman ─────────────────────────────
+  // ─── Barbarian - Path of Martyrdom ────────────────────────────────
   {
     id: 'path-of-the-horseman',
     parentClassId: 'barbarian',
-    name: 'Path of the Horseman',
-    nameOriginal: 'Cammino del Cavaliere',
+    name: 'Path of Martyrdom',
+    nameOriginal: 'Cammino del Martirio',
     description:
       'Barbarians who walk the Path of the Horseman channel the fury of the Four Horsemen of the Apocalypse. They summon spectral steeds born from their rage and trample all who stand before them.',
     features: [
@@ -58,11 +58,11 @@ export const apocalisseSubclasses: readonly ApocalisseSubclass[] = [
     ],
   },
 
-  // ─── Bard - College of Laments ────────────────────────────────────
+  // ─── Bard - College of Revelation ─────────────────────────────────
   {
     id: 'college-of-laments',
     parentClassId: 'bard',
-    name: 'College of Laments',
+    name: 'College of Revelation',
     nameOriginal: 'Collegio dei Lamenti',
     description:
       'Bards of the College of Laments sing the sorrows of the Apocalypse, channeling grief and loss into hauntingly powerful magic. Their dirges can break the spirit of enemies and give solace to the dying.',
@@ -98,12 +98,12 @@ export const apocalisseSubclasses: readonly ApocalisseSubclass[] = [
     ],
   },
 
-  // ─── Cleric - Domain of Heresy ────────────────────────────────────
+  // ─── Cleric - Domain of Ruin ──────────────────────────────────────
   {
     id: 'domain-of-heresy',
     parentClassId: 'cleric',
-    name: 'Domain of Heresy',
-    nameOriginal: 'Dominio dell\'Eresia',
+    name: 'Domain of Ruin',
+    nameOriginal: 'Dominio della Rovina',
     description:
       'Clerics of the Domain of Heresy have turned away from orthodox faith, embracing forbidden knowledge and blasphemous truths. In the End Times, they question the divine order itself.',
     features: [

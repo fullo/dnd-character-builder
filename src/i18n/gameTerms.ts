@@ -430,9 +430,9 @@ export const brancaloniaClassNamesIt: Record<string, string> = {
  * Key is the class ID (lowercase).
  */
 export const apocalisseClassNamesIt: Record<string, string> = {
-  'barbarian': 'Cavaliere',
+  'barbarian': 'Martirio',
   'bard': 'Lamenti',
-  'cleric': 'Eresia',
+  'cleric': 'Rovina',
   'druid': 'Piaghe',
   'fighter': 'Furioso',
   'monk': 'Sette Sigilli',
@@ -510,10 +510,148 @@ export const skillNamesIt: Record<string, string> = {
   'Survival': 'Sopravvivenza',
 }
 
+// ─── Proficiency Names ──────────────────────────────────────────────────────
+
+/** Armor/weapon proficiency category labels in Italian */
+export const proficiencyNamesIt: Record<string, string> = {
+  'light': 'Armature Leggere',
+  'medium': 'Armature Medie',
+  'heavy': 'Armature Pesanti',
+  'shields': 'Scudi',
+  'simple': 'Armi Semplici',
+  'martial': 'Armi da Guerra',
+  'all': 'Tutte',
+}
+
+// ─── Feature Names ──────────────────────────────────────────────────────────
+
+/** D&D 5e class feature names in Italian */
+export const featureNamesIt: Record<string, string> = {
+  // Barbarian
+  'Rage': 'Furia',
+  'Unarmored Defense': 'Difesa senza Armatura',
+  'Reckless Attack': 'Attacco Spericolato',
+  'Danger Sense': 'Percezione del Pericolo',
+  'Primal Path': 'Cammino Primordiale',
+  'Extra Attack': 'Attacco Extra',
+  'Fast Movement': 'Movimento Rapido',
+  'Feral Instinct': 'Istinto Ferino',
+  'Brutal Critical': 'Critico Brutale',
+  'Relentless Rage': 'Furia Implacabile',
+  'Persistent Rage': 'Furia Persistente',
+  'Indomitable Might': 'Forza Indomabile',
+  'Primal Champion': 'Campione Primordiale',
+  'Frenzy': 'Frenesia',
+  // Bard
+  'Spellcasting': 'Incantesimi',
+  'Bardic Inspiration': 'Ispirazione Bardica',
+  'Jack of All Trades': 'Tuttofare',
+  'Song of Rest': 'Canto del Riposo',
+  'Bard College': 'Collegio Bardico',
+  'Expertise': 'Competenza',
+  'Font of Inspiration': 'Fonte di Ispirazione',
+  'Countercharm': 'Controincanto',
+  'Magical Secrets': 'Segreti Magici',
+  'Superior Inspiration': 'Ispirazione Superiore',
+  'Bonus Proficiencies': 'Competenze Bonus',
+  'Cutting Words': 'Parole Taglienti',
+  // Cleric
+  'Divine Domain': 'Dominio Divino',
+  'Channel Divinity': 'Incanalare Divinita\'',
+  'Channel Divinity: Turn Undead': 'Incanalare Divinita\': Scacciare Non Morti',
+  'Destroy Undead': 'Distruggere Non Morti',
+  'Divine Intervention': 'Intervento Divino',
+  'Bonus Proficiency': 'Competenza Bonus',
+  'Disciple of Life': 'Discepolo della Vita',
+  // Druid
+  'Druidic': 'Druidico',
+  'Wild Shape': 'Forma Selvatica',
+  'Druid Circle': 'Circolo Druidico',
+  'Timeless Body': 'Corpo Senza Tempo',
+  'Beast Spells': 'Incantesimi Bestiali',
+  'Archdruid': 'Archidruido',
+  'Bonus Cantrip': 'Trucchetto Bonus',
+  'Natural Recovery': 'Recupero Naturale',
+  // Fighter
+  'Fighting Style': 'Stile di Combattimento',
+  'Second Wind': 'Recuperare Energie',
+  'Action Surge': 'Azione Impetuosa',
+  'Martial Archetype': 'Archetipo Marziale',
+  'Indomitable': 'Indomabile',
+  'Improved Critical': 'Critico Migliorato',
+  'Remarkable Athlete': 'Atleta Notevole',
+  // Monk
+  'Martial Arts': 'Arti Marziali',
+  'Ki': 'Ki',
+  'Unarmored Movement': 'Movimento senza Armatura',
+  'Monastic Tradition': 'Tradizione Monastica',
+  'Deflect Missiles': 'Deviare Proiettili',
+  'Slow Fall': 'Caduta Lenta',
+  'Stunning Strike': 'Colpo Stordente',
+  'Ki-Empowered Strikes': 'Colpi Potenziati dal Ki',
+  'Evasion': 'Evasione',
+  'Stillness of Mind': 'Calma Mentale',
+  'Purity of Body': 'Purezza del Corpo',
+  'Tongue of the Sun and Moon': 'Lingua del Sole e della Luna',
+  'Diamond Soul': 'Anima di Diamante',
+  'Empty Body': 'Corpo Vuoto',
+  'Perfect Self': 'Se\' Perfetto',
+  // Paladin
+  'Divine Sense': 'Percezione del Divino',
+  'Lay on Hands': 'Imposizione delle Mani',
+  'Divine Smite': 'Punizione Divina',
+  'Divine Health': 'Salute Divina',
+  'Sacred Oath': 'Giuramento Sacro',
+  'Aura of Protection': 'Aura di Protezione',
+  'Aura of Courage': 'Aura di Coraggio',
+  'Improved Divine Smite': 'Punizione Divina Migliorata',
+  'Cleansing Touch': 'Tocco Purificatore',
+  // Ranger
+  'Favored Enemy': 'Nemico Prescelto',
+  'Natural Explorer': 'Esploratore Nato',
+  'Ranger Archetype': 'Archetipo del Ranger',
+  'Primeval Awareness': 'Consapevolezza Primordiale',
+  "Land's Stride": 'Passo Sicuro',
+  'Hide in Plain Sight': 'Nascondersi in Piena Vista',
+  'Vanish': 'Svanire',
+  'Feral Senses': 'Sensi Ferini',
+  'Foe Slayer': 'Sterminatore di Nemici',
+  // Rogue
+  'Sneak Attack': 'Attacco Furtivo',
+  "Thieves' Cant": 'Gergo dei Ladri',
+  'Cunning Action': 'Azione Astuta',
+  'Roguish Archetype': 'Archetipo del Ladro',
+  'Uncanny Dodge': 'Schivata Prodigiosa',
+  'Reliable Talent': 'Talento Affidabile',
+  'Blindsense': 'Percezione Cieca',
+  'Slippery Mind': 'Mente Sfuggente',
+  'Elusive': 'Elusivo',
+  'Stroke of Luck': 'Colpo di Fortuna',
+  // Sorcerer
+  'Sorcerous Origin': 'Origine Stregonesca',
+  'Font of Magic': 'Fonte di Magia',
+  'Metamagic': 'Metamagia',
+  'Sorcerous Restoration': 'Recupero Stregonesco',
+  // Warlock
+  'Otherworldly Patron': 'Patrono Ultraterreno',
+  'Pact Magic': 'Magia del Patto',
+  'Eldritch Invocations': 'Suppliche Mistiche',
+  'Pact Boon': 'Dono del Patto',
+  'Mystic Arcanum': 'Arcanum Mistico',
+  'Eldritch Master': 'Maestro Mistico',
+  // Wizard
+  'Arcane Recovery': 'Recupero Arcano',
+  'Arcane Tradition': 'Tradizione Arcana',
+  'Spell Mastery': 'Padronanza degli Incantesimi',
+  'Signature Spells': 'Incantesimi Distintivi',
+  // Common
+  'Ability Score Improvement': 'Incremento dei Punteggi di Caratteristica',
+}
+
 /**
  * Translate a game term to Italian. Returns the original if no translation exists.
  */
-export type GameTermCategory = 'weapon' | 'armor' | 'spell' | 'school' | 'damageType' | 'pack' | 'background' | 'class' | 'race' | 'subrace' | 'skill'
+export type GameTermCategory = 'weapon' | 'armor' | 'spell' | 'school' | 'damageType' | 'pack' | 'background' | 'class' | 'race' | 'subrace' | 'skill' | 'proficiency' | 'feature'
 
 export function translateGameTerm(
   name: string,
@@ -571,6 +709,10 @@ export function translateGameTerm(
       const skillCapitalized = name.split(/[-\s]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
       return skillNamesIt[skillCapitalized] ?? name
     }
+    case 'proficiency':
+      return proficiencyNamesIt[name] ?? name
+    case 'feature':
+      return featureNamesIt[name] ?? name
     default:
       return name
   }

@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
-import { formatModifier, spellSaveDC, spellAttackBonus } from '@/utils/calculations'
+import { formatModifier, spellSaveDC, spellAttackBonus, feetToMeters } from '@/utils/calculations'
 import { usePdfExport } from '@/composables/usePdfExport'
 import { SKILLS } from '@/data/dnd5e/skills'
 import { getSpells, getClasses, getRaces, getBackgrounds, getApocalisseRules } from '@/data'
@@ -220,7 +220,7 @@ function handleImport(event: Event) {
       </div>
       <div class="bg-stone-800 border border-stone-700 rounded-lg p-3 text-center">
         <p class="text-xs text-stone-500">{{ t('review.speed') }}</p>
-        <p class="text-2xl font-bold text-stone-200">{{ char.speed }}ft</p>
+        <p class="text-2xl font-bold text-stone-200">{{ feetToMeters(char.speed) }}m</p>
       </div>
       <div class="bg-stone-800 border border-red-700/30 rounded-lg p-3 text-center">
         <p class="text-xs text-stone-500">{{ t('review.hp') }}</p>
@@ -317,7 +317,7 @@ function handleImport(event: Event) {
       <h3 class="font-semibold text-stone-300 mb-2">{{ t('class.features') }}</h3>
       <div class="space-y-1">
         <div v-for="(feat, i) in char.featuresTraits" :key="i" class="text-sm text-stone-400">
-          {{ feat }}
+          {{ gt.feature(feat) }}
         </div>
       </div>
     </div>
