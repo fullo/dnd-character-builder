@@ -15,7 +15,7 @@ const animating = ref(false)
 const revealed = ref<boolean[]>([])
 
 watch(() => props.rolling, (isRolling) => {
-  if (isRolling && props.scores.length === 6) {
+  if (isRolling && props.scores.length === 6 && !animating.value) {
     animating.value = true
     revealed.value = [false, false, false, false, false, false]
     displayScores.value = [0, 0, 0, 0, 0, 0]
@@ -43,7 +43,7 @@ watch(() => props.rolling, (isRolling) => {
       emit('animationDone')
     }, 400 + 6 * 200 + 200)
   }
-})
+}, { immediate: true })
 </script>
 
 <template>

@@ -108,26 +108,31 @@ export function decodeCharacterFromUrl(encoded: string): Partial<CharacterData> 
 /** Generate a full share URL for the character */
 export function generateShareUrl(char: CharacterData): string {
   const encoded = encodeCharacterToUrl(char)
-  const base = window.location.origin + window.location.pathname
-  return `${base}#/share/${encoded}`
+  // Use history-mode URL: /dnd-character-builder/share/ENCODED
+  const base = window.location.origin + '/dnd-character-builder'
+  return `${base}/share/${encoded}`
 }
 
-/** Generate share URL and copy to clipboard. Returns true on success. */
-export async function copyShareUrl(char: CharacterData): Promise<boolean> {
+/** Generate share URL and copy to clipboard. Returns { copied, url }. */
+export async function copyShareUrl(char: CharacterData): Promise<{ copied: boolean; url: string }> {
   const url = generateShareUrl(char)
   try {
     await navigator.clipboard.writeText(url)
-    return true
+    return { copied: true, url }
   } catch {
     // Fallback for older browsers
-    const textarea = document.createElement('textarea')
-    textarea.value = url
-    textarea.style.position = 'fixed'
-    textarea.style.opacity = '0'
-    document.body.appendChild(textarea)
-    textarea.select()
-    const success = document.execCommand('copy')
-    document.body.removeChild(textarea)
-    return success
+    try {
+      const textarea = document.createElement('textarea')
+      textarea.value = url
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      const success = document.execCommand('copy')
+      document.body.removeChild(textarea)
+      return { copied: success, url }
+    } catch {
+      return { copied: false, url }
+    }
   }
 }

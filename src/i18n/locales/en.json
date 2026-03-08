@@ -211,7 +211,8 @@
     "hitDie": "Hit Die",
     "shareUrl": "Share Link",
     "shareCopied": "Link copied to clipboard!",
-    "shareFailed": "Could not copy link. Try again."
+    "shareManual": "Copy the link below to share your character:",
+    "shareFailed": "Could not generate share link. Try again."
   },
   "share": {
     "error": "Invalid Share Link",

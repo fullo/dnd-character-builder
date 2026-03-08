@@ -150,16 +150,22 @@ function printSheet() {
   window.print()
 }
 
-const shareMessage = ref<{ type: 'success' | 'error'; text: string } | null>(null)
+const shareMessage = ref<{ type: 'success' | 'error'; text: string; url?: string } | null>(null)
 
 async function shareCharacter() {
-  const success = await copyShareUrl(char.value)
-  if (success) {
-    shareMessage.value = { type: 'success', text: t('review.shareCopied') }
-  } else {
+  try {
+    const result = await copyShareUrl(char.value)
+    if (result.copied) {
+      shareMessage.value = { type: 'success', text: t('review.shareCopied') }
+      setTimeout(() => { shareMessage.value = null }, 5000)
+    } else {
+      // Clipboard failed — show the URL so user can copy manually
+      shareMessage.value = { type: 'success', text: t('review.shareManual'), url: result.url }
+    }
+  } catch {
     shareMessage.value = { type: 'error', text: t('review.shareFailed') }
+    setTimeout(() => { shareMessage.value = null }, 5000)
   }
-  setTimeout(() => { shareMessage.value = null }, 3000)
 }
 
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -408,7 +414,14 @@ function handleImport(event: Event) {
         aria-live="polite"
       >
         <span class="text-xl" aria-hidden="true">{{ shareMessage.type === 'success' ? '🔗' : '❌' }}</span>
-        <p class="flex-1 text-sm">{{ shareMessage.text }}</p>
+        <div class="flex-1">
+          <p class="text-sm">{{ shareMessage.text }}</p>
+          <input v-if="shareMessage.url" type="text" :value="shareMessage.url" readonly
+            class="mt-2 w-full text-xs bg-stone-900/50 border border-stone-600 rounded px-2 py-1 text-stone-300 select-all"
+            @click="($event.target as HTMLInputElement).select()"
+            :aria-label="t('review.shareUrl')"
+          />
+        </div>
       </div>
     </Transition>
 
