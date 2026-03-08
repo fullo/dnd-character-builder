@@ -18,7 +18,32 @@
     "randomBrancalonia": "Random Brancalonia",
     "randomApocalisse": "Random Apocalisse",
     "savedCharacters": "Saved Characters",
-    "importJson": "Import JSON"
+    "importJson": "Import JSON",
+    "newFrom": "From Scratch",
+    "randomButton": "Random"
+  },
+  "import": {
+    "parseError": "The file does not contain valid JSON. Make sure it is a .json file exported from this app.",
+    "notObject": "The JSON file does not contain a valid character. It must be an object with character data.",
+    "unknownError": "Unknown error while importing. Please try again.",
+    "variantMismatch": "The imported character is for {actual}, not {expected}. It will be loaded with the correct variant.",
+    "MISSING_VARIANT": "Missing game variant (dnd5e, brancalonia, or apocalisse)",
+    "MISSING_RACE": "Missing character race",
+    "MISSING_CLASSNAME": "Missing character class",
+    "INVALID_LEVEL": "Level must be a number between 1 and 20",
+    "MISSING_ABILITY_SCORES": "Missing ability scores (strength, dexterity, etc.)",
+    "INVALID_ABILITY_SCORES": "Ability scores must be numbers between 1 and 30",
+    "INVALID_SKILLPROFICIENCIES": "Skill proficiencies must be a list",
+    "INVALID_LANGUAGES": "Languages must be a list",
+    "INVALID_EQUIPMENT": "Equipment must be a list",
+    "INVALID_FEATURESTRAITS": "Features and traits must be a list",
+    "INVALID_CANTRIPS": "Cantrips must be a list",
+    "INVALID_SPELLSKNOWN": "Known spells must be a list",
+    "INVALID_SPELLSPREPARED": "Prepared spells must be a list",
+    "INVALID_WEAPONS": "Weapons must be a list",
+    "WARN_NO_NAME": "The character has no name",
+    "WARN_NO_BACKGROUND": "The character has no background",
+    "WARN_NO_HP": "Hit points have not been calculated"
   },
   "steps": {
     "variant": "Variant",

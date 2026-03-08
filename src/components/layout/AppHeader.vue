@@ -27,8 +27,14 @@ function handleImport(event: Event) {
       characterStore.importJson(e.target?.result as string)
       appStore.setStep(8)
       router.push('/builder')
-    } catch {
-      alert(t('review.importError'))
+    } catch (err) {
+      const msg = (err as Error).message
+      if (msg.startsWith('VALIDATION:')) {
+        const codes = msg.replace('VALIDATION:', '').split(',')
+        alert(codes.map(c => t(`import.${c}`)).join('\n'))
+      } else {
+        alert(t(`import.${msg}`, t('import.unknownError')))
+      }
     }
   }
   reader.readAsText(file)
@@ -47,7 +53,7 @@ function navTo(path: string) {
       <router-link to="/" class="flex items-center gap-3 no-underline" :aria-label="t('app.title')">
         <span class="text-3xl" aria-hidden="true">&#x2694;&#xFE0F;</span>
         <div>
-          <h1 class="text-xl font-bold text-amber-500 leading-tight">{{ t('app.title') }}</h1>
+          <h1 class="text-xl font-bold text-amber-500 leading-tight font-gothic">{{ t('app.title') }}</h1>
           <p class="text-xs text-stone-400">{{ t('app.subtitle') }}</p>
         </div>
       </router-link>

@@ -191,13 +191,89 @@ export const useCharacterStore = defineStore('character', () => {
     return JSON.stringify(character.value, null, 2)
   }
 
-  function importJson(json: string) {
+  /**
+   * Validates and imports a JSON character.
+   * Returns { data, warnings } on success, throws with user-friendly messages on failure.
+   */
+  function importJson(json: string): { data: CharacterData; warnings: string[] } {
+    let raw: Record<string, unknown>
     try {
-      const data = JSON.parse(json) as CharacterData
-      character.value = data
+      raw = JSON.parse(json)
     } catch {
-      throw new Error('Invalid JSON')
+      throw new Error('JSON_PARSE_ERROR')
     }
+
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) {
+      throw new Error('JSON_NOT_OBJECT')
+    }
+
+    const warnings: string[] = []
+    const errors: string[] = []
+
+    // Validate variant
+    const validVariants = ['dnd5e', 'brancalonia', 'apocalisse']
+    if (!raw.variant || !validVariants.includes(raw.variant as string)) {
+      errors.push('MISSING_VARIANT')
+    }
+
+    // Validate required string fields
+    const requiredStrings: (keyof CharacterData)[] = ['race', 'className']
+    for (const field of requiredStrings) {
+      if (!raw[field] || typeof raw[field] !== 'string' || (raw[field] as string).trim() === '') {
+        errors.push(`MISSING_${field.toUpperCase()}`)
+      }
+    }
+
+    // Validate level
+    if (raw.level === undefined || typeof raw.level !== 'number' || raw.level < 1 || raw.level > 20) {
+      errors.push('INVALID_LEVEL')
+    }
+
+    // Validate ability scores
+    const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'] as const
+    if (!raw.abilityScores || typeof raw.abilityScores !== 'object') {
+      errors.push('MISSING_ABILITY_SCORES')
+    } else {
+      const scores = raw.abilityScores as Record<string, unknown>
+      for (const ab of abilities) {
+        if (typeof scores[ab] !== 'number' || (scores[ab] as number) < 1 || (scores[ab] as number) > 30) {
+          errors.push('INVALID_ABILITY_SCORES')
+          break
+        }
+      }
+    }
+
+    // Validate arrays that should be arrays
+    const arrayFields: (keyof CharacterData)[] = [
+      'skillProficiencies', 'languages', 'equipment', 'featuresTraits',
+      'cantrips', 'spellsKnown', 'spellsPrepared', 'weapons',
+    ]
+    for (const field of arrayFields) {
+      if (raw[field] !== undefined && !Array.isArray(raw[field])) {
+        errors.push(`INVALID_${field.toUpperCase()}`)
+      }
+    }
+
+    if (errors.length > 0) {
+      throw new Error('VALIDATION:' + errors.join(','))
+    }
+
+    // Build a valid character, filling in defaults for missing optional fields
+    const empty = createEmptyCharacter()
+    const data: CharacterData = {
+      ...empty,
+      ...(raw as Partial<CharacterData>),
+      id: (raw.id as string) || crypto.randomUUID(),
+      variant: raw.variant as GameVariant,
+    }
+
+    // Add warnings for optional missing fields
+    if (!data.name) warnings.push('WARN_NO_NAME')
+    if (!data.background) warnings.push('WARN_NO_BACKGROUND')
+    if (data.maxHp <= 0) warnings.push('WARN_NO_HP')
+
+    character.value = data
+    return { data, warnings }
   }
 
   return {

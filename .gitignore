@@ -1,7 +1,7 @@
 # Dependencies
 node_modules/
 
-# Build output
+# Build output (docs/ is committed for GitHub Pages)
 dist/
 
 # IDE

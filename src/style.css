@@ -26,10 +26,15 @@
   }
 }
 
-/* WSG 2.13: Use optimized web typography — system font stack, no external fonts */
+/* WSG 2.13: Use optimized web typography — system font stack for body text */
 body {
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   text-rendering: optimizeSpeed;
+}
+
+/* Gothic serif font for headings — medieval/fantasy theme */
+.font-gothic {
+  font-family: 'Cinzel', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
 }
 
 /* Accessibility: visible focus indicators (WSG 2.2) */

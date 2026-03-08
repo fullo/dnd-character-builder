@@ -18,7 +18,32 @@
     "randomBrancalonia": "Casuale Brancalonia",
     "randomApocalisse": "Casuale Apocalisse",
     "savedCharacters": "Personaggi Salvati",
-    "importJson": "Importa JSON"
+    "importJson": "Importa JSON",
+    "newFrom": "Da Zero",
+    "randomButton": "Casuale"
+  },
+  "import": {
+    "parseError": "Il file non contiene JSON valido. Assicurati che sia un file .json esportato dall'app.",
+    "notObject": "Il file JSON non contiene un personaggio valido. Deve essere un oggetto con i dati del personaggio.",
+    "unknownError": "Errore sconosciuto durante l'importazione. Riprova.",
+    "variantMismatch": "Il personaggio importato e' per {actual}, non per {expected}. Sara' caricato nella variante corretta.",
+    "MISSING_VARIANT": "Manca la variante di gioco (dnd5e, brancalonia o apocalisse)",
+    "MISSING_RACE": "Manca la razza del personaggio",
+    "MISSING_CLASSNAME": "Manca la classe del personaggio",
+    "INVALID_LEVEL": "Il livello deve essere un numero tra 1 e 20",
+    "MISSING_ABILITY_SCORES": "Mancano le caratteristiche (forza, destrezza, ecc.)",
+    "INVALID_ABILITY_SCORES": "Le caratteristiche devono essere numeri tra 1 e 30",
+    "INVALID_SKILLPROFICIENCIES": "Le competenze nelle abilita' devono essere una lista",
+    "INVALID_LANGUAGES": "I linguaggi devono essere una lista",
+    "INVALID_EQUIPMENT": "L'equipaggiamento deve essere una lista",
+    "INVALID_FEATURESTRAITS": "I privilegi devono essere una lista",
+    "INVALID_CANTRIPS": "I trucchetti devono essere una lista",
+    "INVALID_SPELLSKNOWN": "Gli incantesimi conosciuti devono essere una lista",
+    "INVALID_SPELLSPREPARED": "Gli incantesimi preparati devono essere una lista",
+    "INVALID_WEAPONS": "Le armi devono essere una lista",
+    "WARN_NO_NAME": "Il personaggio non ha un nome",
+    "WARN_NO_BACKGROUND": "Il personaggio non ha un background",
+    "WARN_NO_HP": "I punti ferita non sono stati calcolati"
   },
   "steps": {
     "variant": "Variante",

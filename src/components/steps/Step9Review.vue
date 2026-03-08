@@ -99,8 +99,14 @@ function handleImport(event: Event) {
   reader.onload = (e) => {
     try {
       characterStore.importJson(e.target?.result as string)
-    } catch {
-      alert(t('review.importError'))
+    } catch (err) {
+      const msg = (err as Error).message
+      if (msg.startsWith('VALIDATION:')) {
+        const codes = msg.replace('VALIDATION:', '').split(',')
+        alert(codes.map(c => t(`import.${c}`)).join('\n'))
+      } else {
+        alert(t(`import.${msg}`, t('import.unknownError')))
+      }
     }
   }
   reader.readAsText(file)
