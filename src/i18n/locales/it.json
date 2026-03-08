@@ -11,11 +11,12 @@
   },
   "home": {
     "welcome": "Benvenuto nel Character Builder",
-    "description": "Crea e gestisci i tuoi personaggi per D&D 5e e Brancalonia",
+    "description": "Crea e gestisci i tuoi personaggi per D&D 5e, Brancalonia e Apocalisse",
     "startButton": "Crea un Nuovo Personaggio",
     "randomButton": "Genera Personaggio Casuale",
     "randomDnd5e": "Casuale D&D 5e",
     "randomBrancalonia": "Casuale Brancalonia",
+    "randomApocalisse": "Casuale Apocalisse",
     "savedCharacters": "Personaggi Salvati",
     "importJson": "Importa JSON"
   },
@@ -36,7 +37,10 @@
     "dnd5eDesc": "L'edizione classica di Dungeons & Dragons con tutte le classi e razze del SRD",
     "brancalonia": "Brancalonia",
     "brancaloniaDesc": "Spaghetti Fantasy ambientato in un'Italia medievale fantastica. Livello massimo 6.",
-    "brancaloniaPromo": "Se ti piace Brancalonia, compra i manuali su"
+    "brancaloniaPromo": "Se ti piace Brancalonia, compra i manuali su",
+    "apocalisse": "Apocalisse",
+    "apocalisseDesc": "Dark Fantasy post-apocalittico ambientato nella Piana dell'Armageddon. Usa le classi base D&D 5e con 12 archetipi apocalittici unici.",
+    "apocalissePromo": "Se ti piace Apocalisse, compra i manuali su"
   },
   "race": {
     "title": "Scegli la Razza",

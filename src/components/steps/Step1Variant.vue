@@ -18,7 +18,7 @@ function selectVariant(variant: GameVariant) {
   <div>
     <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('variant.title') }}</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <button
         @click="selectVariant('dnd5e')"
         class="group bg-stone-800 border-2 rounded-xl p-6 text-left transition-all cursor-pointer hover:shadow-lg"
@@ -44,6 +44,19 @@ function selectVariant(variant: GameVariant) {
           12 sottoclassi &bull; 6 razze &bull; Livello 1-6
         </div>
       </button>
+
+      <button
+        @click="selectVariant('apocalisse')"
+        class="group bg-stone-800 border-2 rounded-xl p-6 text-left transition-all cursor-pointer hover:shadow-lg"
+        :class="characterStore.character.variant === 'apocalisse' ? 'border-amber-500 shadow-amber-500/20' : 'border-stone-700 hover:border-amber-600/50'"
+      >
+        <div class="text-4xl mb-3">&#x1F525;</div>
+        <h3 class="text-xl font-bold text-amber-400 mb-2">{{ t('variant.apocalisse') }}</h3>
+        <p class="text-stone-400 text-sm">{{ t('variant.apocalisseDesc') }}</p>
+        <div class="mt-4 text-xs text-stone-500">
+          12 archetipi &bull; 6 origini &bull; Livello 1-20
+        </div>
+      </button>
     </div>
 
     <!-- Brancalonia promo -->
@@ -52,6 +65,21 @@ function selectVariant(variant: GameVariant) {
         {{ t('variant.brancaloniaPromo') }}
         <a
           href="https://www.drivethrurpg.com/en/browse?affiliate_id=2960765&keyword=brancalonia"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-amber-400 hover:text-amber-300 underline ml-1"
+        >
+          DriveThruRPG
+        </a>
+      </p>
+    </div>
+
+    <!-- Apocalisse promo -->
+    <div class="mt-3 bg-stone-800/50 border border-red-700/20 rounded-lg p-4 text-center">
+      <p class="text-stone-400 text-sm">
+        {{ t('variant.apocalissePromo') }}
+        <a
+          href="https://www.drivethrurpg.com/en/publisher/9086/acheron-games/category/44511/apocalisse?affiliate_id=2960765"
           target="_blank"
           rel="noopener noreferrer"
           class="text-amber-400 hover:text-amber-300 underline ml-1"

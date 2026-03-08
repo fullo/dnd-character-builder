@@ -12,7 +12,7 @@ const characterStore = useCharacterStore()
 const appStore = useAppStore()
 const fileInput = ref<HTMLInputElement | null>(null)
 
-function randomChar(variant: 'dnd5e' | 'brancalonia') {
+function randomChar(variant: 'dnd5e' | 'brancalonia' | 'apocalisse') {
   const char = generateRandomCharacter(variant)
   characterStore.character = char
   appStore.setStep(8)
@@ -69,6 +69,12 @@ function handleImport(event: Event) {
           class="px-6 py-2 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded-lg transition-colors cursor-pointer border border-stone-600"
         >
           <span aria-hidden="true">🎲</span> {{ t('home.randomBrancalonia') }}
+        </button>
+        <button
+          @click="randomChar('apocalisse')"
+          class="px-6 py-2 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded-lg transition-colors cursor-pointer border border-stone-600"
+        >
+          <span aria-hidden="true">🎲</span> {{ t('home.randomApocalisse') }}
         </button>
       </div>
 

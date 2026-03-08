@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export type GameVariant = 'dnd5e' | 'brancalonia'
+export type GameVariant = 'dnd5e' | 'brancalonia' | 'apocalisse'
 
 export const useAppStore = defineStore('app', () => {
   const locale = ref<string>(navigator.language.startsWith('it') ? 'it' : 'en')

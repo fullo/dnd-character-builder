@@ -12,6 +12,7 @@ export function usePdfExport() {
     exporting.value = true
 
     try {
+      // Apocalisse uses D&D 5e sheet (Apocalisse PDF sheets are not fillable AcroForms)
       const pdfUrl = char.variant === 'brancalonia'
         ? '/pdf/brancalonia-sheet.pdf'
         : '/pdf/dnd-5e-sheet.pdf'

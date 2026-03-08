@@ -29,3 +29,6 @@ schede/
 
 # PWA dev
 dev-dist/
+
+# Claude Code
+.claude/

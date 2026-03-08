@@ -7,6 +7,8 @@ import type { Spell } from './dnd5e/spells'
 import type { EquipmentSet } from './dnd5e/equipment'
 import type { BrancaloniaSubclass } from './brancalonia/classes'
 import type { BrancaloniaRules } from './brancalonia/rules'
+import type { ApocalisseSubclass } from './apocalisse/classes'
+import type { ApocalisseRules } from './apocalisse/rules'
 
 import { races as dnd5eRaces } from './dnd5e/races'
 import { classes as dnd5eClasses } from './dnd5e/classes'
@@ -19,6 +21,10 @@ import { brancaloniaSubclasses } from './brancalonia/classes'
 import { burattinaioBrancaloniaClass } from './brancalonia/burattinaio'
 import { brancaloniaBackgrounds } from './brancalonia/backgrounds'
 import { brancaloniaRules, MAX_LEVEL as BRANCALONIA_MAX_LEVEL } from './brancalonia/rules'
+import { apocalisseRaces } from './apocalisse/races'
+import { apocalisseSubclasses } from './apocalisse/classes'
+import { apocalisseBackgrounds } from './apocalisse/backgrounds'
+import { apocalisseRules, MAX_LEVEL as APOCALISSE_MAX_LEVEL } from './apocalisse/rules'
 
 // ─── Races ──────────────────────────────────────────────────────────────────
 
@@ -26,6 +32,8 @@ export function getRaces(variant: GameVariant): readonly Race[] {
   switch (variant) {
     case 'brancalonia':
       return brancaloniaRaces
+    case 'apocalisse':
+      return apocalisseRaces
     case 'dnd5e':
     default:
       return dnd5eRaces
@@ -64,6 +72,27 @@ export function getClasses(variant: GameVariant): readonly CharacterClass[] {
       // Add Brancalonia-exclusive classes
       return [...brancaClasses, burattinaioBrancaloniaClass]
     }
+    case 'apocalisse': {
+      const apoClasses = dnd5eClasses.map(cls => {
+        const apoSubs = apocalisseSubclasses.filter(
+          s => s.parentClassId === cls.id,
+        )
+        if (apoSubs.length === 0) return cls
+
+        const convertedSubs: Subclass[] = apoSubs.map(as => ({
+          id: as.id,
+          name: as.nameOriginal ? `${as.name} (${as.nameOriginal})` : as.name,
+          description: as.description,
+          features: as.features,
+        }))
+
+        return {
+          ...cls,
+          subclasses: convertedSubs,
+        }
+      })
+      return apoClasses
+    }
     case 'dnd5e':
     default:
       return dnd5eClasses
@@ -89,6 +118,8 @@ export function getBackgrounds(variant: GameVariant): readonly Background[] {
   switch (variant) {
     case 'brancalonia':
       return brancaloniaBackgrounds
+    case 'apocalisse':
+      return apocalisseBackgrounds
     case 'dnd5e':
     default:
       return dnd5eBackgrounds
@@ -118,10 +149,19 @@ const brancaloniaRulesData: VariantRules = {
   longRestDuration: '1 week of rollicking',
 }
 
+const apocalisseRulesData: VariantRules = {
+  maxLevel: APOCALISSE_MAX_LEVEL,
+  currencyStandard: 'gold',
+  shortRestDuration: '1 hour',
+  longRestDuration: '8 hours',
+}
+
 export function getRules(variant: GameVariant): VariantRules {
   switch (variant) {
     case 'brancalonia':
       return brancaloniaRulesData
+    case 'apocalisse':
+      return apocalisseRulesData
     case 'dnd5e':
     default:
       return dnd5eRulesData
@@ -137,6 +177,27 @@ export function getBrancaloniaRules(variant: GameVariant): BrancaloniaRules | nu
     return brancaloniaRules
   }
   return null
+}
+
+/**
+ * Get the full Apocalisse rules object (includes Humanity, Marks, Virtues/Sins, etc.).
+ * Returns null for non-Apocalisse variants.
+ */
+export function getApocalisseRules(variant: GameVariant): ApocalisseRules | null {
+  if (variant === 'apocalisse') {
+    return apocalisseRules
+  }
+  return null
+}
+
+/**
+ * Get the Apocalisse subclasses. Returns an empty array for other variants.
+ */
+export function getApocalisseSubclasses(variant: GameVariant): readonly ApocalisseSubclass[] {
+  if (variant === 'apocalisse') {
+    return apocalisseSubclasses
+  }
+  return []
 }
 
 // ─── Max Level ──────────────────────────────────────────────────────────────
@@ -212,6 +273,8 @@ export function getAvailableLanguages(variant: GameVariant): string[] {
   switch (variant) {
     case 'brancalonia':
       return brancaloniaRules.languages.map(l => l.name)
+    case 'apocalisse':
+      return apocalisseRules.languages.map(l => l.name)
     case 'dnd5e':
     default:
       return [

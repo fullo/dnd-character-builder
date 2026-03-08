@@ -11,11 +11,12 @@
   },
   "home": {
     "welcome": "Welcome to Character Builder",
-    "description": "Create and manage your characters for D&D 5e and Brancalonia",
+    "description": "Create and manage your characters for D&D 5e, Brancalonia and Apocalisse",
     "startButton": "Create a New Character",
     "randomButton": "Generate Random Character",
     "randomDnd5e": "Random D&D 5e",
     "randomBrancalonia": "Random Brancalonia",
+    "randomApocalisse": "Random Apocalisse",
     "savedCharacters": "Saved Characters",
     "importJson": "Import JSON"
   },
@@ -36,7 +37,10 @@
     "dnd5eDesc": "The classic edition of Dungeons & Dragons with all SRD classes and races",
     "brancalonia": "Brancalonia",
     "brancaloniaDesc": "Spaghetti Fantasy set in a fantastical medieval Italy. Maximum level 6.",
-    "brancaloniaPromo": "If you like Brancalonia, buy the manuals on"
+    "brancaloniaPromo": "If you like Brancalonia, buy the manuals on",
+    "apocalisse": "Apocalisse",
+    "apocalisseDesc": "Post-apocalyptic Dark Fantasy set on the Plain of Armageddon. Uses D&D 5e base classes with 12 unique apocalyptic archetypes.",
+    "apocalissePromo": "If you like Apocalisse, buy the manuals on"
   },
   "race": {
     "title": "Choose Race",
