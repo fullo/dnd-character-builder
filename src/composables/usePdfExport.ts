@@ -13,9 +13,10 @@ export function usePdfExport() {
 
     try {
       // Apocalisse uses D&D 5e sheet (Apocalisse PDF sheets are not fillable AcroForms)
+      const base = import.meta.env.BASE_URL
       const pdfUrl = char.variant === 'brancalonia'
-        ? '/pdf/brancalonia-sheet.pdf'
-        : '/pdf/dnd-5e-sheet.pdf'
+        ? `${base}pdf/brancalonia-sheet.pdf`
+        : `${base}pdf/dnd-5e-sheet.pdf`
 
       const pdfBytes = await fetch(pdfUrl).then(r => r.arrayBuffer())
       const pdfDoc = await PDFDocument.load(pdfBytes)

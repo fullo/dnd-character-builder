@@ -5,11 +5,13 @@ import { useRouter } from 'vue-router'
 import { useCharacterStore } from '@/stores/character'
 import { useAppStore } from '@/stores/app'
 import type { GameVariant } from '@/stores/app'
+import { useGameTerms } from '@/composables/useGameTerms'
 
 const { t } = useI18n()
 const router = useRouter()
 const characterStore = useCharacterStore()
 const appStore = useAppStore()
+const gt = useGameTerms()
 
 const variantSections: { id: GameVariant; emoji: string; color: string; border: string }[] = [
   { id: 'dnd5e', emoji: '\uD83D\uDC09', color: 'amber', border: 'border-amber-600/40' },
@@ -111,7 +113,7 @@ function downloadJson(id: string) {
                       {{ char.name || t('common.unnamed') }}
                     </span>
                     <div class="text-stone-400 text-sm mt-1">
-                      {{ char.race }} {{ char.className }} Lv.{{ char.level }}
+                      {{ gt.raceName(char.race) }} {{ gt.className(char.className, char.variant || 'dnd5e') }} Lv.{{ char.level }}
                     </div>
                   </div>
                   <div class="flex gap-2 shrink-0">

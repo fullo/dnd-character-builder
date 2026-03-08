@@ -4,10 +4,24 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { getBackgrounds } from '@/data'
 import type { Background } from '@/data/dnd5e/backgrounds'
+import { SKILLS } from '@/data/dnd5e/skills'
+import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
+const gt = useGameTerms()
+
+/** Translate a background name. Uses nameOriginal for variant backgrounds, gameTerms for D&D 5e. */
+function bgDisplayName(bg: Background): string {
+  if ((bg as any).nameOriginal) return (bg as any).nameOriginal
+  return gt.background(bg.name)
+}
+
+function skillDisplayName(skillId: string): string {
+  const skill = SKILLS.find(s => s.id === skillId)
+  return skill ? gt.skill(skill.name) : skillId
+}
 
 const backgrounds = computed(() => getBackgrounds(characterStore.character.variant))
 const selectedBg = ref<Background | null>(null)
@@ -36,18 +50,18 @@ function selectBackground(bg: Background) {
         class="bg-stone-800 border-2 rounded-lg p-4 text-left transition-all cursor-pointer"
         :class="characterStore.character.background === bg.id ? 'border-amber-500' : 'border-stone-700 hover:border-stone-600'"
       >
-        <h3 class="font-bold text-amber-400">{{ bg.name }}</h3>
-        <p class="text-xs text-stone-500 mt-1">{{ bg.skillProficiencies.join(', ') }}</p>
+        <h3 class="font-bold text-amber-400">{{ bgDisplayName(bg) }}</h3>
+        <p class="text-xs text-stone-500 mt-1">{{ bg.skillProficiencies.map(skillDisplayName).join(', ') }}</p>
       </button>
     </div>
 
     <!-- Background Details -->
     <div v-if="selectedBg" class="mt-6 bg-stone-800 border border-stone-700 rounded-lg p-6">
-      <h3 class="text-xl font-bold text-amber-400 mb-3">{{ selectedBg.name }}</h3>
+      <h3 class="text-xl font-bold text-amber-400 mb-3">{{ bgDisplayName(selectedBg) }}</h3>
       <div class="space-y-3 text-sm">
         <div>
           <h4 class="font-semibold text-stone-300">{{ t('background.skillProficiencies') }}</h4>
-          <p class="text-stone-400">{{ selectedBg.skillProficiencies.join(', ') }}</p>
+          <p class="text-stone-400">{{ selectedBg.skillProficiencies.map(skillDisplayName).join(', ') }}</p>
         </div>
         <div v-if="selectedBg.toolProficiencies.length">
           <h4 class="font-semibold text-stone-300">Strumenti</h4>

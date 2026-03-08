@@ -6,11 +6,13 @@ import { useCharacterStore } from '@/stores/character'
 import { useAppStore } from '@/stores/app'
 import type { GameVariant } from '@/stores/app'
 import { generateRandomCharacter } from '@/utils/randomCharacter'
+import { useGameTerms } from '@/composables/useGameTerms'
 
 const { t } = useI18n()
 const router = useRouter()
 const characterStore = useCharacterStore()
 const appStore = useAppStore()
+const gt = useGameTerms()
 
 const fileInputDnd5e = ref<HTMLInputElement | null>(null)
 const fileInputBrancalonia = ref<HTMLInputElement | null>(null)
@@ -112,7 +114,6 @@ const variants: { id: GameVariant; emoji: string; color: string; border: string 
   <section class="flex flex-col items-center py-8" aria-labelledby="home-heading">
     <div class="text-center max-w-3xl mb-8">
       <h2 id="home-heading" class="text-4xl font-bold text-amber-500 mb-3 font-gothic">{{ t('home.welcome') }}</h2>
-      <p class="text-stone-400 text-lg">{{ t('home.description') }}</p>
     </div>
 
     <!-- Import message banner -->
@@ -199,7 +200,7 @@ const variants: { id: GameVariant; emoji: string; color: string; border: string 
             <div>
               <span class="font-medium text-amber-400">{{ char.name || t('common.unnamed') }}</span>
               <span class="text-stone-500 ml-2">
-                {{ char.race }} {{ char.className }} Lv.{{ char.level }}
+                {{ gt.raceName(char.race) }} {{ gt.className(char.className, char.variant) }} Lv.{{ char.level }}
               </span>
             </div>
             <span

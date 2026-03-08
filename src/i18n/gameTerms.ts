@@ -357,6 +357,20 @@ export const backgroundNamesIt: Record<string, string> = {
   'Fate-Touched': 'Toccato dal Fato',
   'Lyceum Student': 'Studente del Liceo',
   'Recovered Cultist': 'Cultista Redento',
+  // Brancalonia
+  'Ambulant': 'Ambulante',
+  'Brawler': 'Attaccabrighe',
+  'Finagler': 'Faccendiere',
+  'Fugitive': 'Fuggiasco',
+  'Rover': 'Girovago',
+  'Tough': 'Duro',
+  // Apocalisse
+  'Child of the Old World': 'Figlio del Vecchio Mondo',
+  'Child of the Apocalypse': 'Figlio dell\'Apocalisse',
+  'Risen from Hell': 'Risorto dall\'Inferno',
+  'Risen from Heaven': 'Risorto dal Paradiso',
+  'Risen from Purgatory': 'Risorto dal Purgatorio',
+  'Risen from Limbo': 'Risorto dal Limbo',
 }
 
 export const equipmentPacksIt: Record<string, string> = {
@@ -369,13 +383,145 @@ export const equipmentPacksIt: Record<string, string> = {
   "Scholar's Pack": 'Dotazione da Studioso',
 }
 
+// ─── Class Names ────────────────────────────────────────────────────────────
+
+/** Standard D&D 5e class names in Italian (used as fallback for all variants) */
+export const classNamesIt: Record<string, string> = {
+  'Barbarian': 'Barbaro',
+  'Bard': 'Bardo',
+  'Cleric': 'Chierico',
+  'Druid': 'Druido',
+  'Fighter': 'Guerriero',
+  'Monk': 'Monaco',
+  'Paladin': 'Paladino',
+  'Ranger': 'Ranger',
+  'Rogue': 'Ladro',
+  'Sorcerer': 'Stregone',
+  'Warlock': 'Warlock',
+  'Wizard': 'Mago',
+  // Brancalonia exclusive class
+  'Burattinaio': 'Burattinaio',
+}
+
+/**
+ * Brancalonia variant-specific class names.
+ * In Brancalonia each D&D class has a unique Italian identity.
+ * Key is the class ID (lowercase).
+ */
+export const brancaloniaClassNamesIt: Record<string, string> = {
+  'barbarian': 'Pagano',
+  'bard': 'Arlecchino',
+  'cleric': 'Miracolaro',
+  'druid': 'Benandante',
+  'fighter': 'Spadaccino',
+  'monk': 'Frate',
+  'paladin': 'Cavalier Errante',
+  'ranger': 'Mattatore',
+  'rogue': 'Brigante',
+  'sorcerer': 'Scaramante',
+  'warlock': 'Guiscardo',
+  'wizard': 'Alchimista',
+  'burattinaio': 'Burattinaio',
+}
+
+/**
+ * Apocalisse variant-specific class names.
+ * In Apocalisse each D&D class maps to an archetype with an Italian name.
+ * Key is the class ID (lowercase).
+ */
+export const apocalisseClassNamesIt: Record<string, string> = {
+  'barbarian': 'Cavaliere',
+  'bard': 'Lamenti',
+  'cleric': 'Eresia',
+  'druid': 'Piaghe',
+  'fighter': 'Furioso',
+  'monk': 'Sette Sigilli',
+  'paladin': 'Fine del Mondo',
+  'ranger': 'Bastione',
+  'rogue': 'Assenzio',
+  'sorcerer': 'Stirpe Ultraterrena',
+  'warlock': 'Lilith',
+  'wizard': 'Salomone',
+}
+
+// ─── Race Names ─────────────────────────────────────────────────────────────
+
+/** D&D 5e race names in Italian */
+export const raceNamesIt: Record<string, string> = {
+  // D&D 5e SRD
+  'Dragonborn': 'Dragonide',
+  'Dwarf': 'Nano',
+  'Elf': 'Elfo',
+  'Gnome': 'Gnomo',
+  'Half-Elf': 'Mezzelfo',
+  'Half-Orc': 'Mezzorco',
+  'Halfling': 'Halfling',
+  'Human': 'Umano',
+  'Tiefling': 'Tiefling',
+  // Brancalonia
+  'Gifted': 'Dotato',
+  'Malebranche': 'Malebranche',
+  'Marionette': 'Marionetta',
+  'Morgant': 'Morgante',
+  'Sylvan': 'Silvano',
+  // Apocalisse
+  'Last One': 'Ultimo',
+}
+
+/** Subrace names in Italian */
+export const subraceNamesIt: Record<string, string> = {
+  // D&D 5e
+  'Hill Dwarf': 'Nano delle Colline',
+  'Mountain Dwarf': 'Nano delle Montagne',
+  'High Elf': 'Alto Elfo',
+  'Wood Elf': 'Elfo dei Boschi',
+  'Dark Elf (Drow)': 'Elfo Scuro (Drow)',
+  'Rock Gnome': 'Gnomo delle Rocce',
+  'Forest Gnome': 'Gnomo delle Foreste',
+  'Lightfoot Halfling': 'Halfling Piedelesto',
+  'Stout Halfling': 'Halfling Tozzo',
+  // Apocalisse Origins
+  'Child of the Old World': 'Figlio del Vecchio Mondo',
+  'Child of the Apocalypse': 'Figlio dell\'Apocalisse',
+  'Risen from Hell': 'Risorto dall\'Inferno',
+  'Risen from Heaven': 'Risorto dal Paradiso',
+  'Risen from Purgatory': 'Risorto dal Purgatorio',
+  'Risen from Limbo': 'Risorto dal Limbo',
+}
+
+// ─── Skill Names ────────────────────────────────────────────────────────────
+
+export const skillNamesIt: Record<string, string> = {
+  'Acrobatics': 'Acrobazia',
+  'Animal Handling': 'Addestrare Animali',
+  'Arcana': 'Arcano',
+  'Athletics': 'Atletica',
+  'Deception': 'Inganno',
+  'History': 'Storia',
+  'Insight': 'Intuizione',
+  'Intimidation': 'Intimidire',
+  'Investigation': 'Indagare',
+  'Medicine': 'Medicina',
+  'Nature': 'Natura',
+  'Perception': 'Percezione',
+  'Performance': 'Intrattenere',
+  'Persuasion': 'Persuasione',
+  'Religion': 'Religione',
+  'Sleight of Hand': 'Rapidita\' di Mano',
+  'Stealth': 'Furtivita\'',
+  'Survival': 'Sopravvivenza',
+}
+
 /**
  * Translate a game term to Italian. Returns the original if no translation exists.
  */
+export type GameTermCategory = 'weapon' | 'armor' | 'spell' | 'school' | 'damageType' | 'pack' | 'background' | 'class' | 'race' | 'subrace' | 'skill'
+
 export function translateGameTerm(
   name: string,
   locale: string,
-  category: 'weapon' | 'armor' | 'spell' | 'school' | 'damageType' | 'pack' | 'background',
+  category: GameTermCategory,
+  variant?: string,
 ): string {
   if (locale !== 'it') return name
 
@@ -392,8 +538,41 @@ export function translateGameTerm(
       return damageTypesIt[name] ?? name
     case 'pack':
       return equipmentPacksIt[name] ?? name
-    case 'background':
-      return backgroundNamesIt[name] ?? name
+    case 'background': {
+      if (backgroundNamesIt[name]) return backgroundNamesIt[name]
+      // Try capitalizing each word (IDs may be lowercase, e.g. "folk-hero" → "Folk Hero")
+      const bgCapitalized = name.split(/[-\s]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+      return backgroundNamesIt[bgCapitalized] ?? name
+    }
+    case 'class': {
+      // Variant-specific dicts use lowercase IDs; standard dict uses capitalized English names.
+      // Try both forms to handle either input style.
+      const lowered = name.toLowerCase()
+      const capitalized = name.charAt(0).toUpperCase() + name.slice(1)
+      if (variant === 'brancalonia') {
+        return brancaloniaClassNamesIt[lowered] ?? brancaloniaClassNamesIt[name] ?? classNamesIt[capitalized] ?? classNamesIt[name] ?? name
+      }
+      if (variant === 'apocalisse') {
+        return apocalisseClassNamesIt[lowered] ?? apocalisseClassNamesIt[name] ?? classNamesIt[capitalized] ?? classNamesIt[name] ?? name
+      }
+      return classNamesIt[capitalized] ?? classNamesIt[name] ?? name
+    }
+    case 'race': {
+      if (raceNamesIt[name]) return raceNamesIt[name]
+      // Try capitalizing each word (IDs may be hyphenated, e.g. "half-elf" → "Half-Elf")
+      const raceCapitalized = name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-')
+      return raceNamesIt[raceCapitalized] ?? raceNamesIt[raceCapitalized.replace(/-/g, ' ')] ?? name
+    }
+    case 'subrace': {
+      if (subraceNamesIt[name]) return subraceNamesIt[name]
+      const subCapitalized = name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+      return subraceNamesIt[subCapitalized] ?? name
+    }
+    case 'skill': {
+      if (skillNamesIt[name]) return skillNamesIt[name]
+      const skillCapitalized = name.split(/[-\s]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+      return skillNamesIt[skillCapitalized] ?? name
+    }
     default:
       return name
   }

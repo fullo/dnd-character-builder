@@ -5,10 +5,12 @@ import { useCharacterStore } from '@/stores/character'
 import { getRaces } from '@/data'
 import type { Race } from '@/data/dnd5e/races'
 import { formatModifier } from '@/utils/calculations'
+import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
+const gt = useGameTerms()
 
 const races = computed(() => getRaces(characterStore.character.variant))
 const selectedRace = ref<Race | null>(null)
@@ -62,7 +64,7 @@ function bonusString(bonuses: Record<string, number>): string {
         class="bg-stone-800 border-2 rounded-lg p-4 text-left transition-all cursor-pointer"
         :class="characterStore.character.race === race.id ? 'border-amber-500' : 'border-stone-700 hover:border-stone-600'"
       >
-        <h3 class="font-bold text-amber-400">{{ race.name }}</h3>
+        <h3 class="font-bold text-amber-400">{{ gt.raceName(race.name) }}</h3>
         <p class="text-xs text-stone-400 mt-1">{{ bonusString(race.abilityBonuses) }}</p>
         <p class="text-xs text-stone-500 mt-1">{{ t('race.speed') }}: {{ race.speed }}ft &bull; {{ race.size }}</p>
       </button>
@@ -70,7 +72,7 @@ function bonusString(bonuses: Record<string, number>): string {
 
     <!-- Race Details -->
     <div v-if="selectedRace" class="mt-6 bg-stone-800 border border-stone-700 rounded-lg p-6">
-      <h3 class="text-xl font-bold text-amber-400 mb-3">{{ selectedRace.name }}</h3>
+      <h3 class="text-xl font-bold text-amber-400 mb-3">{{ gt.raceName(selectedRace.name) }}</h3>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div>
@@ -109,7 +111,7 @@ function bonusString(bonuses: Record<string, number>): string {
             class="px-3 py-1 rounded text-sm transition-colors cursor-pointer"
             :class="selectedSubrace === sub.id ? 'bg-amber-600 text-stone-900' : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
           >
-            {{ sub.name }}
+            {{ gt.subraceName(sub.name) }}
           </button>
         </div>
       </div>

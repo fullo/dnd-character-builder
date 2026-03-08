@@ -1,36 +1,80 @@
 import { useI18n } from 'vue-i18n'
 import { translateGameTerm } from '@/i18n/gameTerms'
+import type { GameTermCategory } from '@/i18n/gameTerms'
 
 /**
  * Composable that provides translation functions for game terms
- * (weapons, armor, spells, etc.) based on current locale.
+ * (weapons, armor, spells, classes, races, etc.) based on current locale.
  */
 export function useGameTerms() {
   const { locale } = useI18n()
 
+  function translate(name: string, category: GameTermCategory, variant?: string): string {
+    return translateGameTerm(name, locale.value, category, variant)
+  }
+
   function weapon(name: string): string {
-    return translateGameTerm(name, locale.value, 'weapon')
+    return translate(name, 'weapon')
   }
 
   function armorName(name: string): string {
-    return translateGameTerm(name, locale.value, 'armor')
+    return translate(name, 'armor')
   }
 
   function spell(name: string): string {
-    return translateGameTerm(name, locale.value, 'spell')
+    return translate(name, 'spell')
   }
 
   function school(name: string): string {
-    return translateGameTerm(name, locale.value, 'school')
+    return translate(name, 'school')
   }
 
   function damageType(name: string): string {
-    return translateGameTerm(name, locale.value, 'damageType')
+    return translate(name, 'damageType')
   }
 
   function pack(name: string): string {
-    return translateGameTerm(name, locale.value, 'pack')
+    return translate(name, 'pack')
   }
 
-  return { weapon, armorName, spell, school, damageType, pack }
+  function background(name: string): string {
+    return translate(name, 'background')
+  }
+
+  /**
+   * Translate a class name. For variant-specific names (Brancalonia/Apocalisse),
+   * pass the variant to get the correct Italian name.
+   * Accepts both English names ("Barbarian") and class IDs ("barbarian").
+   * @param name - English class name or class ID
+   * @param variant - Game variant for variant-specific overrides
+   */
+  function className(name: string, variant?: string): string {
+    return translate(name, 'class', variant)
+  }
+
+  /**
+   * Translate a race name to Italian.
+   * @param name - English race name (e.g., "Dwarf", "Gifted")
+   */
+  function raceName(name: string): string {
+    return translate(name, 'race')
+  }
+
+  /**
+   * Translate a subrace name to Italian.
+   * @param name - English subrace name (e.g., "Hill Dwarf", "Child of the Old World")
+   */
+  function subraceName(name: string): string {
+    return translate(name, 'subrace')
+  }
+
+  /**
+   * Translate a skill name to Italian.
+   * @param name - English skill name (e.g., "Acrobatics", "Stealth")
+   */
+  function skill(name: string): string {
+    return translate(name, 'skill')
+  }
+
+  return { weapon, armorName, spell, school, damageType, pack, background, className, raceName, subraceName, skill }
 }

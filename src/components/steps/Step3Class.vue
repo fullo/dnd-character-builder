@@ -4,10 +4,20 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { getClasses } from '@/data'
 import type { CharacterClass } from '@/data/dnd5e/classes'
+import { SKILLS } from '@/data/dnd5e/skills'
+import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
 const characterStore = useCharacterStore()
+const gt = useGameTerms()
+
+const variant = computed(() => characterStore.character.variant)
+
+function skillDisplayName(skillId: string): string {
+  const skill = SKILLS.find(s => s.id === skillId)
+  return skill ? gt.skill(skill.name) : skillId
+}
 
 const classes = computed(() => getClasses(characterStore.character.variant))
 const selectedClass = ref<CharacterClass | null>(null)
@@ -54,14 +64,14 @@ function toggleSkill(skill: string) {
         class="bg-stone-800 border-2 rounded-lg p-3 text-left transition-all cursor-pointer"
         :class="characterStore.character.className === cls.id ? 'border-amber-500' : 'border-stone-700 hover:border-stone-600'"
       >
-        <h3 class="font-bold text-amber-400 text-sm">{{ cls.name }}</h3>
+        <h3 class="font-bold text-amber-400 text-sm">{{ gt.className(cls.name, variant) }}</h3>
         <p class="text-xs text-stone-500 mt-1">d{{ cls.hitDie }} &bull; {{ cls.primaryAbility.map((a: string) => a.toUpperCase()).join(', ') }}</p>
       </button>
     </div>
 
     <!-- Class Details -->
     <div v-if="selectedClass" class="mt-6 bg-stone-800 border border-stone-700 rounded-lg p-6">
-      <h3 class="text-xl font-bold text-amber-400 mb-3">{{ selectedClass.name }}</h3>
+      <h3 class="text-xl font-bold text-amber-400 mb-3">{{ gt.className(selectedClass.name, variant) }}</h3>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div>
@@ -103,7 +113,7 @@ function toggleSkill(skill: string) {
                 ? 'bg-stone-800 text-stone-600 cursor-not-allowed'
                 : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
           >
-            {{ skill }}
+            {{ skillDisplayName(skill) }}
           </button>
         </div>
       </div>

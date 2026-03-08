@@ -5,7 +5,7 @@ import { useCharacterStore } from '@/stores/character'
 import { formatModifier, spellSaveDC, spellAttackBonus } from '@/utils/calculations'
 import { usePdfExport } from '@/composables/usePdfExport'
 import { SKILLS } from '@/data/dnd5e/skills'
-import { getSpells, getClasses } from '@/data'
+import { getSpells, getClasses, getRaces, getBackgrounds } from '@/data'
 import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
@@ -61,13 +61,32 @@ function spellName(id: string): string {
 }
 
 const variantClasses = computed(() => getClasses(char.value.variant))
+const variantRaces = computed(() => getRaces(char.value.variant))
+const variantBackgrounds = computed(() => getBackgrounds(char.value.variant))
 const className = computed(() => {
-  return variantClasses.value.find(c => c.id === char.value.className)?.name ?? char.value.className
+  const cls = variantClasses.value.find(c => c.id === char.value.className)
+  return gt.className(cls?.name ?? char.value.className, char.value.variant)
 })
 const subclassName = computed(() => {
   if (!char.value.subclass) return ''
   const cls = variantClasses.value.find(c => c.id === char.value.className)
   return cls?.subclasses.find(s => s.id === char.value.subclass)?.name ?? char.value.subclass
+})
+const displayRace = computed(() => {
+  const race = variantRaces.value.find(r => r.id === char.value.race)
+  if (!race) return char.value.race
+  const raceTr = gt.raceName(race.name)
+  if (char.value.subrace && race.subraces) {
+    const sub = race.subraces.find(s => s.id === char.value.subrace)
+    if (sub) return `${raceTr} (${gt.subraceName(sub.name)})`
+  }
+  return raceTr
+})
+const displayBackground = computed(() => {
+  const bg = variantBackgrounds.value.find(b => b.id === char.value.background)
+  if (!bg) return char.value.background
+  if ((bg as any).nameOriginal) return (bg as any).nameOriginal
+  return gt.background(bg.name)
 })
 
 function saveChar() {
@@ -137,11 +156,11 @@ function handleImport(event: Event) {
         </div>
         <div>
           <p class="text-xs text-stone-500 uppercase">{{ t('review.charRace') }}</p>
-          <p class="text-stone-200">{{ char.race }} {{ char.subrace ? `(${char.subrace})` : '' }}</p>
+          <p class="text-stone-200">{{ displayRace }}</p>
         </div>
         <div>
           <p class="text-xs text-stone-500 uppercase">{{ t('review.charBackground') }}</p>
-          <p class="text-stone-200">{{ char.background }}</p>
+          <p class="text-stone-200">{{ displayBackground }}</p>
         </div>
         <div>
           <p class="text-xs text-stone-500 uppercase">{{ t('details.alignment') }}</p>
@@ -202,7 +221,7 @@ function handleImport(event: Event) {
         <div class="space-y-1 text-xs max-h-60 overflow-y-auto">
           <div v-for="skill in skills" :key="skill.id" class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full" :class="skill.proficient ? 'bg-amber-500' : 'bg-stone-600'" :aria-label="skill.proficient ? 'Proficient' : 'Not proficient'" role="img"></span>
-            <span class="text-stone-400 flex-1">{{ skill.name }}</span>
+            <span class="text-stone-400 flex-1">{{ gt.skill(skill.name) }}</span>
             <span class="text-stone-200 font-medium">{{ formatModifier(skill.bonus) }}</span>
           </div>
         </div>
