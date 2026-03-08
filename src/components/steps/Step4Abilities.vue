@@ -93,17 +93,19 @@ function setMethod(m: Method) {
 </script>
 
 <template>
-  <div>
-    <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('abilities.title') }}</h2>
+  <section aria-labelledby="abilities-heading">
+    <h2 id="abilities-heading" class="text-2xl font-bold text-amber-500 mb-6">{{ t('abilities.title') }}</h2>
 
     <!-- Method Selection -->
-    <div class="flex gap-2 mb-6">
+    <div class="flex gap-2 mb-6" role="radiogroup" :aria-label="t('abilities.method')">
       <button
         v-for="m in (['standard', 'pointbuy', 'roll'] as Method[])"
         :key="m"
         @click="setMethod(m)"
         class="px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer"
         :class="method === m ? 'bg-amber-600 text-stone-900' : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
+        role="radio"
+        :aria-checked="method === m"
       >
         {{ t(`abilities.${m === 'pointbuy' ? 'pointBuy' : m === 'standard' ? 'standardArray' : 'roll'}`) }}
       </button>
@@ -144,6 +146,7 @@ function setMethod(m: Method) {
             :value="standardAssignment[ability]"
             @change="setStandardScore(ability, Number(($event.target as HTMLSelectElement).value) || null)"
             class="w-full bg-stone-700 text-stone-200 rounded px-2 py-1 text-sm"
+            :aria-label="t(`abilities.${ability}`)"
           >
             <option :value="null">--</option>
             <option v-for="v in availableStandard" :key="v" :value="v"
@@ -155,11 +158,13 @@ function setMethod(m: Method) {
         </div>
 
         <!-- Point Buy -->
-        <div v-else-if="method === 'pointbuy'" class="flex items-center gap-3">
+        <div v-else-if="method === 'pointbuy'" class="flex items-center gap-3" role="group" :aria-label="t(`abilities.${ability}`)">
           <button @click="adjustPointBuy(ability, -1)"
+            :aria-label="`${t(`abilities.${ability}`)} -1`"
             class="w-8 h-8 bg-stone-700 hover:bg-stone-600 rounded text-stone-300 font-bold cursor-pointer">-</button>
-          <span class="text-xl font-bold text-stone-200 w-8 text-center">{{ pointBuyScores[ability] }}</span>
+          <span class="text-xl font-bold text-stone-200 w-8 text-center" aria-live="polite">{{ pointBuyScores[ability] }}</span>
           <button @click="adjustPointBuy(ability, 1)"
+            :aria-label="`${t(`abilities.${ability}`)} +1`"
             class="w-8 h-8 bg-stone-700 hover:bg-stone-600 rounded text-stone-300 font-bold cursor-pointer">+</button>
           <span class="text-xs text-stone-500">({{ POINT_BUY_COSTS[pointBuyScores[ability]] ?? 0 }} pts)</span>
         </div>
@@ -170,6 +175,7 @@ function setMethod(m: Method) {
             :value="assignedRolls[ability] ?? ''"
             @change="assignRoll(ability, ($event.target as HTMLSelectElement).value)"
             class="w-full bg-stone-700 text-stone-200 rounded px-2 py-1 text-sm"
+            :aria-label="t(`abilities.${ability}`)"
           >
             <option value="">--</option>
             <option v-for="item in availableRolls" :key="item.index" :value="item.index">{{ item.score }}</option>
@@ -195,5 +201,5 @@ function setMethod(m: Method) {
     </div>
 
     <VariantPromo :variant="characterStore.character.variant" />
-  </div>
+  </section>
 </template>

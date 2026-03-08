@@ -39,16 +39,19 @@ function selectBackground(bg: Background) {
 </script>
 
 <template>
-  <div>
-    <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('background.title') }}</h2>
+  <section aria-labelledby="background-heading">
+    <h2 id="background-heading" class="text-2xl font-bold text-amber-500 mb-6">{{ t('background.title') }}</h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" role="radiogroup" :aria-label="t('background.title')">
       <button
         v-for="bg in backgrounds"
         :key="bg.id"
         @click="selectBackground(bg)"
         class="bg-stone-800 border-2 rounded-lg p-4 text-left transition-all cursor-pointer"
         :class="characterStore.character.background === bg.id ? 'border-amber-500' : 'border-stone-700 hover:border-stone-600'"
+        role="radio"
+        :aria-checked="characterStore.character.background === bg.id"
+        :aria-label="bgDisplayName(bg)"
       >
         <h3 class="font-bold text-amber-400">{{ bgDisplayName(bg) }}</h3>
         <p class="text-xs text-stone-500 mt-1">{{ bg.skillProficiencies.map(skillDisplayName).join(', ') }}</p>
@@ -81,27 +84,27 @@ function selectBackground(bg: Background) {
     <!-- Personality -->
     <div class="mt-6 space-y-4">
       <div>
-        <label class="block text-sm font-semibold text-stone-300 mb-1">{{ t('background.personalityTraits') }}</label>
-        <textarea v-model="characterStore.character.personalityTraits" rows="2"
+        <label for="personality-traits" class="block text-sm font-semibold text-stone-300 mb-1">{{ t('background.personalityTraits') }}</label>
+        <textarea id="personality-traits" v-model="characterStore.character.personalityTraits" rows="2"
           class="w-full bg-stone-800 border border-stone-700 rounded-lg p-3 text-stone-200 text-sm focus:border-amber-500 focus:outline-none" />
       </div>
       <div>
-        <label class="block text-sm font-semibold text-stone-300 mb-1">{{ t('background.ideals') }}</label>
-        <textarea v-model="characterStore.character.ideals" rows="2"
+        <label for="ideals" class="block text-sm font-semibold text-stone-300 mb-1">{{ t('background.ideals') }}</label>
+        <textarea id="ideals" v-model="characterStore.character.ideals" rows="2"
           class="w-full bg-stone-800 border border-stone-700 rounded-lg p-3 text-stone-200 text-sm focus:border-amber-500 focus:outline-none" />
       </div>
       <div>
-        <label class="block text-sm font-semibold text-stone-300 mb-1">{{ t('background.bonds') }}</label>
-        <textarea v-model="characterStore.character.bonds" rows="2"
+        <label for="bonds" class="block text-sm font-semibold text-stone-300 mb-1">{{ t('background.bonds') }}</label>
+        <textarea id="bonds" v-model="characterStore.character.bonds" rows="2"
           class="w-full bg-stone-800 border border-stone-700 rounded-lg p-3 text-stone-200 text-sm focus:border-amber-500 focus:outline-none" />
       </div>
       <div>
-        <label class="block text-sm font-semibold text-stone-300 mb-1">{{ t('background.flaws') }}</label>
-        <textarea v-model="characterStore.character.flaws" rows="2"
+        <label for="flaws" class="block text-sm font-semibold text-stone-300 mb-1">{{ t('background.flaws') }}</label>
+        <textarea id="flaws" v-model="characterStore.character.flaws" rows="2"
           class="w-full bg-stone-800 border border-stone-700 rounded-lg p-3 text-stone-200 text-sm focus:border-amber-500 focus:outline-none" />
       </div>
     </div>
 
     <VariantPromo :variant="characterStore.character.variant" />
-  </div>
+  </section>
 </template>

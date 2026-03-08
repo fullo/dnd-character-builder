@@ -231,7 +231,14 @@
     "search": "Cerca",
     "noResults": "Nessun risultato",
     "loading": "Caricamento...",
-    "unnamed": "Senza Nome"
+    "unnamed": "Senza Nome",
+    "stepProgress": "Passo {current} di {total}"
+  },
+  "validation": {
+    "selectRace": "Seleziona una razza prima di continuare",
+    "selectClass": "Seleziona una classe prima di continuare",
+    "selectBackground": "Seleziona un background prima di continuare",
+    "completeStep": "Completa questo passo prima di continuare"
   },
   "footer": {
     "madeInEU": "Orgogliosamente fatto in EU",

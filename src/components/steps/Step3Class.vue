@@ -53,16 +53,19 @@ function toggleSkill(skill: string) {
 </script>
 
 <template>
-  <div>
-    <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('class.title') }}</h2>
+  <section aria-labelledby="class-heading">
+    <h2 id="class-heading" class="text-2xl font-bold text-amber-500 mb-6">{{ t('class.title') }}</h2>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3" role="radiogroup" :aria-label="t('class.title')">
       <button
         v-for="cls in classes"
         :key="cls.id"
         @click="selectClass(cls)"
         class="bg-stone-800 border-2 rounded-lg p-3 text-left transition-all cursor-pointer"
         :class="characterStore.character.className === cls.id ? 'border-amber-500' : 'border-stone-700 hover:border-stone-600'"
+        role="radio"
+        :aria-checked="characterStore.character.className === cls.id"
+        :aria-label="gt.className(cls.name, variant)"
       >
         <h3 class="font-bold text-amber-400 text-sm">{{ gt.className(cls.name, variant) }}</h3>
         <p class="text-xs text-stone-500 mt-1">d{{ cls.hitDie }} &bull; {{ cls.primaryAbility.map((a: string) => a.toUpperCase()).join(', ') }}</p>
@@ -101,7 +104,7 @@ function toggleSkill(skill: string) {
           {{ t('class.skillChoices', { count: selectedClass.numSkillChoices }) }}
           <span class="text-stone-500">({{ selectedSkills.length }}/{{ selectedClass.numSkillChoices }})</span>
         </h4>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2" role="group" :aria-label="t('class.skillChoices', { count: selectedClass.numSkillChoices })">
           <button
             v-for="skill in selectedClass.skillChoices"
             :key="skill"
@@ -112,6 +115,8 @@ function toggleSkill(skill: string) {
               : selectedSkills.length >= selectedClass.numSkillChoices
                 ? 'bg-stone-800 text-stone-600 cursor-not-allowed'
                 : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
+            :aria-pressed="selectedSkills.includes(skill)"
+            :aria-disabled="!selectedSkills.includes(skill) && selectedSkills.length >= selectedClass.numSkillChoices"
           >
             {{ skillDisplayName(skill) }}
           </button>
@@ -132,5 +137,5 @@ function toggleSkill(skill: string) {
     </div>
 
     <VariantPromo :variant="characterStore.character.variant" />
-  </div>
+  </section>
 </template>

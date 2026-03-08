@@ -61,16 +61,16 @@ function removeItem(idx: number) {
 </script>
 
 <template>
-  <div>
-    <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('equipment.title') }}</h2>
+  <section aria-labelledby="equipment-heading">
+    <h2 id="equipment-heading" class="text-2xl font-bold text-amber-500 mb-6">{{ t('equipment.title') }}</h2>
 
     <!-- Weapons -->
     <div class="mb-6">
-      <h3 class="text-lg font-semibold text-stone-300 mb-3">{{ t('equipment.weapons') }}</h3>
+      <h3 id="weapons-heading" class="text-lg font-semibold text-stone-300 mb-3">{{ t('equipment.weapons') }}</h3>
 
       <div v-if="equipment?.simpleWeapons?.length" class="mb-4">
-        <h4 class="text-sm font-medium text-stone-400 mb-2">{{ t('equipment.simpleWeapons') }}</h4>
-        <div class="flex flex-wrap gap-2">
+        <h4 id="simple-weapons-heading" class="text-sm font-medium text-stone-400 mb-2">{{ t('equipment.simpleWeapons') }}</h4>
+        <div class="flex flex-wrap gap-2" role="group" :aria-label="t('equipment.simpleWeapons')">
           <button
             v-for="wpn in equipment.simpleWeapons"
             :key="wpn.name"
@@ -79,6 +79,7 @@ function removeItem(idx: number) {
             :class="selectedWeapons.includes(wpn.name)
               ? 'bg-amber-600 text-stone-900 font-medium'
               : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
+            :aria-pressed="selectedWeapons.includes(wpn.name)"
           >
             {{ gt.weapon(wpn.name) }} ({{ wpn.damage }})
           </button>
@@ -86,8 +87,8 @@ function removeItem(idx: number) {
       </div>
 
       <div v-if="equipment?.martialWeapons?.length">
-        <h4 class="text-sm font-medium text-stone-400 mb-2">{{ t('equipment.martialWeapons') }}</h4>
-        <div class="flex flex-wrap gap-2">
+        <h4 id="martial-weapons-heading" class="text-sm font-medium text-stone-400 mb-2">{{ t('equipment.martialWeapons') }}</h4>
+        <div class="flex flex-wrap gap-2" role="group" :aria-label="t('equipment.martialWeapons')">
           <button
             v-for="wpn in equipment.martialWeapons"
             :key="wpn.name"
@@ -96,6 +97,7 @@ function removeItem(idx: number) {
             :class="selectedWeapons.includes(wpn.name)
               ? 'bg-amber-600 text-stone-900 font-medium'
               : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
+            :aria-pressed="selectedWeapons.includes(wpn.name)"
           >
             {{ gt.weapon(wpn.name) }} ({{ wpn.damage }})
           </button>
@@ -105,8 +107,8 @@ function removeItem(idx: number) {
 
     <!-- Armor -->
     <div class="mb-6">
-      <h3 class="text-lg font-semibold text-stone-300 mb-3">{{ t('equipment.armor') }}</h3>
-      <div class="flex flex-wrap gap-2">
+      <h3 id="armor-heading" class="text-lg font-semibold text-stone-300 mb-3">{{ t('equipment.armor') }}</h3>
+      <div class="flex flex-wrap gap-2" role="radiogroup" :aria-label="t('equipment.armor')">
         <button
           v-for="arm in equipment?.armor || []"
           :key="arm.name"
@@ -115,6 +117,8 @@ function removeItem(idx: number) {
           :class="selectedArmor === arm.name
             ? 'bg-amber-600 text-stone-900 font-medium'
             : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
+          role="radio"
+          :aria-checked="selectedArmor === arm.name"
         >
           {{ gt.armorName(arm.name) }} ({{ t('review.ac') }} {{ arm.baseAC }})
         </button>
@@ -122,6 +126,7 @@ function removeItem(idx: number) {
           @click="toggleShield()"
           class="px-3 py-1 rounded text-xs transition-colors cursor-pointer"
           :class="hasShield ? 'bg-amber-600 text-stone-900 font-medium' : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
+          :aria-pressed="hasShield"
         >
           {{ t('review.shieldBonus') }}
         </button>
@@ -131,33 +136,34 @@ function removeItem(idx: number) {
     <!-- Coins -->
     <div class="mb-6">
       <h3 class="text-lg font-semibold text-stone-300 mb-3">{{ t('equipment.coins') }}</h3>
-      <div class="flex gap-4">
+      <div class="flex gap-4" role="group" :aria-label="t('equipment.coins')">
         <div v-for="coin in ['gp', 'sp', 'cp'] as const" :key="coin" class="flex items-center gap-1">
-          <label class="text-xs text-stone-400 uppercase">{{ coin }}</label>
-          <input type="number" v-model.number="characterStore.character.coins[coin]" min="0"
-            class="w-16 bg-stone-700 text-stone-200 rounded px-2 py-1 text-sm text-center" />
+          <label :for="`coin-${coin}`" class="text-xs text-stone-400 uppercase">{{ coin }}</label>
+          <input :id="`coin-${coin}`" type="number" v-model.number="characterStore.character.coins[coin]" min="0"
+            class="w-16 bg-stone-700 text-stone-200 rounded px-2 py-1 text-sm text-center" :aria-label="`${coin.toUpperCase()}`" />
         </div>
       </div>
     </div>
 
     <!-- Custom Equipment -->
     <div>
-      <h3 class="text-lg font-semibold text-stone-300 mb-3">{{ t('equipment.other') }}</h3>
+      <h3 id="other-equipment-heading" class="text-lg font-semibold text-stone-300 mb-3">{{ t('equipment.other') }}</h3>
       <div class="flex gap-2 mb-3">
-        <input v-model="customEquipment" @keyup.enter="addCustomItem"
+        <label for="custom-equipment" class="sr-only">{{ t('equipment.addItem') }}</label>
+        <input id="custom-equipment" v-model="customEquipment" @keyup.enter="addCustomItem"
           class="flex-1 bg-stone-700 text-stone-200 rounded px-3 py-1 text-sm" :placeholder="t('equipment.addItem')" />
-        <button @click="addCustomItem"
+        <button @click="addCustomItem" :aria-label="t('equipment.addItem')"
           class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-stone-900 rounded text-sm font-medium cursor-pointer">+</button>
       </div>
-      <div class="flex flex-wrap gap-2">
-        <span v-for="(item, idx) in characterStore.character.equipment" :key="idx"
+      <ul class="flex flex-wrap gap-2" role="list" :aria-label="t('equipment.other')">
+        <li v-for="(item, idx) in characterStore.character.equipment" :key="idx"
           class="px-2 py-1 bg-stone-700 rounded text-xs text-stone-300 flex items-center gap-1">
           {{ item }}
-          <button @click="removeItem(idx)" class="text-stone-500 hover:text-red-400 cursor-pointer">&times;</button>
-        </span>
-      </div>
+          <button @click="removeItem(idx)" class="text-stone-500 hover:text-red-400 cursor-pointer" :aria-label="`${t('common.remove')} ${item}`">&times;</button>
+        </li>
+      </ul>
     </div>
 
     <VariantPromo :variant="characterStore.character.variant" />
-  </div>
+  </section>
 </template>

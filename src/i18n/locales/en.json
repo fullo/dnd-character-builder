@@ -231,7 +231,14 @@
     "search": "Search",
     "noResults": "No results",
     "loading": "Loading...",
-    "unnamed": "Unnamed"
+    "unnamed": "Unnamed",
+    "stepProgress": "Step {current} of {total}"
+  },
+  "validation": {
+    "selectRace": "Select a race before continuing",
+    "selectClass": "Select a class before continuing",
+    "selectBackground": "Select a background before continuing",
+    "completeStep": "Complete this step before continuing"
   },
   "footer": {
     "madeInEU": "Proudly made in EU",

@@ -53,16 +53,19 @@ function bonusString(bonuses: Record<string, number>): string {
 </script>
 
 <template>
-  <div>
-    <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('race.title') }}</h2>
+  <section aria-labelledby="race-heading">
+    <h2 id="race-heading" class="text-2xl font-bold text-amber-500 mb-6">{{ t('race.title') }}</h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" role="radiogroup" :aria-label="t('race.title')">
       <button
         v-for="race in races"
         :key="race.id"
         @click="selectRace(race)"
         class="bg-stone-800 border-2 rounded-lg p-4 text-left transition-all cursor-pointer"
         :class="characterStore.character.race === race.id ? 'border-amber-500' : 'border-stone-700 hover:border-stone-600'"
+        role="radio"
+        :aria-checked="characterStore.character.race === race.id"
+        :aria-label="gt.raceName(race.name)"
       >
         <h3 class="font-bold text-amber-400">{{ gt.raceName(race.name) }}</h3>
         <p class="text-xs text-stone-400 mt-1">{{ bonusString(race.abilityBonuses) }}</p>
@@ -103,13 +106,15 @@ function bonusString(bonuses: Record<string, number>): string {
       <!-- Subraces -->
       <div v-if="selectedRace.subraces && selectedRace.subraces.length > 0" class="mt-4">
         <h4 class="font-semibold text-stone-300 mb-2">{{ t('race.subrace') }}</h4>
-        <div class="flex gap-2 flex-wrap">
+        <div class="flex gap-2 flex-wrap" role="radiogroup" :aria-label="t('race.subrace')">
           <button
             v-for="sub in selectedRace.subraces"
             :key="sub.id"
             @click="selectSubrace(sub.id)"
             class="px-3 py-1 rounded text-sm transition-colors cursor-pointer"
             :class="selectedSubrace === sub.id ? 'bg-amber-600 text-stone-900' : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
+            role="radio"
+            :aria-checked="selectedSubrace === sub.id"
           >
             {{ gt.subraceName(sub.name) }}
           </button>
@@ -118,5 +123,5 @@ function bonusString(bonuses: Record<string, number>): string {
     </div>
 
     <VariantPromo :variant="characterStore.character.variant" />
-  </div>
+  </section>
 </template>

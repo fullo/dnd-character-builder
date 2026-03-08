@@ -62,17 +62,17 @@ function showDetail(spell: Spell) {
 </script>
 
 <template>
-  <div>
-    <h2 class="text-2xl font-bold text-amber-500 mb-6">{{ t('spells.title') }}</h2>
+  <section aria-labelledby="spells-heading">
+    <h2 id="spells-heading" class="text-2xl font-bold text-amber-500 mb-6">{{ t('spells.title') }}</h2>
 
-    <div v-if="!isCaster" class="text-center py-12 text-stone-500">
+    <div v-if="!isCaster" class="text-center py-12 text-stone-500" role="status">
       <p class="text-lg">{{ t('spells.notACaster') }}</p>
       <p class="text-sm mt-2">{{ t('spells.pressNext') }}</p>
     </div>
 
     <template v-else>
       <!-- Spell Slots Summary -->
-      <div class="bg-stone-800 border border-stone-700 rounded-lg p-4 mb-6">
+      <div class="bg-stone-800 border border-stone-700 rounded-lg p-4 mb-6" role="region" :aria-label="t('spells.spellSlots')">
         <div class="flex flex-wrap gap-4 text-sm">
           <div>
             <span class="text-stone-400">{{ t('spells.spellcastingAbility') }}:</span>
@@ -87,9 +87,11 @@ function showDetail(spell: Spell) {
 
       <!-- Search & Filter -->
       <div class="flex gap-3 mb-4">
-        <input v-model="searchQuery" :placeholder="t('common.search')"
+        <label for="spell-search" class="sr-only">{{ t('common.search') }}</label>
+        <input id="spell-search" v-model="searchQuery" :placeholder="t('common.search')"
           class="flex-1 bg-stone-700 text-stone-200 rounded px-3 py-2 text-sm" />
-        <select v-model="filterLevel" class="bg-stone-700 text-stone-200 rounded px-3 py-2 text-sm">
+        <label for="spell-level-filter" class="sr-only">{{ t('spells.allLevels') }}</label>
+        <select id="spell-level-filter" v-model="filterLevel" class="bg-stone-700 text-stone-200 rounded px-3 py-2 text-sm" :aria-label="t('spells.allLevels')">
           <option :value="null">{{ t('spells.allLevels') }}</option>
           <option :value="0">{{ t('spells.cantrips') }}</option>
           <option v-for="l in 9" :key="l" :value="l">{{ t('spells.level', { level: l }) }}</option>
@@ -98,11 +100,11 @@ function showDetail(spell: Spell) {
 
       <!-- Cantrips -->
       <div class="mb-6">
-        <h3 class="text-lg font-semibold text-stone-300 mb-2">
+        <h3 id="cantrips-heading" class="text-lg font-semibold text-stone-300 mb-2">
           {{ t('spells.cantrips') }}
-          <span class="text-sm text-stone-500">({{ characterStore.character.cantrips.length }}/{{ maxCantrips }})</span>
+          <span class="text-sm text-stone-500" aria-live="polite">({{ characterStore.character.cantrips.length }}/{{ maxCantrips }})</span>
         </h3>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2" role="group" :aria-label="t('spells.cantrips')">
           <button
             v-for="spell in cantrips"
             :key="spell.id"
@@ -115,6 +117,8 @@ function showDetail(spell: Spell) {
                 ? 'bg-stone-800 text-stone-600'
                 : 'bg-stone-700 text-stone-300 hover:bg-stone-600'"
             :title="spell.description"
+            :aria-pressed="characterStore.character.cantrips.includes(spell.id)"
+            :aria-disabled="!characterStore.character.cantrips.includes(spell.id) && characterStore.character.cantrips.length >= maxCantrips"
           >
             {{ gt.spell(spell.name) }}
           </button>
@@ -123,11 +127,11 @@ function showDetail(spell: Spell) {
 
       <!-- Leveled Spells -->
       <div>
-        <h3 class="text-lg font-semibold text-stone-300 mb-2">
+        <h3 id="spells-known-heading" class="text-lg font-semibold text-stone-300 mb-2">
           {{ t('spells.knownSpells') }}
-          <span class="text-sm text-stone-500">({{ characterStore.character.spellsKnown.length }}/{{ maxSpellsKnown }})</span>
+          <span class="text-sm text-stone-500" aria-live="polite">({{ characterStore.character.spellsKnown.length }}/{{ maxSpellsKnown }})</span>
         </h3>
-        <div class="space-y-1">
+        <div class="space-y-1" role="group" :aria-label="t('spells.knownSpells')">
           <button
             v-for="spell in leveledSpells"
             :key="spell.id"
@@ -138,6 +142,8 @@ function showDetail(spell: Spell) {
               : characterStore.character.spellsKnown.length >= maxSpellsKnown
                 ? 'bg-stone-800 text-stone-600'
                 : 'bg-stone-800 text-stone-300 hover:bg-stone-700 border border-stone-700'"
+            :aria-pressed="characterStore.character.spellsKnown.includes(spell.id)"
+            :aria-disabled="!characterStore.character.spellsKnown.includes(spell.id) && characterStore.character.spellsKnown.length >= maxSpellsKnown"
           >
             <span>
               <span class="font-medium">{{ gt.spell(spell.name) }}</span>
@@ -150,11 +156,11 @@ function showDetail(spell: Spell) {
 
       <!-- Spell Detail Modal -->
       <div v-if="selectedSpellDetail" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
-        @click.self="selectedSpellDetail = null">
+        @click.self="selectedSpellDetail = null" role="dialog" aria-modal="true" :aria-label="gt.spell(selectedSpellDetail.name)">
         <div class="bg-stone-800 border border-stone-600 rounded-xl p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto">
           <div class="flex justify-between items-start mb-3">
             <h3 class="text-lg font-bold text-amber-400">{{ gt.spell(selectedSpellDetail.name) }}</h3>
-            <button @click="selectedSpellDetail = null" class="text-stone-500 hover:text-stone-300 cursor-pointer">&times;</button>
+            <button @click="selectedSpellDetail = null" class="text-stone-500 hover:text-stone-300 cursor-pointer" :aria-label="t('common.cancel')">&times;</button>
           </div>
           <div class="space-y-2 text-sm text-stone-400">
             <p><strong>{{ t('spells.level') }}:</strong> {{ selectedSpellDetail.level === 0 ? t('spells.cantrips') : selectedSpellDetail.level }}</p>
@@ -170,5 +176,5 @@ function showDetail(spell: Spell) {
     </template>
 
     <VariantPromo :variant="characterStore.character.variant" />
-  </div>
+  </section>
 </template>
