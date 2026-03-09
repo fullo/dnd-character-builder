@@ -109,5 +109,21 @@ export function useGameTerms() {
     return translate(name, 'language')
   }
 
-  return { weapon, armorName, spell, school, damageType, pack, background, className, raceName, subraceName, skill, proficiency, feature, trait, language }
+  /**
+   * Translate a subclass name to Italian.
+   * @param name - Subclass ID (e.g., "berserker", "school-of-evocation")
+   */
+  function subclassName(name: string): string {
+    return translate(name, 'subclass')
+  }
+
+  /**
+   * Translate an equipment item name to Italian.
+   * @param name - Equipment item string (e.g., "Longsword", "Explorer's Pack")
+   */
+  function equipment(name: string): string {
+    return translate(name, 'equipment')
+  }
+
+  return { weapon, armorName, spell, school, damageType, pack, background, className, raceName, subraceName, skill, proficiency, feature, trait, language, subclassName, equipment }
 }

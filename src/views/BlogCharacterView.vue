@@ -97,6 +97,19 @@ function formatMod(val: number): string {
   return val >= 0 ? `+${val}` : `${val}`
 }
 
+/**
+ * Get a character field (personality, physical) from i18n if available, fallback to raw data.
+ */
+function charField(field: string): string {
+  const key = `blog.characters.${slug.value}.${field}`
+  const translated = t(key)
+  // vue-i18n returns the key itself when no translation exists
+  if (translated === key && char.value) {
+    return (char.value as unknown as Record<string, unknown>)[field] as string ?? ''
+  }
+  return translated
+}
+
 // ─── SEO ────────────────────────────────────────────────────────────────────
 
 const originalTitle = document.title
@@ -142,7 +155,7 @@ onUnmounted(() => {
             <template v-if="char.subrace"> ({{ gt.subraceName(char.subrace) }})</template>
             &middot;
             {{ gt.className(char.className, char.variant) }}
-            <template v-if="char.subclass"> — {{ char.subclass }}</template>
+            <template v-if="char.subclass"> — {{ gt.subclassName(char.subclass) }}</template>
             &middot;
             {{ t('common.level') }} {{ char.level }}
           </p>
@@ -234,19 +247,19 @@ onUnmounted(() => {
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
         <div v-if="char.personalityTraits" class="bg-stone-900/50 rounded-lg p-3">
           <span class="text-stone-500 block mb-1">{{ t('background.personalityTraits') }}</span>
-          <span class="text-stone-300">{{ char.personalityTraits }}</span>
+          <span class="text-stone-300">{{ charField('personalityTraits') }}</span>
         </div>
         <div v-if="char.ideals" class="bg-stone-900/50 rounded-lg p-3">
           <span class="text-stone-500 block mb-1">{{ t('background.ideals') }}</span>
-          <span class="text-stone-300">{{ char.ideals }}</span>
+          <span class="text-stone-300">{{ charField('ideals') }}</span>
         </div>
         <div v-if="char.bonds" class="bg-stone-900/50 rounded-lg p-3">
           <span class="text-stone-500 block mb-1">{{ t('background.bonds') }}</span>
-          <span class="text-stone-300">{{ char.bonds }}</span>
+          <span class="text-stone-300">{{ charField('bonds') }}</span>
         </div>
         <div v-if="char.flaws" class="bg-stone-900/50 rounded-lg p-3">
           <span class="text-stone-500 block mb-1">{{ t('background.flaws') }}</span>
-          <span class="text-stone-300">{{ char.flaws }}</span>
+          <span class="text-stone-300">{{ charField('flaws') }}</span>
         </div>
       </div>
     </section>
@@ -285,7 +298,7 @@ onUnmounted(() => {
         </div>
         <div class="bg-stone-900/50 rounded-lg p-3 text-center">
           <span class="text-xs text-stone-500 uppercase block">{{ t('review.speed') }}</span>
-          <span class="text-2xl font-bold text-stone-100">{{ char.speed }} ft</span>
+          <span class="text-2xl font-bold text-stone-100">{{ char.speed }} {{ t('units.feet') }}</span>
         </div>
         <div class="bg-stone-900/50 rounded-lg p-3 text-center">
           <span class="text-xs text-stone-500 uppercase block">{{ t('review.proficiencyBonus') }}</span>
@@ -349,7 +362,7 @@ onUnmounted(() => {
         </div>
         <div v-if="char.languages.length > 0">
           <h3 class="text-stone-500 mb-1">{{ t('race.languages') }}</h3>
-          <span class="text-stone-300">{{ char.languages.join(', ') }}</span>
+          <span class="text-stone-300">{{ char.languages.map(l => gt.language(l)).join(', ') }}</span>
         </div>
         <div v-if="char.proficienciesOther.length > 0">
           <h3 class="text-stone-500 mb-1">{{ t('class.proficiencies') }}</h3>
@@ -373,7 +386,7 @@ onUnmounted(() => {
       </h2>
       <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm text-stone-300">
         <li v-for="(item, i) in char.equipment" :key="i" class="flex items-center gap-2">
-          <span class="text-stone-600" aria-hidden="true">&bull;</span> {{ item }}
+          <span class="text-stone-600" aria-hidden="true">&bull;</span> {{ gt.equipment(item) }}
         </li>
       </ul>
       <p v-if="char.coins.gp > 0" class="text-sm text-stone-400 mt-2">
@@ -448,15 +461,15 @@ onUnmounted(() => {
         </div>
         <div v-if="char.eyes" class="bg-stone-900/50 rounded-lg p-2">
           <span class="text-stone-500 block text-xs">{{ t('details.eyes') }}</span>
-          <span class="text-stone-200">{{ char.eyes }}</span>
+          <span class="text-stone-200">{{ charField('eyes') }}</span>
         </div>
         <div v-if="char.hair" class="bg-stone-900/50 rounded-lg p-2">
           <span class="text-stone-500 block text-xs">{{ t('details.hair') }}</span>
-          <span class="text-stone-200">{{ char.hair }}</span>
+          <span class="text-stone-200">{{ charField('hair') }}</span>
         </div>
         <div v-if="char.skin" class="bg-stone-900/50 rounded-lg p-2">
           <span class="text-stone-500 block text-xs">{{ t('details.skin') }}</span>
-          <span class="text-stone-200">{{ char.skin }}</span>
+          <span class="text-stone-200">{{ charField('skin') }}</span>
         </div>
       </div>
     </section>
