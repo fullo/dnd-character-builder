@@ -1,0 +1,93 @@
+import type { CharacterData } from '@/stores/character'
+
+/**
+ * Skar Flamerage — Dragonborn Barbarian (Path of the Berserker) Level 3
+ * A towering dragonborn whose volcanic temper and fiery breath
+ * make him a force of raw destruction on the battlefield.
+ */
+export const skarFlamerage: CharacterData = {
+  id: 'blog-barbarian-dragonborn-skar-flamerage',
+  variant: 'dnd5e',
+  name: 'Skar Flamerage',
+  playerName: '',
+  race: 'dragonborn',
+  subrace: '',
+  className: 'barbarian',
+  subclass: 'path-of-the-berserker',
+  level: 3,
+  background: 'outlander',
+  alignment: 'cn',
+  experiencePoints: 900,
+  // Point-buy (27 pts): STR 15(9), DEX 13(5), CON 14(7), INT 8(0), WIS 12(4), CHA 10(2)
+  abilityScores: { str: 15, dex: 13, con: 14, int: 8, wis: 12, cha: 10 },
+  // Dragonborn: STR +2, CHA +1
+  // Totals: 17, 13, 14, 8, 12, 11
+  racialBonuses: { str: 2, dex: 0, con: 0, int: 0, wis: 0, cha: 1 },
+  // Barbarian 2: athletics, intimidation; Outlander: athletics(dup->perception), survival
+  skillProficiencies: ['athletics', 'intimidation', 'perception', 'survival'],
+  skillExpertise: [],
+  savingThrowProficiencies: ['str', 'con'],
+  languages: ['Common', 'Draconic'],
+  proficienciesOther: ['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
+  weapons: [
+    { name: 'Greataxe', attackBonus: 5, damage: '1d12+3' },
+    { name: 'Javelin', attackBonus: 5, damage: '1d6+3' },
+  ],
+  armor: '',
+  shield: false,
+  equipment: [
+    'Greataxe',
+    '4 Javelins',
+    'Explorer\'s Pack',
+    'Traveler\'s clothes',
+    'Staff',
+    'Hunting trap',
+  ],
+  coins: { cp: 0, sp: 0, ep: 0, gp: 10, pp: 0 },
+  personalityTraits: 'I measure the worth of others by their willingness to stand and fight rather than talk. When I laugh, the ground seems to tremble, and I laugh often because the world is either funny or about to be broken.',
+  ideals: 'Strength. The strong survive and the weak are sheltered by those strong enough to protect them; that is the only law that matters.',
+  bonds: 'My clan was scattered by a white dragon that froze our mountain home; I carry a shard of its ice-scarred claw as a vow to one day return and reclaim our territory.',
+  flaws: 'My rage is a living thing that sometimes escapes its leash. I have destroyed friendships, furniture, and at least one tavern because I could not calm the fire inside.',
+  featuresTraits: [
+    'Draconic Ancestry',
+    'Breath Weapon',
+    'Damage Resistance',
+    'Rage',
+    'Unarmored Defense',
+    'Reckless Attack',
+    'Danger Sense',
+    'Primal Path: Path of the Berserker',
+    'Frenzy',
+  ],
+  backstory: 'Skar was born during a volcanic eruption in the Dragontooth Mountains, an event his clan interpreted as a blessing from Bahamut. He grew up wrestling dire wolves and splitting boulders for sport, earning his place as the war chief\'s champion before his fifteenth winter. When a white dragon descended upon the clan and scattered them across the frozen peaks, Skar was the last to retreat, carrying two wounded elders on his back through a blizzard. Alone and burning with fury, he now roams the lowlands as a sellsword, channeling his rage into every swing of his greataxe while searching for survivors of his broken clan.',
+  age: '19',
+  height: '6\'5"',
+  weight: '280 lbs',
+  eyes: 'Molten orange',
+  hair: 'None',
+  skin: 'Crimson scales with charcoal ridges',
+  allies: 'Clan Flamerage — scattered dragonborn survivors of the mountain fall',
+  treasure: 'A shard of white dragon claw worn on a leather cord around his neck',
+  spellcastingClass: '',
+  spellcastingAbility: '',
+  cantrips: [],
+  spellsKnown: [],
+  spellsPrepared: [],
+  hitDie: 12,
+  // HP: L1 = 12 + CON mod(2) = 14; L2-3 = 2 * (avg 7 + CON mod 2) = 18; Total = 32
+  maxHp: 32,
+  currentHp: 32,
+  tempHp: 0,
+  speed: 30,
+  brawlingMoves: [],
+  misdeeds: '',
+  size: 'Medium',
+  whacksLevel: 0,
+  mark: '',
+  markSpirit: '',
+  virtue: '',
+  sin: '',
+  humanity: 10,
+  sessionNotes: '',
+  classes: [],
+}

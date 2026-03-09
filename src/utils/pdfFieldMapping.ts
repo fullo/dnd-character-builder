@@ -224,6 +224,16 @@ export function getDnd5eFieldMapping(char: CharacterData): Record<string, string
   fields['Hair'] = char.hair
   fields['Skin'] = char.skin
   fields['Backstory'] = char.backstory
+  // Character Appearance: compose a physical description from detail fields
+  const appearanceParts = [
+    char.age ? `Age: ${char.age}` : '',
+    char.height ? `Height: ${char.height}` : '',
+    char.weight ? `Weight: ${char.weight}` : '',
+    char.eyes ? `Eyes: ${char.eyes}` : '',
+    char.hair ? `Hair: ${char.hair}` : '',
+    char.skin ? `Skin: ${char.skin}` : '',
+  ].filter(Boolean)
+  fields['Feats+Traits'] = appearanceParts.join('\n')
   const alliesContent = [char.allies, char.sessionNotes].filter(Boolean).join('\n\n')
   fields['Allies'] = alliesContent
   fields['Treasure'] = char.treasure

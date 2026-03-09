@@ -1,0 +1,93 @@
+import type { CharacterData } from '@/stores/character'
+
+/**
+ * Cassara Starbloom — Half-Elf Sorcerer (Draconic Bloodline) Level 3
+ * A charismatic noblewoman whose golden-scaled heritage betrays
+ * the dragon blood coursing through her veins.
+ */
+export const cassaraStarbloom: CharacterData = {
+  id: 'blog-sorcerer-halfelf-cassara-starbloom',
+  variant: 'dnd5e',
+  name: 'Cassara Starbloom',
+  playerName: '',
+  race: 'half-elf',
+  subrace: '',
+  className: 'sorcerer',
+  subclass: 'draconic-bloodline',
+  level: 3,
+  background: 'noble',
+  alignment: 'cg',
+  experiencePoints: 900,
+  // Point-buy (27 pts): STR 8(0), DEX 14(7), CON 14(7), INT 10(2), WIS 10(2), CHA 15(9)
+  abilityScores: { str: 8, dex: 14, con: 14, int: 10, wis: 10, cha: 15 },
+  // Half-Elf: CHA +2, plus two others +1 each → CON +1, WIS +1
+  // Totals: 8, 14, 15, 10, 11, 17
+  racialBonuses: { str: 0, dex: 0, con: 1, int: 0, wis: 1, cha: 2 },
+  // Sorcerer 2: persuasion, deception; Noble: history, persuasion(dup→arcana); Half-Elf 2: insight, investigation
+  skillProficiencies: ['persuasion', 'deception', 'history', 'arcana', 'insight', 'investigation'],
+  skillExpertise: [],
+  savingThrowProficiencies: ['con', 'cha'],
+  languages: ['Common', 'Elvish', 'Draconic'],
+  proficienciesOther: ['dagger', 'dart', 'sling', 'quarterstaff', 'light crossbow'],
+  weapons: [
+    { name: 'Dagger', attackBonus: 4, damage: '1d4+2' },
+    { name: 'Light Crossbow', attackBonus: 4, damage: '1d8+2' },
+  ],
+  armor: '',
+  shield: false,
+  equipment: [
+    'Light Crossbow',
+    '20 bolts',
+    'Component pouch',
+    'Explorer\'s Pack',
+    '2 Daggers',
+    'Signet ring',
+    'Fine clothes',
+  ],
+  coins: { cp: 0, sp: 0, ep: 0, gp: 10, pp: 0 },
+  personalityTraits: 'I carry myself with the effortless poise of old nobility, though I punctuate every formal greeting with an involuntary spark of golden light from my fingertips. I collect rare perfumes and judge people by their scent before their words.',
+  ideals: 'Freedom. No one should be caged by birthright or bloodline; power is meant to liberate, not to shackle.',
+  bonds: 'My grandmother was the last in our line to openly bear the dragon mark, and I wear her signet ring as a promise to restore our family\'s fading name.',
+  flaws: 'I am terrified that one day my draconic power will surge beyond my control and harm the people I love.',
+  featuresTraits: [
+    'Darkvision',
+    'Fey Ancestry',
+    'Skill Versatility',
+    'Spellcasting',
+    'Sorcerous Origin: Draconic Bloodline',
+    'Dragon Ancestor',
+    'Draconic Resilience',
+    'Font of Magic',
+  ],
+  backstory: 'Cassara grew up in a crumbling manor on the edge of Waterdeep, the last scion of the once-prestigious Starbloom line. When golden scales began to surface along her forearms during her sixteenth nameday ball, the secret her family had kept for generations was laid bare: the blood of a gold dragon runs in their veins. Cast out by scandalized peers, Cassara chose to embrace her heritage rather than hide it. She now travels the Sword Coast seeking forgotten draconic lore, funding her journey with the charm and cunning that only a half-elf noble can muster.',
+  age: '27',
+  height: '5\'7"',
+  weight: '125 lbs',
+  eyes: 'Amber with vertical pupils',
+  hair: 'Raven black with gold streaks',
+  skin: 'Olive with faint golden scales along forearms',
+  allies: 'House Starbloom — a diminished noble house with a handful of loyal retainers',
+  treasure: 'A worn signet ring bearing the Starbloom crest: a dragon coiled around a blooming star',
+  spellcastingClass: 'sorcerer',
+  spellcastingAbility: 'cha',
+  cantrips: ['Fire Bolt', 'Prestidigitation', 'Light', 'Minor Illusion'],
+  spellsKnown: ['Shield', 'Magic Missile', 'Scorching Ray', 'Misty Step'],
+  spellsPrepared: [],
+  hitDie: 6,
+  // HP: L1 = 6 + CON mod(2) = 8; L2-3 = 2 * (avg 4 + CON mod 2) = 12; Total = 20
+  maxHp: 20,
+  currentHp: 20,
+  tempHp: 0,
+  speed: 30,
+  brawlingMoves: [],
+  misdeeds: '',
+  size: 'Medium',
+  whacksLevel: 0,
+  mark: '',
+  markSpirit: '',
+  virtue: '',
+  sin: '',
+  humanity: 10,
+  sessionNotes: '',
+  classes: [],
+}

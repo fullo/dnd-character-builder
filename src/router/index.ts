@@ -19,6 +19,23 @@ const router = createRouter({
       component: () => import('@/views/CharacterListView.vue'),
     },
     {
+      path: '/blog',
+      name: 'blog',
+      component: () => import('@/views/BlogListView.vue'),
+    },
+    {
+      path: '/blog/:slug',
+      name: 'blog-character',
+      component: () => import('@/views/BlogCharacterView.vue'),
+      beforeEnter: (to) => {
+        const slug = to.params.slug as string
+        if (!slug || !/^[a-z0-9-]+$/.test(slug) || slug.length > 100) {
+          return { name: 'blog' }
+        }
+        return true
+      },
+    },
+    {
       path: '/privacy',
       name: 'privacy',
       component: () => import('@/views/PrivacyView.vue'),

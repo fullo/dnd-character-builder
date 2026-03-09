@@ -105,6 +105,7 @@ export const spellNamesIt: Record<string, string> = {
   'Healing Word': 'Parola Guaritrice',
   'Hellish Rebuke': 'Punizione Infernale',
   'Hex': 'Maledizione',
+  'Goodberry': 'Bacche Benefiche',
   "Hunter's Mark": 'Segno del Cacciatore',
   'Mage Armor': 'Armatura Magica',
   'Magic Missile': 'Dardo Incantato',
@@ -119,6 +120,7 @@ export const spellNamesIt: Record<string, string> = {
   'Invisibility': 'Invisibilita\'',
   'Lesser Restoration': 'Ristorare Inferiore',
   'Misty Step': 'Passo Brumoso',
+  'Pass without Trace': 'Passare Senza Traccia',
   'Scorching Ray': 'Raggio Rovente',
   'Spiritual Weapon': 'Arma Spirituale',
   'Web': 'Ragnatela',
@@ -162,6 +164,7 @@ export const spellNamesIt: Record<string, string> = {
   'Stone Shape': 'Plasmare Pietra',
   'Stoneskin': 'Pelle di Pietra',
   'Wall of Fire': 'Muro di Fuoco',
+  'Arcane Hand': 'Mano Arcana',
   // 5th Level
   'Animate Objects': 'Animare Oggetti',
   'Antilife Shell': 'Guscio Antivita',
@@ -646,12 +649,416 @@ export const featureNamesIt: Record<string, string> = {
   'Signature Spells': 'Incantesimi Distintivi',
   // Common
   'Ability Score Improvement': 'Incremento dei Punteggi di Caratteristica',
+  // ─── Racial Traits ──────────────────────────────────────────────────────────
+  'Darkvision': 'Scurovisione',
+  'Keen Senses': 'Sensi Acuti',
+  'Fey Ancestry': 'Eredita\' Fatata',
+  'Trance': 'Trance',
+  'Mask of the Wild': 'Maschera della Natura',
+  'Elf Weapon Training': 'Addestramento nelle Armi Elfiche',
+  'Fleet of Foot': 'Passo Veloce',
+  'Dwarven Resilience': 'Resilienza Nanica',
+  'Dwarven Combat Training': 'Addestramento al Combattimento Nanico',
+  'Stonecunning': 'Affinita\' con la Pietra',
+  'Dwarven Toughness': 'Tempra Nanica',
+  'Dwarven Armor Training': 'Addestramento nelle Armature Naniche',
+  'Halfling Nimbleness': 'Agilita\' Halfling',
+  'Lucky': 'Fortunato',
+  'Brave': 'Coraggioso',
+  'Naturally Stealthy': 'Furtivo per Natura',
+  'Stout Resilience': 'Resilienza dei Tozzi',
+  'Gnome Cunning': 'Astuzia Gnomica',
+  'Natural Illusionist': 'Illusionista Naturale',
+  'Speak with Small Beasts': 'Parlare con i Piccoli Animali',
+  "Artificer's Lore": 'Sapere dell\'Artefice',
+  'Tinker': 'Inventore',
+  'Hellish Resistance': 'Resistenza Infernale',
+  'Infernal Legacy': 'Eredita\' Infernale',
+  'Relentless Endurance': 'Resistenza Implacabile',
+  'Savage Attacks': 'Attacchi Selvaggi',
+  'Menacing': 'Minaccioso',
+  'Skill Versatility': 'Versatilita\' nelle Abilita\'',
+  'Draconic Ancestry': 'Ascendenza Draconica',
+  'Breath Weapon': 'Soffio del Drago',
+  'Damage Resistance': 'Resistenza ai Danni',
+  'Superior Darkvision': 'Scurovisione Superiore',
+  'Sunlight Sensitivity': 'Sensibilita\' alla Luce Solare',
+  'Drow Magic': 'Magia Drow',
+  'Drow Weapon Training': 'Addestramento nelle Armi Drow',
+  // ─── Composite Feature Names ──────────────────────────────────────────────
+  'Fighting Style: Archery': 'Stile di Combattimento: Tiro con l\'Arco',
+  'Fighting Style: Defense': 'Stile di Combattimento: Difesa',
+  'Fighting Style: Dueling': 'Stile di Combattimento: Duellare',
+  'Fighting Style: Great Weapon Fighting': 'Stile di Combattimento: Combattere con Armi Possenti',
+  'Fighting Style: Two-Weapon Fighting': 'Stile di Combattimento: Combattere con Due Armi',
+  'Fighting Style: Protection': 'Stile di Combattimento: Protezione',
+  'Ranger Archetype: Hunter': 'Archetipo del Ranger: Cacciatore',
+  'Ranger Archetype: Beast Master': 'Archetipo del Ranger: Signore delle Bestie',
+  'Hunter\'s Prey: Colossus Slayer': 'Preda del Cacciatore: Sterminatore di Colossi',
+  'Hunter\'s Prey: Giant Killer': 'Preda del Cacciatore: Uccisore di Giganti',
+  'Hunter\'s Prey: Horde Breaker': 'Preda del Cacciatore: Spezzatore di Orde',
+  'Martial Archetype: Champion': 'Archetipo Marziale: Campione',
+  'Martial Archetype: Battle Master': 'Archetipo Marziale: Maestro di Battaglia',
+  'Martial Archetype: Eldritch Knight': 'Archetipo Marziale: Cavaliere Mistico',
+  'Roguish Archetype: Thief': 'Archetipo del Ladro: Furfante',
+  'Roguish Archetype: Assassin': 'Archetipo del Ladro: Assassino',
+  'Roguish Archetype: Arcane Trickster': 'Archetipo del Ladro: Mistificatore Arcano',
+  'Sorcerous Origin: Draconic Bloodline': 'Origine Stregonesca: Linea di Sangue Draconica',
+  'Sorcerous Origin: Wild Magic': 'Origine Stregonesca: Magia Selvaggia',
+  'Otherworldly Patron: The Archfey': 'Patrono Ultraterreno: L\'Archifata',
+  'Otherworldly Patron: The Fiend': 'Patrono Ultraterreno: Il Demone',
+  'Otherworldly Patron: The Great Old One': 'Patrono Ultraterreno: Il Grande Antico',
+  'Divine Domain: Life': 'Dominio Divino: Vita',
+  'Druid Circle: Circle of the Land': 'Circolo Druidico: Circolo della Terra',
+  'Druid Circle: Circle of the Moon': 'Circolo Druidico: Circolo della Luna',
+  'Monastic Tradition: Way of the Open Hand': 'Tradizione Monastica: Via della Mano Aperta',
+  'Sacred Oath: Oath of Devotion': 'Giuramento Sacro: Giuramento di Devozione',
+  'Arcane Tradition: School of Evocation': 'Tradizione Arcana: Scuola di Invocazione',
+  'Arcane Tradition: School of Abjuration': 'Tradizione Arcana: Scuola di Abiurazione',
+  'Primal Path: Path of the Berserker': 'Cammino Primordiale: Cammino del Berserker',
+  'Bard College: College of Lore': 'Collegio Bardico: Collegio della Sapienza',
+  // ─── D&D 5e Subclass Features ─────────────────────────────────────────────
+  'Open Hand Technique': 'Tecnica della Mano Aperta',
+  'Evocation Savant': 'Sapiente dell\'Invocazione',
+  'Sculpt Spells': 'Plasmare Incantesimi',
+  'Fast Hands': 'Mani Veloci',
+  'Second-Story Work': 'Lavoro al Secondo Piano',
+  'Dark One\'s Blessing': 'Benedizione dell\'Oscuro',
+  'Dragon Ancestor': 'Antenato Draconico',
+  'Draconic Resilience': 'Resilienza Draconica',
+  'Channel Divinity: Sacred Weapon': 'Incanalare Divinita\': Arma Sacra',
+  'Channel Divinity: Turn the Unholy': 'Incanalare Divinita\': Scacciare gli Empi',
+  'Hunter\'s Prey': 'Preda del Cacciatore',
+  // ─── Brancalonia Subclass Features ─────────────────────────────────────────
+  // Pagan (Barbarian)
+  'Pagan Fury': 'Furia Pagana',
+  'Rite of the Horned One': 'Rito del Cornuto',
+  'Spirit of the Land': 'Spirito della Terra',
+  // Harlequin (Bard)
+  'Stage Persona': 'Personaggio di Scena',
+  'Comedic Timing': 'Tempismo Comico',
+  'Improvised Scene': 'Scena Improvvisata',
+  // Miracolaro (Cleric)
+  'Patron Saint': 'Santo Patrono',
+  'Miraculous Intercession': 'Intercessione Miracolosa',
+  'Festival of the Saint': 'Festa del Santo',
+  // Benandante (Druid)
+  'Dance Macabre': 'Danza Macabra',
+  'Spirit Sight': 'Vista degli Spiriti',
+  'Requiem Form': 'Forma del Requiem',
+  // Sword-player (Fighter)
+  'Dueling Stance': 'Posizione da Duello',
+  'Riposte': 'Risposta',
+  'Fencing Flourish': 'Fioretto di Scherma',
+  // Friar (Monk)
+  'Righteous Sermon': 'Sermone Virtuoso',
+  'Holy Brawler': 'Rissaiolo Sacro',
+  'Mendicant\'s Fortitude': 'Fortezza del Mendicante',
+  // Knight-Errant (Paladin)
+  'Oath of Errantry': 'Giuramento di Erranza',
+  'Threadbare Nobility': 'Nobilta\' Rattoppata',
+  'Undying Chivalry': 'Cavalleria Immortale',
+  // Mattatore (Ranger)
+  'Beast Lore': 'Sapere delle Bestie',
+  'Pit Fighter': 'Lottatore da Arena',
+  'Monster Wrangler': 'Domatore di Mostri',
+  // Brigand (Rogue)
+  'Ambush Master': 'Maestro dell\'Imboscata',
+  'Highway Robbery': 'Brigantaggio',
+  'Bandit\'s Escape': 'Fuga del Bandito',
+  // Scaramante (Sorcerer)
+  'Fortune\'s Favor': 'Favore della Fortuna',
+  'Warding Sign': 'Segno di Protezione',
+  'Fey Touched': 'Tocco Fatato',
+  // Menagramo (Warlock)
+  'Evil Eye': 'Malocchio',
+  'Misfortune\'s Embrace': 'Abbraccio della Sfortuna',
+  'Aura of Calamity': 'Aura di Calamita\'',
+  // Guiscardo (Wizard)
+  'Folk Magic': 'Magia Popolare',
+  'Street Savvy': 'Furberia di Strada',
+  'Tale Spinner': 'Narratore',
+  // Rabble-Rouser (Barbarian 2nd)
+  'Incite Riot': 'Incitare alla Rivolta',
+  'Voice of the People': 'Voce del Popolo',
+  'Revolutionary Fervor': 'Fervore Rivoluzionario',
+  // Storyteller (Bard 2nd)
+  'Painted Scroll': 'Pergamena Dipinta',
+  'Tale of Valor': 'Racconto di Valore',
+  'Epic Narrative': 'Narrazione Epica',
+  // Preacher (Cleric 2nd)
+  'Hellfire Sermon': 'Sermone di Fuoco Infernale',
+  'Voice of Doom': 'Voce del Giudizio',
+  'Congregation': 'Congregazione',
+  // Hedge Witch (Druid 2nd)
+  'Potion Brewer': 'Preparatore di Pozioni',
+  'Evil Eye Ward': 'Protezione dal Malocchio',
+  'Cauldron Magic': 'Magia del Calderone',
+  // Mercenary Captain (Fighter 2nd)
+  'Tactical Command': 'Comando Tattico',
+  'Battle Assessment': 'Valutazione di Battaglia',
+  'Inspiring Rally': 'Raduno Ispiratore',
+  // Wrestler (Monk 2nd)
+  'Grappling Master': 'Maestro di Lotta',
+  'Ring Throw': 'Lancio da Ring',
+  'Iron Grip': 'Presa di Ferro',
+  // Justicar (Paladin 2nd)
+  'Oath of Justice': 'Giuramento di Giustizia',
+  'Relentless Pursuit': 'Inseguimento Implacabile',
+  'Sentence of the Just': 'Sentenza del Giusto',
+  // Bounty Hunter (Ranger 2nd)
+  'Manhunter': 'Cacciatore di Uomini',
+  'Bring \'Em Back': 'Riportali Indietro',
+  'Nowhere to Hide': 'Nessun Posto dove Nascondersi',
+  // Charlatan (Rogue 2nd)
+  'Silver Tongue': 'Lingua d\'Argento',
+  'Fake It': 'Finzione',
+  'Confidence Scheme': 'Schema di Truffa',
+  // Witch (Sorcerer 2nd)
+  'Witch\'s Curse': 'Maledizione della Strega',
+  'Ancestral Knowledge': 'Sapere Ancestrale',
+  'Wild Transformation': 'Trasformazione Selvaggia',
+  // Hexer (Warlock 2nd)
+  'Effigy Binding': 'Vincolo dell\'Effigie',
+  'Sympathetic Hex': 'Fattura Simpatica',
+  'Puppet Strings': 'Fili del Burattino',
+  // Alchemist (Wizard 2nd)
+  'Alchemical Formulae': 'Formule Alchemiche',
+  'Experimental Elixirs': 'Elisir Sperimentali',
+  'Volatile Transmutation': 'Trasmutazione Volatile',
+  // Burattinaio class features
+  'Puppet Master': 'Burattinaio Maestro',
+  'Strings of Fate': 'Fili del Destino',
+  'Puppet Tradition': 'Tradizione del Burattino',
+  'Extra Marionette': 'Marionetta Extra',
+  'Grand Puppeteer': 'Gran Burattinaio',
+  'Theatrical Misdirection': 'Depistaggio Teatrale',
+  'Dramatic Performance': 'Performance Drammatica',
+  'Battle Puppets': 'Burattini da Battaglia',
+  'Puppet Swarm': 'Sciame di Burattini',
+  // ─── Apocalisse Subclass Features ──────────────────────────────────────────
+  // Path of Martyrdom (Barbarian)
+  'Steed of the Apocalypse': 'Destriero dell\'Apocalisse',
+  'Mounted Fury': 'Furia in Sella',
+  'Trampling Charge': 'Carica Travolgente',
+  'Unyielding Rider': 'Cavaliere Inflessibile',
+  'Avatar of the Horseman': 'Avatar del Cavaliere',
+  // College of Revelation (Bard)
+  'Dirge of Sorrow': 'Nenia del Dolore',
+  'Song of the Lost': 'Canto dei Perduti',
+  'Requiem': 'Requiem',
+  // Domain of Ruin (Cleric)
+  'Heretical Knowledge': 'Sapere Eretico',
+  'Channel Divinity: Blasphemous Word': 'Incanalare Divinita\': Parola Blasfema',
+  'Deny Divinity': 'Negare la Divinita\'',
+  'Potent Spellcasting': 'Incantesimi Potenti',
+  'Avatar of Heresy': 'Avatar dell\'Eresia',
+  // Circle of Plagues (Druid)
+  'Circle Spells': 'Incantesimi del Circolo',
+  'Plagued Wild Shape': 'Forma Selvatica Infetta',
+  'Excruciating Contagion': 'Contagio Straziante',
+  'Plagued Palms': 'Palmi Infetti',
+  'Subjugated Plague': 'Piaga Soggiogata',
+  'Deadly Miasma': 'Miasma Mortale',
+  // Furioso (Fighter)
+  'Whirling Steel': 'Acciaio Vorticante',
+  'Formidable Warrior': 'Guerriero Formidabile',
+  'Furious Assault': 'Assalto Furioso',
+  'Improved Whirling Steel': 'Acciaio Vorticante Migliorato',
+  'Recklessness': 'Spregiudicatezza',
+  'Ready to Die': 'Pronto a Morire',
+  // Wormwood Specter (Rogue)
+  'Wormwood Addiction': 'Dipendenza dall\'Assenzio',
+  'Wormwood Shroud': 'Sudario dell\'Assenzio',
+  'Improved Wormwood Shroud': 'Sudario dell\'Assenzio Migliorato',
+  'Misty Form': 'Forma Nebbiosa',
+  'Evanescence': 'Evanescenza',
+  // School of Solomon (Wizard)
+  'Initiate of the School of Solomon': 'Iniziato della Scuola di Salomone',
+  'Solomon\'s Warding': 'Protezione di Salomone',
+  'Summon Otherworldly Spirit': 'Evocare Spirito Ultraterreno',
+  'Master of the School of Solomon': 'Maestro della Scuola di Salomone',
+  'Summon Greater Otherworldly Spirit': 'Evocare Spirito Ultraterreno Superiore',
+  // Way of the Seven Seals (Monk)
+  'Seal of Conquest': 'Sigillo della Conquista',
+  'Seal of War': 'Sigillo della Guerra',
+  'Seal of Famine': 'Sigillo della Carestia',
+  'Seal of Death': 'Sigillo della Morte',
+  'Seal of Resurrection': 'Sigillo della Resurrezione',
+  'Seal of the Eternal Eclipse': 'Sigillo dell\'Eclissi Eterna',
+  'Seal of Silence': 'Sigillo del Silenzio',
+  // Oath of the End of the World (Paladin)
+  'Channel Divinity: Memento Mori': 'Incanalare Divinita\': Memento Mori',
+  'Channel Divinity: Ultima Forsan': 'Incanalare Divinita\': Ultima Forsan',
+  'Divine Ruin': 'Rovina Divina',
+  'Aura of Dismay': 'Aura di Sgomento',
+  'Exploit Dismay': 'Sfruttare lo Sgomento',
+  'Herald of the End of the World': 'Araldo della Fine del Mondo',
+  // Bastion (Ranger)
+  'Frontier Training': 'Addestramento di Frontiera',
+  'Egregious Training': 'Addestramento Egregio',
+  'Tireless Shooter': 'Tiratore Instancabile',
+  'Bullseye': 'Centro del Bersaglio',
+  // Otherworldly Heritage (Sorcerer)
+  'Otherworldly Ancestor': 'Antenato Ultraterreno',
+  'Otherworldly Sign': 'Segno Ultraterreno',
+  'Ancestor\'s Protection': 'Protezione dell\'Antenato',
+  'Otherworldly Consonance': 'Consonanza Ultraterrena',
+  'Call of Blood': 'Richiamo del Sangue',
+  'Otherworldly Affliction': 'Afflizione Ultraterrena',
+  // Warlock of Lilith (Warlock)
+  'Shielding Veils': 'Veli Protettivi',
+  'Fierce Savagery of Lilith': 'Feroce Furia di Lilith',
+  'Indomitable Freedom of Lilith': 'Liberta\' Indomabile di Lilith',
+  'Rebellion Against Fate': 'Ribellione contro il Destino',
+  'Ultimate Freedom of Lilith': 'Liberta\' Suprema di Lilith',
+}
+
+// ─── Racial Trait Names (keyed by exact IDs from race data) ────────────────
+
+/** Racial trait translations keyed by the exact trait strings used in race data files */
+export const traitNamesIt: Record<string, string> = {
+  // ─── D&D 5e Racial Traits ──────────────────────────────────────────────────
+  'darkvision': 'Scurovisione',
+  'dwarven-resilience': 'Resilienza Nanica',
+  'dwarven-combat-training': 'Addestramento al Combattimento Nanico',
+  'tool-proficiency': 'Competenza negli Attrezzi',
+  'stonecunning': 'Affinita\' con la Pietra',
+  'dwarven-toughness': 'Tempra Nanica',
+  'dwarven-armor-training': 'Addestramento nelle Armature Naniche',
+  'keen-senses': 'Sensi Acuti',
+  'fey-ancestry': 'Eredita\' Fatata',
+  'trance': 'Trance',
+  'elf-weapon-training': 'Addestramento nelle Armi Elfiche',
+  'cantrip': 'Trucchetto',
+  'extra-language': 'Linguaggio Extra',
+  'fleet-of-foot': 'Passo Veloce',
+  'mask-of-the-wild': 'Maschera della Natura',
+  'superior-darkvision': 'Scurovisione Superiore',
+  'sunlight-sensitivity': 'Sensibilita\' alla Luce Solare',
+  'drow-magic': 'Magia Drow',
+  'drow-weapon-training': 'Addestramento nelle Armi Drow',
+  'gnome-cunning': 'Astuzia Gnomica',
+  'artificers-lore': 'Sapere dell\'Artefice',
+  'tinker': 'Inventore',
+  'natural-illusionist': 'Illusionista Naturale',
+  'speak-with-small-beasts': 'Parlare con i Piccoli Animali',
+  'skill-versatility': 'Versatilita\' nelle Abilita\'',
+  'menacing': 'Minaccioso',
+  'relentless-endurance': 'Resistenza Implacabile',
+  'savage-attacks': 'Attacchi Selvaggi',
+  'lucky': 'Fortunato',
+  'brave': 'Coraggioso',
+  'halfling-nimbleness': 'Agilita\' Halfling',
+  'naturally-stealthy': 'Furtivo per Natura',
+  'stout-resilience': 'Resilienza dei Tozzi',
+  'hellish-resistance': 'Resistenza Infernale',
+  'infernal-legacy': 'Eredita\' Infernale',
+  'draconic-ancestry': 'Ascendenza Draconica',
+  'breath-weapon': 'Soffio del Drago',
+  'damage-resistance': 'Resistenza ai Danni',
+  // ─── Brancalonia Racial Traits ─────────────────────────────────────────────
+  'versatile': 'Versatile',
+  'extra-skill-proficiency': 'Competenza in Abilita\' Extra',
+  'innate-spellcasting': 'Incantesimi Innati',
+  'physical-peculiarity': 'Peculiarita\' Fisica',
+  'superstitious-aura': 'Aura Superstiziosa',
+  'constructed-body': 'Corpo Costruito',
+  'fire-vulnerability': 'Vulnerabilita\' al Fuoco',
+  'poison-resistance': 'Resistenza al Veleno',
+  'wooden-resilience': 'Resilienza del Legno',
+  'sentry-rest': 'Riposo di Sentinella',
+  'powerful-build': 'Corporatura Possente',
+  'big-appetite': 'Grande Appetito',
+  'natural-athlete': 'Atleta Naturale',
+  'demi-giant-resilience': 'Resilienza del Semigigante',
+  'speak-with-animals': 'Parlare con gli Animali',
+  'nature-bond': 'Legame con la Natura',
+  'forest-born': 'Nato nella Foresta',
+  'infernal-heritage': 'Eredita\' Infernale',
+  'fire-resistance': 'Resistenza al Fuoco',
+  'enhanced-brawling': 'Rissa Potenziata',
+  'menacing-presence': 'Presenza Minacciosa',
+  // ─── Apocalisse Origin Traits ──────────────────────────────────────────────
+  // Child of the Old World
+  'Proficiency in 2 skills from: Arcana, Medicine, Nature, Perception, Religion, History, plus 1 free skill': 'Competenza in 2 abilita\' tra: Arcano, Medicina, Natura, Percezione, Religione, Storia, piu\' 1 abilita\' a scelta',
+  'Proficiency with herbalist\'s kit and 1 artisan tool': 'Competenza con kit da erborista e 1 strumento da artigiano',
+  'Language: Old World Tongue': 'Linguaggio: Lingua del Vecchio Mondo',
+  'Memories of the Old World: you remember the world before the Apocalypse and can recall useful knowledge': 'Memorie del Vecchio Mondo: ricordi il mondo prima dell\'Apocalisse e puoi richiamare conoscenze utili',
+  // Child of the Apocalypse
+  'Proficiency in 1 skill from: Athletics, Stealth, Perception, Survival, plus 1 free skill': 'Competenza in 1 abilita\' tra: Atletica, Furtivita\', Percezione, Sopravvivenza, piu\' 1 abilita\' a scelta',
+  'Proficiency with 1 artisan tool': 'Competenza con 1 strumento da artigiano',
+  'Stormborn: +1 HP per level': 'Figlio della Tempesta: +1 PF per livello',
+  'Accustomed to Armageddon: advantage on saves against extreme weather and environmental hazards': 'Abituato all\'Armageddon: vantaggio ai tiri salvezza contro condizioni climatiche estreme e pericoli ambientali',
+  // Risen from Hell
+  'Proficiency in 2 skills from: Arcana, Stealth, Deception, Intimidation, Perception, Sleight of Hand, Religion': 'Competenza in 2 abilita\' tra: Arcano, Furtivita\', Inganno, Intimidire, Percezione, Rapidita\' di Mano, Religione',
+  'Language: Infernal': 'Linguaggio: Infernale',
+  'Darkvision 60 ft.': 'Scurovisione 18 m',
+  'Cantrip: chill touch. At 3rd level: inflict wounds 1/long rest': 'Trucchetto: tocco gelido. Al 3° livello: infliggere ferite 1/riposo lungo',
+  'Shard of Eternal Pain: you know suffering intimately and resist its effects': 'Scheggia del Dolore Eterno: conosci la sofferenza intimamente e resisti ai suoi effetti',
+  'Scars of the Lost Ones: your body bears marks of infernal torment': 'Cicatrici dei Perduti: il tuo corpo porta i segni del tormento infernale',
+  // Risen from Heaven
+  'Proficiency in 2 skills from: Arcana, Insight, Medicine, Perception, Persuasion, Religion': 'Competenza in 2 abilita\' tra: Arcano, Intuizione, Medicina, Percezione, Persuasione, Religione',
+  'Language: Celestial': 'Linguaggio: Celestiale',
+  'Blindsight 20 ft.': 'Vista Cieca 6 m',
+  'Cantrip: spare the dying. At 3rd level: cure wounds. At 5th level: moonbeam (each 1/long rest)': 'Trucchetto: salvare i morenti. Al 3° livello: cura ferite. Al 5° livello: raggio lunare (ciascuno 1/riposo lungo)',
+  'Celestial Longing: you feel a pull toward the divine and radiate faint warmth': 'Nostalgia Celestiale: senti un richiamo verso il divino e irradi un debole calore',
+  'Scent of Holiness: celestial creatures recognize your origin': 'Profumo di Santita\': le creature celestiali riconoscono la tua origine',
+  // Risen from Purgatory
+  'Proficiency in 1 skill from: Nature, Perception, Survival': 'Competenza in 1 abilita\' tra: Natura, Percezione, Sopravvivenza',
+  // 'Language: Old World Tongue' — already defined above (Child of the Old World)
+  'Blindsight 30 ft.': 'Vista Cieca 9 m',
+  'Cantrip: resistance. At 3rd level: longstrider. At 5th level: protection from poison (each 1/long rest)': 'Trucchetto: resistenza. Al 3° livello: passo lungo. Al 5° livello: protezione dal veleno (ciascuno 1/riposo lungo)',
+  'Used to Atonement: you endured the purification of Purgatory': 'Abituato all\'Espiazione: hai sopportato la purificazione del Purgatorio',
+  'Tireless Walker: you can travel twice as long before suffering exhaustion': 'Camminatore Instancabile: puoi viaggiare il doppio prima di soffrire l\'extenuazione',
+  'Ridge Climber: you have a climbing speed equal to your walking speed': 'Scalatore di Creste: hai velocita\' di scalata pari alla velocita\' di cammino',
+  'Resistance of the Mount: advantage on saves against being knocked prone': 'Resistenza del Monte: vantaggio ai tiri salvezza contro essere buttato a terra',
+  // Risen from Limbo
+  'Proficiency in 2 skills from: Arcana, Investigation, Intimidation, Performance, Nature, Persuasion, Religion, History': 'Competenza in 2 abilita\' tra: Arcano, Indagare, Intimidire, Intrattenere, Natura, Persuasione, Religione, Storia',
+  'Cantrip: guidance. At 3rd level: bless. At 5th level: warding bond (each 1/long rest)': 'Trucchetto: guida. Al 3° livello: benedizione. Al 5° livello: vincolo protettivo (ciascuno 1/riposo lungo)',
+  'Discernment: you can sense otherworldly presences within 30 ft.': 'Discernimento: puoi percepire presenze ultraterrene entro 9 m',
+  'Declamation of Courage: as an action, bolster allies within 10 ft. granting advantage on saves vs. frightened (1/long rest)': 'Declamazione del Coraggio: come azione, rinforza gli alleati entro 3 m concedendo vantaggio ai tiri salvezza contro spaventato (1/riposo lungo)',
+  'Apocalyptic Bestiary: you have extensive knowledge of the creatures born from the Apocalypse': 'Bestiario Apocalittico: hai una vasta conoscenza delle creature nate dall\'Apocalisse',
+}
+
+// ─── Language Names ────────────────────────────────────────────────────────
+
+/** Language name translations */
+export const languageNamesIt: Record<string, string> = {
+  'Common': 'Comune',
+  'Dwarvish': 'Nanico',
+  'Elvish': 'Elfico',
+  'Giant': 'Gigante',
+  'Gnomish': 'Gnomesco',
+  'Goblin': 'Goblin',
+  'Halfling': 'Halfling',
+  'Orc': 'Orchesco',
+  'Abyssal': 'Abissale',
+  'Celestial': 'Celestiale',
+  'Draconic': 'Draconico',
+  'Deep Speech': 'Linguaggio del Profondo',
+  'Infernal': 'Infernale',
+  'Primordial': 'Primordiale',
+  'Sylvan': 'Silvano',
+  'Undercommon': 'Sottocomune',
+  // Brancalonia
+  'Brancalonese': 'Brancalonese',
+  'Thieves\' Cant': 'Gergo dei Ladri',
+  // Apocalisse
+  'Old World Tongue': 'Lingua del Vecchio Mondo',
+  'Apocalyptic Common': 'Comune Apocalittico',
+  'Angelic': 'Angelico',
+  'Demonic': 'Demoniaco',
+  'Language of the Dead': 'Lingua dei Morti',
+  'Bestial': 'Bestiale',
+  'Elemental': 'Elementale',
+  'Tongue of Madness': 'Lingua della Follia',
 }
 
 /**
  * Translate a game term to Italian. Returns the original if no translation exists.
  */
-export type GameTermCategory = 'weapon' | 'armor' | 'spell' | 'school' | 'damageType' | 'pack' | 'background' | 'class' | 'race' | 'subrace' | 'skill' | 'proficiency' | 'feature'
+export type GameTermCategory = 'weapon' | 'armor' | 'spell' | 'school' | 'damageType' | 'pack' | 'background' | 'class' | 'race' | 'subrace' | 'skill' | 'proficiency' | 'feature' | 'trait' | 'language'
 
 export function translateGameTerm(
   name: string,
@@ -709,10 +1116,18 @@ export function translateGameTerm(
       const skillCapitalized = name.split(/[-\s]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
       return skillNamesIt[skillCapitalized] ?? name
     }
-    case 'proficiency':
-      return proficiencyNamesIt[name] ?? name
+    case 'proficiency': {
+      if (proficiencyNamesIt[name]) return proficiencyNamesIt[name]
+      // Individual weapon/armor proficiencies come in lowercase (e.g. "hand crossbow", "light armor")
+      const profCapitalized = name.split(/[-\s]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+      return proficiencyNamesIt[profCapitalized] ?? weaponNamesIt[profCapitalized] ?? armorNamesIt[profCapitalized] ?? name
+    }
     case 'feature':
       return featureNamesIt[name] ?? name
+    case 'trait':
+      return traitNamesIt[name] ?? name
+    case 'language':
+      return languageNamesIt[name] ?? name
     default:
       return name
   }

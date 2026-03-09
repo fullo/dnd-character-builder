@@ -1,14 +1,27 @@
 import { ref } from 'vue'
 import { PDFDocument } from 'pdf-lib'
 import { useCharacterStore } from '@/stores/character'
+import type { CharacterData } from '@/stores/character'
 import { getDnd5eFieldMapping, getBrancaloniaFieldMapping } from '@/utils/pdfFieldMapping'
 
 export function usePdfExport() {
   const exporting = ref(false)
 
+  /**
+   * Export a character to PDF.
+   * - Call with no args (or from @click) to export the current store character.
+   * - Call exportPdfFor(charData) to export an arbitrary CharacterData.
+   */
   async function exportPdf() {
     const characterStore = useCharacterStore()
-    const char = characterStore.character
+    return _doExport(characterStore.character)
+  }
+
+  async function exportPdfFor(charData: CharacterData) {
+    return _doExport(charData)
+  }
+
+  async function _doExport(char: CharacterData) {
     exporting.value = true
 
     try {
@@ -64,5 +77,5 @@ export function usePdfExport() {
     }
   }
 
-  return { exportPdf, exporting }
+  return { exportPdf, exportPdfFor, exporting }
 }

@@ -1,0 +1,106 @@
+import type { CharacterData } from '@/stores/character'
+
+/**
+ * Marco Fortunato — Human Bard (College of Lore) Level 3
+ * A silver-tongued entertainer whose quick wit and encyclopedic
+ * knowledge make him equally dangerous with words and rapier.
+ */
+export const marcoFortunato: CharacterData = {
+  id: 'blog-bard-human-marco-fortunato',
+  variant: 'dnd5e',
+  name: 'Marco Fortunato',
+  playerName: '',
+  race: 'human',
+  subrace: '',
+  className: 'bard',
+  subclass: 'college-of-lore',
+  level: 3,
+  background: 'entertainer',
+  alignment: 'cg',
+  experiencePoints: 900,
+  // Point-buy (27 pts): STR 8(0), DEX 14(7), CON 14(7), INT 10(2), WIS 10(2), CHA 15(9)
+  abilityScores: { str: 8, dex: 14, con: 14, int: 10, wis: 10, cha: 15 },
+  // Human: all +1
+  // Totals: 9, 15, 15, 11, 11, 16
+  racialBonuses: { str: 1, dex: 1, con: 1, int: 1, wis: 1, cha: 1 },
+  // Bard 3: persuasion, deception, history; Entertainer: acrobatics, performance;
+  // College of Lore bonus 3: intimidation, insight, arcana
+  skillProficiencies: ['persuasion', 'deception', 'history', 'acrobatics', 'performance', 'intimidation', 'insight', 'arcana'],
+  skillExpertise: [],
+  savingThrowProficiencies: ['dex', 'cha'],
+  languages: ['Common', 'Elvish', 'Dwarvish'],
+  proficienciesOther: [
+    'light armor',
+    'simple weapons',
+    'hand crossbow',
+    'longsword',
+    'rapier',
+    'shortsword',
+    'lute',
+    'flute',
+    'drum',
+  ],
+  weapons: [
+    { name: 'Rapier', attackBonus: 4, damage: '1d8+2' },
+    { name: 'Dagger', attackBonus: 4, damage: '1d4+2' },
+  ],
+  armor: 'Leather',
+  shield: false,
+  equipment: [
+    'Rapier',
+    'Diplomat\'s Pack',
+    'Lute',
+    'Leather Armor',
+    'Dagger',
+    'Musical instruments',
+    'Letter of recommendation',
+    'Costume clothes',
+  ],
+  coins: { cp: 0, sp: 0, ep: 0, gp: 10, pp: 0 },
+  personalityTraits: 'I always have a song ready for any occasion, and I firmly believe there is no problem that cannot be solved by the right melody. I collect stories the way other people collect coins, trading them freely and never letting a good tale go untold.',
+  ideals: 'Beauty. Art and music elevate the soul; when I perform, I give people a reason to hope even in the darkest times.',
+  bonds: 'My old theater troupe, the Fortunato Players, was disbanded by a jealous noble who accused us of sedition. I will clear our name and see us perform together once more.',
+  flaws: 'I cannot resist showing off, even when subtlety would be the wiser course. My need for applause has landed me in more trouble than any monster ever has.',
+  featuresTraits: [
+    'Spellcasting',
+    'Bardic Inspiration',
+    'Jack of All Trades',
+    'Song of Rest',
+    'Bard College: College of Lore',
+    'Expertise',
+    'Bonus Proficiencies',
+    'Cutting Words',
+  ],
+  backstory: 'Marco was born to a family of traveling performers in a bustling trade city, learning to sing before he could walk and to fence before he could write his own name. His troupe, the Fortunato Players, was renowned for satirical plays that mocked the powerful and uplifted the downtrodden. When a vindictive duke shut them down and scattered the troupe, Marco took to the road with nothing but his lute and his wits. He now wanders from tavern to court, gathering allies and secrets in equal measure, always searching for the leverage he needs to restore his family\'s legacy.',
+  age: '26',
+  height: '5\'9"',
+  weight: '155 lbs',
+  eyes: 'Warm brown',
+  hair: 'Curly chestnut',
+  skin: 'Olive',
+  allies: 'The Fortunato Players — a disbanded but loyal theater troupe',
+  treasure: 'A worn playbill from the troupe\'s final performance, kept folded inside his lute case',
+  spellcastingClass: 'bard',
+  spellcastingAbility: 'cha',
+  cantrips: ['Vicious Mockery', 'Minor Illusion'],
+  // Bard at level 3 knows 6 spells
+  spellsKnown: ['Healing Word', 'Faerie Fire', 'Thunderwave', 'Charm Person', 'Hold Person', 'Invisibility'],
+  spellsPrepared: [],
+  hitDie: 8,
+  // HP: L1 = 8 + CON mod(2) = 10; L2-3 = 2 * (avg 5 + CON mod 2) = 14; Total = 24
+  maxHp: 24,
+  currentHp: 24,
+  tempHp: 0,
+  speed: 30,
+  brawlingMoves: [],
+  misdeeds: '',
+  size: 'Medium',
+  whacksLevel: 0,
+  mark: '',
+  markSpirit: '',
+  virtue: '',
+  sin: '',
+  humanity: 10,
+  sessionNotes: '',
+  classes: [],
+}

@@ -92,14 +92,14 @@ function bonusString(bonuses: Record<string, number>): string {
         </div>
         <div>
           <h4 class="font-semibold text-stone-300 mb-1">{{ t('race.languages') }}</h4>
-          <p class="text-stone-400">{{ selectedRace.languages.join(', ') }}</p>
+          <p class="text-stone-400">{{ selectedRace.languages.map(l => gt.language(l)).join(', ') }}</p>
         </div>
       </div>
 
       <div v-if="selectedRace.traits.length" class="mt-4">
         <h4 class="font-semibold text-stone-300 mb-1">{{ t('race.traits') }}</h4>
         <ul class="text-stone-400 text-sm space-y-1">
-          <li v-for="trait in selectedRace.traits" :key="trait">&bull; {{ trait }}</li>
+          <li v-for="trait in selectedRace.traits" :key="trait">&bull; {{ gt.trait(trait) }}</li>
         </ul>
       </div>
 

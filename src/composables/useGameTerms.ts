@@ -92,5 +92,22 @@ export function useGameTerms() {
     return translate(name, 'feature')
   }
 
-  return { weapon, armorName, spell, school, damageType, pack, background, className, raceName, subraceName, skill, proficiency, feature }
+  /**
+   * Translate a racial trait to Italian.
+   * Accepts kebab-case IDs (D&D 5e/Brancalonia) or full sentences (Apocalisse).
+   * @param name - Trait string exactly as defined in race data
+   */
+  function trait(name: string): string {
+    return translate(name, 'trait')
+  }
+
+  /**
+   * Translate a language name to Italian.
+   * @param name - English language name (e.g., "Common", "Elvish")
+   */
+  function language(name: string): string {
+    return translate(name, 'language')
+  }
+
+  return { weapon, armorName, spell, school, damageType, pack, background, className, raceName, subraceName, skill, proficiency, feature, trait, language }
 }

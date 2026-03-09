@@ -46,6 +46,10 @@ function closeMobile() {
           to="/characters"
           class="text-stone-300 hover:text-amber-400 transition-colors text-sm"
         >{{ t('nav.characters') }}</router-link>
+        <router-link
+          to="/blog"
+          class="text-stone-300 hover:text-amber-400 transition-colors text-sm"
+        >{{ t('nav.blog') }}</router-link>
         <ThemeToggle />
         <LanguageSwitcher />
       </nav>
@@ -63,6 +67,9 @@ function closeMobile() {
       </router-link>
       <router-link to="/characters" @click="closeMobile" class="text-stone-300 hover:text-amber-400 text-sm no-underline">
         {{ t('nav.characters') }}
+      </router-link>
+      <router-link to="/blog" @click="closeMobile" class="text-stone-300 hover:text-amber-400 text-sm no-underline">
+        {{ t('nav.blog') }}
       </router-link>
       <div class="flex items-center gap-3">
         <ThemeToggle />
