@@ -1,0 +1,118 @@
+{
+  "project": "dnd-builder",
+  "date": "2026-03-10",
+  "spec": "W3C Web Sustainability Guidelines 1.0",
+  "summary": {
+    "total": 80,
+    "full": 34,
+    "partial": 21,
+    "na": 14,
+    "gap": 11
+  },
+  "categories": [
+    {
+      "id": "2",
+      "name": "User Experience Design",
+      "guidelines": [
+        { "id": "2.1", "title": "Undertake Systemic Impacts Mapping", "status": "partial", "notes": "Architecture considers sustainability (WSG comments in code) but no formal impact map" },
+        { "id": "2.2", "title": "Assess and Research Visitor Needs", "status": "partial", "notes": "Targets D&D players specifically; no formal user research documented" },
+        { "id": "2.3", "title": "Research Non-Visitor's Needs", "status": "na", "notes": "Tool has no external stakeholders beyond users" },
+        { "id": "2.4", "title": "Consider Sustainability in Early Ideation", "status": "full", "notes": "Client-only PWA, no backend, offline-first — sustainability by architecture" },
+        { "id": "2.5", "title": "Account for Stakeholder Issues", "status": "na", "notes": "Personal open-source project" },
+        { "id": "2.6", "title": "Create a Frictionless Lightweight Experience", "status": "full", "notes": "No login, no tracking, instant access, wizard-based UX" },
+        { "id": "2.7", "title": "Avoid Manipulative Patterns", "status": "full", "notes": "No dark patterns, no ads, no upsells, no paywalls" },
+        { "id": "2.8", "title": "Provide Accessible and Usable Navigation", "status": "full", "notes": "Skip links, semantic landmarks, keyboard-navigable wizard steps" },
+        { "id": "2.9", "title": "Respect the Visitor's Attention", "status": "full", "notes": "No popups, no notifications beyond PWA update prompt" },
+        { "id": "2.10", "title": "Use Recognized Design Patterns", "status": "full", "notes": "Standard wizard pattern, familiar card layouts, conventional navigation" },
+        { "id": "2.11", "title": "Avoid Unnecessary or An Overabundance of Assets", "status": "full", "notes": "6 SVG images total (6KB). Zero raster images. No stock photos" },
+        { "id": "2.12", "title": "Ensure Sufficient Color Contrast", "status": "full", "notes": "WCAG AA/AAA contrast ratios verified. Dark and light theme both compliant" },
+        { "id": "2.13", "title": "Use Accessible Typography", "status": "full", "notes": "System font stack for body. Google Font (Cinzel) with swap for headings. Readable sizes" },
+        { "id": "2.14", "title": "Provide Accessible Media", "status": "full", "notes": "All decorative elements use aria-hidden. SVG icons have proper semantics" },
+        { "id": "2.15", "title": "Take a More Sustainable Approach to Media", "status": "full", "notes": "Zero video, zero audio, zero raster images. 100% SVG" },
+        { "id": "2.16", "title": "Use Efficient Animations", "status": "partial", "notes": "Global prefers-reduced-motion in CSS. DiceRoller component ignores this preference" },
+        { "id": "2.17", "title": "Incorporate Compatibility Testing", "status": "partial", "notes": "Vue3 framework handles cross-browser. No formal browser testing matrix" },
+        { "id": "2.18", "title": "Support Non-Graphic Presentation", "status": "full", "notes": "Print stylesheet implemented. Screen-reader friendly with ARIA" },
+        { "id": "2.19", "title": "Enable Dark Mode and Eco-Friendly Themes", "status": "full", "notes": "Dark mode default. Light mode available. System preference respected" },
+        { "id": "2.20", "title": "Utilize Tooling", "status": "partial", "notes": "TypeScript strict mode. No linter, no Lighthouse CI, no accessibility scanner" },
+        { "id": "2.21", "title": "Define Performance and Sustainability Budgets", "status": "gap", "notes": "No formal performance budget defined. No sustainability metrics tracked", "action": "Define bundle size budgets, LCP/CLS targets, and SCI benchmarks", "effort": "small" }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Web Development",
+      "guidelines": [
+        { "id": "3.1", "title": "Identify Relevant Technical Indicators", "status": "gap", "notes": "No performance monitoring or sustainability KPIs", "action": "Integrate SCI Profiler and Lighthouse CI for measurable indicators", "effort": "small" },
+        { "id": "3.2", "title": "Minify Your HTML, CSS, and JavaScript", "status": "full", "notes": "Vite production build minifies all assets" },
+        { "id": "3.3", "title": "Use Code-Splitting", "status": "full", "notes": "Route-level splitting, wizard steps lazy-loaded, variant data chunked, pdf-lib separate" },
+        { "id": "3.4", "title": "Apply Tree Shaking to Code", "status": "partial", "notes": "Vite/Rollup tree-shakes. jsPDF is unused but still listed in package.json" },
+        { "id": "3.5", "title": "Ensure Your Solutions Are Accessible", "status": "full", "notes": "ARIA labels, roles, live regions, skip links, keyboard nav throughout" },
+        { "id": "3.6", "title": "Avoid Using Deprecated or Proprietary Technology", "status": "full", "notes": "Modern Vue 3, ES modules, standard web APIs" },
+        { "id": "3.7", "title": "Rigorously Assess Third-Party Services", "status": "full", "notes": "Only external dependency is Google Fonts. Zero tracking, zero CDN JS" },
+        { "id": "3.8", "title": "Use Native Functions, APIs, and Features", "status": "full", "notes": "localStorage, performance.now, URL API, Intl for locale detection" },
+        { "id": "3.9", "title": "Resolve Security Risks", "status": "full", "notes": "CSP headers, input validation, XSS prevention, serialize-javascript override" },
+        { "id": "3.10", "title": "Implement Efficient Data Management", "status": "full", "notes": "localStorage with JSON serialize. No unnecessary data fetching" },
+        { "id": "3.11", "title": "Include Structured Metadata", "status": "full", "notes": "JSON-LD, OpenGraph, Twitter Cards, canonical URL, robots meta" },
+        { "id": "3.12", "title": "Use Responsive Media", "status": "full", "notes": "SVG-only images. Responsive Tailwind utilities" },
+        { "id": "3.13", "title": "Lazy Load Non-Critical Resources", "status": "full", "notes": "Routes lazy-loaded. Wizard steps deferred. PDF lib separate chunk" },
+        { "id": "3.14", "title": "Provide Accessible Video and Audio", "status": "na", "notes": "No video or audio content" },
+        { "id": "3.15", "title": "Take a More Sustainable Approach to Data", "status": "full", "notes": "All data client-side. No API calls. Minimal localStorage footprint" },
+        { "id": "3.16", "title": "Only Request Data As Needed", "status": "full", "notes": "Variant data loaded only when selected. No polling, no websockets" },
+        { "id": "3.17", "title": "Include Expected and Beneficial Files", "status": "full", "notes": "robots.txt, manifest.json, 404 handling, canonical, structured data" },
+        { "id": "3.18", "title": "Support HTTP/2 and Above", "status": "partial", "notes": "GitHub Pages supports HTTP/2 by default. No explicit server push" },
+        { "id": "3.19", "title": "Implement Server-Side Content Negotiation", "status": "na", "notes": "Static site on GitHub Pages — no server-side logic" },
+        { "id": "3.20", "title": "Validate Accessibility", "status": "gap", "notes": "No automated accessibility validation in build pipeline", "action": "Add Lighthouse CI with accessibility threshold >= 90", "effort": "small" }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Hosting, Infrastructure, and Systems",
+      "guidelines": [
+        { "id": "4.1", "title": "Choose a Sustainable Hosting Provider", "status": "partial", "notes": "GitHub Pages (Microsoft Azure) — carbon-neutral since 2012. Not specifically green-hosted" },
+        { "id": "4.2", "title": "Optimize Browser Caching", "status": "full", "notes": "Content-hashed filenames. Service worker CacheFirst for PDFs. Workbox precaching" },
+        { "id": "4.3", "title": "Compress Your Files", "status": "partial", "notes": "GitHub Pages serves gzip. No Brotli. Build doesn't pre-compress" },
+        { "id": "4.4", "title": "Setup Error Pages and Redirection", "status": "full", "notes": "404.html redirect, catch-all route, safe URL validation" },
+        { "id": "4.5", "title": "Limit Usage of Additional Environments", "status": "full", "notes": "Single environment: GitHub Pages. No staging, no preview deployments" },
+        { "id": "4.6", "title": "Automate Tasks", "status": "gap", "notes": "Manual build and deploy. No CI/CD pipeline", "action": "Add GitHub Actions for automated build, test, and deploy", "effort": "medium" },
+        { "id": "4.7", "title": "Conduct Regular Audits", "status": "gap", "notes": "No scheduled audits (performance, accessibility, security)", "action": "Schedule quarterly Lighthouse audits and dependency updates", "effort": "small" },
+        { "id": "4.8", "title": "Use Environmentally Responsible Server Infrastructure", "status": "na", "notes": "No dedicated server — static files on GitHub Pages CDN" },
+        { "id": "4.9", "title": "Support Offline Access", "status": "full", "notes": "Full PWA with service worker. Works completely offline after first visit" },
+        { "id": "4.10", "title": "Use a CDN for Caching and Distribution", "status": "full", "notes": "GitHub Pages uses Fastly CDN globally" },
+        { "id": "4.11", "title": "Optimize for Energy Efficiency", "status": "partial", "notes": "Dark mode default (OLED savings). No CPU-intensive animations. Could measure SCI" },
+        { "id": "4.12", "title": "Monitor Server Energy Use", "status": "na", "notes": "No dedicated server to monitor" }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Business Strategy and Product Management",
+      "guidelines": [
+        { "id": "5.1", "title": "Assign a Sustainability Leader", "status": "na", "notes": "Solo developer project" },
+        { "id": "5.2", "title": "Establish Sustainability Targets", "status": "gap", "notes": "No formal sustainability targets", "action": "Define SCI targets per operation, bundle size limits", "effort": "small" },
+        { "id": "5.3", "title": "Budget for Sustainability", "status": "na", "notes": "Open-source, no budget" },
+        { "id": "5.4", "title": "Implement Sustainability Plans", "status": "partial", "notes": "WSG comments in code show awareness. No formal plan" },
+        { "id": "5.5", "title": "Assign Environmental Policy", "status": "na", "notes": "Personal project" },
+        { "id": "5.6", "title": "Verify Environmental Claims", "status": "na", "notes": "No environmental claims made beyond README mention" },
+        { "id": "5.7", "title": "Comply with Relevant Laws and Policies", "status": "full", "notes": "Privacy policy page. No cookies. GDPR-compliant by design (no data collection)" },
+        { "id": "5.8", "title": "Maintain a Transparent Data Strategy", "status": "full", "notes": "Privacy page explains localStorage-only data. No server-side data" },
+        { "id": "5.9", "title": "Train Stakeholders", "status": "na", "notes": "Solo developer" },
+        { "id": "5.10", "title": "Uphold Strong Ethical Standards", "status": "full", "notes": "No dark patterns, no data harvesting, open source, free" },
+        { "id": "5.11", "title": "Advocate for Sustainable Practices", "status": "partial", "notes": "WSG references in code. Could add sustainability page/badge" },
+        { "id": "5.12", "title": "Use Open Standards", "status": "full", "notes": "HTML5, CSS3, ES modules, Web APIs, JSON, PDF standard" },
+        { "id": "5.13", "title": "Promote Interoperability", "status": "full", "notes": "JSON import/export, PDF export, URL sharing — all open formats" },
+        { "id": "5.14", "title": "Respect User Preferences", "status": "full", "notes": "Dark/light theme, language auto-detect, reduced motion, localStorage persistence" },
+        { "id": "5.15", "title": "Support Civic Engagement", "status": "na", "notes": "Not applicable to game tool" },
+        { "id": "5.16", "title": "Provide Accessible Communication", "status": "full", "notes": "Bilingual (IT/EN). Screen reader friendly. Simple language" },
+        { "id": "5.17", "title": "Ensure Equitable Access", "status": "full", "notes": "Free, no login, no paywall, offline capable, PWA installable" },
+        { "id": "5.18", "title": "Promote Responsible Consumption", "status": "full", "notes": "No ads, no in-app purchases, no engagement tricks" },
+        { "id": "5.19", "title": "Implement Inclusive Hiring", "status": "na", "notes": "Solo developer" },
+        { "id": "5.20", "title": "Support Community Engagement", "status": "partial", "notes": "Open source on GitHub. No contributing guidelines or community docs" },
+        { "id": "5.21", "title": "Raise Awareness and Educate", "status": "gap", "notes": "No sustainability documentation for contributors", "action": "Add sustainability section to CLAUDE.md/README", "effort": "trivial" },
+        { "id": "5.22", "title": "Share Best Practices", "status": "partial", "notes": "Code has WSG reference comments. Could document patterns more formally" },
+        { "id": "5.23", "title": "Promote Responsible Data Practices", "status": "full", "notes": "Zero data collection. Privacy-first architecture" },
+        { "id": "5.24", "title": "Implement Ethical Marketing", "status": "na", "notes": "No marketing" },
+        { "id": "5.25", "title": "Promote Responsible Procurement", "status": "na", "notes": "No procurement" },
+        { "id": "5.26", "title": "Implement a Sustainable Event Policy", "status": "na", "notes": "N/A" },
+        { "id": "5.27", "title": "Facilitate Education", "status": "partial", "notes": "Blog with character profiles. Could add sustainability learning content" }
+      ]
+    }
+  ]
+}

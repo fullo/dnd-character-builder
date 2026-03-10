@@ -66,7 +66,10 @@
     "apocalisse": "Apocalisse",
     "apocalisseDesc": "Post-apocalyptic Dark Fantasy set on the Plain of Armageddon. Uses D&D 5e base classes with 12 unique apocalyptic archetypes.",
     "apocalissePromo": "If you like Apocalisse, buy the manuals on",
-    "dnd5ePromo": "If you like D&D 5e, buy the manuals on"
+    "dnd5ePromo": "If you like D&D 5e, buy the manuals on",
+    "dnd5eFeatures": "12 classes \u2022 9 races \u2022 Level 1-20",
+    "brancaloniaFeatures": "12 subclasses \u2022 6 races \u2022 Level 1-6",
+    "apocalisseFeatures": "12 archetypes \u2022 6 origins \u2022 Level 1-20"
   },
   "race": {
     "title": "Choose Race",

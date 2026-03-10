@@ -31,7 +31,7 @@ function selectVariant(variant: GameVariant) {
         <h3 class="text-xl font-bold text-amber-400 mb-2">{{ t('variant.dnd5e') }}</h3>
         <p class="text-stone-400 text-sm">{{ t('variant.dnd5eDesc') }}</p>
         <div class="mt-4 text-xs text-stone-500">
-          12 classi &bull; 9 razze &bull; Livello 1-20
+          {{ t('variant.dnd5eFeatures') }}
         </div>
       </button>
 
@@ -46,7 +46,7 @@ function selectVariant(variant: GameVariant) {
         <h3 class="text-xl font-bold text-amber-400 mb-2">{{ t('variant.brancalonia') }}</h3>
         <p class="text-stone-400 text-sm">{{ t('variant.brancaloniaDesc') }}</p>
         <div class="mt-4 text-xs text-stone-500">
-          12 sottoclassi &bull; 6 razze &bull; Livello 1-6
+          {{ t('variant.brancaloniaFeatures') }}
         </div>
       </button>
 
@@ -61,7 +61,7 @@ function selectVariant(variant: GameVariant) {
         <h3 class="text-xl font-bold text-amber-400 mb-2">{{ t('variant.apocalisse') }}</h3>
         <p class="text-stone-400 text-sm">{{ t('variant.apocalisseDesc') }}</p>
         <div class="mt-4 text-xs text-stone-500">
-          12 archetipi &bull; 6 origini &bull; Livello 1-20
+          {{ t('variant.apocalisseFeatures') }}
         </div>
       </button>
     </div>

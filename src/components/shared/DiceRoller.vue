@@ -14,11 +14,23 @@ const displayScores = ref<number[]>([])
 const animating = ref(false)
 const revealed = ref<boolean[]>([])
 
+// WSG 2.16: Respect prefers-reduced-motion at component level
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 watch(() => props.rolling, (isRolling) => {
   if (isRolling && props.scores.length === 6 && !animating.value) {
     animating.value = true
     revealed.value = [false, false, false, false, false, false]
     displayScores.value = [0, 0, 0, 0, 0, 0]
+
+    if (prefersReducedMotion) {
+      // Skip animation: show results immediately
+      displayScores.value = [...props.scores]
+      revealed.value = [true, true, true, true, true, true]
+      animating.value = false
+      emit('animationDone')
+      return
+    }
 
     // Animate random numbers rapidly
     const interval = setInterval(() => {

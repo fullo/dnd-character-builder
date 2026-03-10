@@ -66,7 +66,10 @@
     "apocalisse": "Apocalisse",
     "apocalisseDesc": "Dark Fantasy post-apocalittico ambientato nella Piana dell'Armageddon. Usa le classi base D&D 5e con 12 archetipi apocalittici unici.",
     "apocalissePromo": "Se ti piace Apocalisse, compra i manuali su",
-    "dnd5ePromo": "Se ti piace D&D 5e, compra i manuali su"
+    "dnd5ePromo": "Se ti piace D&D 5e, compra i manuali su",
+    "dnd5eFeatures": "12 classi \u2022 9 razze \u2022 Livello 1-20",
+    "brancaloniaFeatures": "12 sottoclassi \u2022 6 razze \u2022 Livello 1-6",
+    "apocalisseFeatures": "12 archetipi \u2022 6 origini \u2022 Livello 1-20"
   },
   "race": {
     "title": "Scegli la Razza",

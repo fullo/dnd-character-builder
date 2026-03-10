@@ -1,0 +1,31 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npx vite preview --port 4173",
+      "startServerReadyPattern": "Local",
+      "url": [
+        "http://localhost:4173/dnd-character-builder/",
+        "http://localhost:4173/dnd-character-builder/builder",
+        "http://localhost:4173/dnd-character-builder/characters",
+        "http://localhost:4173/dnd-character-builder/blog",
+        "http://localhost:4173/dnd-character-builder/privacy"
+      ],
+      "settings": {
+        "preset": "desktop",
+        "onlyCategories": ["accessibility", "performance", "best-practices"]
+      },
+      "numberOfRuns": 1
+    },
+    "assert": {
+      "assertions": {
+        "categories:accessibility": ["error", { "minScore": 0.9 }],
+        "categories:performance": ["warn", { "minScore": 0.8 }],
+        "categories:best-practices": ["warn", { "minScore": 0.9 }]
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci"
+    }
+  }
+}
