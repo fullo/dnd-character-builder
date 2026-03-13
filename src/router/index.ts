@@ -41,6 +41,11 @@ const router = createRouter({
       component: () => import('@/views/PrivacyView.vue'),
     },
     {
+      path: '/sci-report',
+      name: 'sci-report',
+      component: () => import('@/views/SciReportView.vue'),
+    },
+    {
       path: '/share/:data',
       name: 'share',
       component: () => import('@/views/ShareView.vue'),

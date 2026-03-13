@@ -7,7 +7,7 @@
  * WSG 4.1: Measure and track software carbon intensity
  */
 import { execSync } from 'node:child_process'
-import { writeFileSync, readFileSync, statSync, readdirSync } from 'node:fs'
+import { writeFileSync, readFileSync, statSync, readdirSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 // sci-profiler has bundler moduleResolution — use dynamic import workaround
 const sciMod = await import('../node_modules/sci-profiler/src/sciProfiler.ts') as any
@@ -201,9 +201,24 @@ const mdReport = generateMarkdownReport(results, { commit })
 
 // Write JSON report
 const reportDir = join(import.meta.dirname, '..', 'wsg-report')
-writeFileSync(join(reportDir, 'sci-report.json'), JSON.stringify(jsonReport, null, 2) + '\n')
-console.log(`\n✅ JSON report written to wsg-report/sci-report.json`)
+const publicDir = join(import.meta.dirname, '..', 'public')
+const jsonStr = JSON.stringify(jsonReport, null, 2) + '\n'
+writeFileSync(join(reportDir, 'sci-report.json'), jsonStr)
+writeFileSync(join(publicDir, 'sci-report.json'), jsonStr)
+console.log(`\n✅ JSON report written to wsg-report/sci-report.json + public/sci-report.json`)
 
 // Write Markdown report
 writeFileSync(join(reportDir, 'sci-report.md'), mdReport + '\n')
 console.log(`✅ Markdown report written to wsg-report/sci-report.md`)
+
+// ── Append to history ────────────────────────────────────────────────────────
+const historyPath = join(reportDir, 'sci-history.json')
+let history: Record<string, unknown> = {}
+if (existsSync(historyPath)) {
+  try {
+    history = JSON.parse(readFileSync(historyPath, 'utf-8'))
+  } catch { /* corrupted file, start fresh */ }
+}
+history[commit] = jsonReport
+writeFileSync(historyPath, JSON.stringify(history, null, 2) + '\n')
+console.log(`✅ History updated in wsg-report/sci-history.json (${Object.keys(history).length} entries)`)

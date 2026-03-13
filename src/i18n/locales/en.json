@@ -269,7 +269,31 @@
     "privacy": "Privacy Policy",
     "license": "MIT License",
     "wsg": "Web Sustainability",
-    "wsgTitle": "This site follows W3C Web Sustainability Guidelines"
+    "wsgTitle": "This site follows W3C Web Sustainability Guidelines",
+    "sci": "SCI Report",
+    "sciTitle": "Software Carbon Intensity report"
+  },
+  "sci": {
+    "title": "SCI Report",
+    "subtitle": "Software Carbon Intensity measured per the Green Software Foundation SCI specification",
+    "loading": "Loading report...",
+    "error": "Unable to load the SCI report. Run npm run audit:sci to generate it.",
+    "perCycle": "per cycle",
+    "wallTime": "total time",
+    "googleSearches": "Google searches equiv.",
+    "formula": "SCI Formula",
+    "operation": "operation",
+    "functionalUnit": "full cycle (3-variant data load + calculations + JSON serialization + build analysis + PDF read + i18n load)",
+    "time": "Time",
+    "input": "Input",
+    "output": "Output",
+    "total": "Total",
+    "commit": "Commit",
+    "date": "Date",
+    "machine": "Machine",
+    "lcaSource": "LCA Source",
+    "methodology": "Methodology",
+    "methodologyText": "Each operation is profiled by measuring real wall-clock time via performance.now(). Energy (E) is derived from execution time and device power draw, carbon intensity (I) uses the European grid median, and embodied emissions (M) are amortized over the device lifetime. The SCI score follows the GSF spec: SCI = ((E x I) + M) / R, where R = 1 operation."
   },
   "privacy": {
     "title": "Privacy Policy",

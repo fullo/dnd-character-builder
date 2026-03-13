@@ -269,7 +269,31 @@
     "privacy": "Privacy Policy",
     "license": "Licenza MIT",
     "wsg": "Web Sustainability",
-    "wsgTitle": "Questo sito segue le W3C Web Sustainability Guidelines"
+    "wsgTitle": "Questo sito segue le W3C Web Sustainability Guidelines",
+    "sci": "SCI Report",
+    "sciTitle": "Report sull'intensita' di carbonio del software"
+  },
+  "sci": {
+    "title": "SCI Report",
+    "subtitle": "Intensita' di carbonio del software misurata secondo la specifica Green Software Foundation SCI",
+    "loading": "Caricamento report...",
+    "error": "Impossibile caricare il report SCI. Esegui npm run audit:sci per generarlo.",
+    "perCycle": "per ciclo",
+    "wallTime": "tempo totale",
+    "googleSearches": "ricerche Google equiv.",
+    "formula": "Formula SCI",
+    "operation": "operazione",
+    "functionalUnit": "ciclo completo (caricamento dati 3 varianti + calcoli + serializzazione JSON + analisi build + lettura PDF + caricamento i18n)",
+    "time": "Tempo",
+    "input": "Input",
+    "output": "Output",
+    "total": "Totale",
+    "commit": "Commit",
+    "date": "Data",
+    "machine": "Macchina",
+    "lcaSource": "Fonte LCA",
+    "methodology": "Metodologia",
+    "methodologyText": "Ogni operazione viene profilata misurando il tempo di esecuzione reale con performance.now(). L'energia (E) si calcola dal tempo e dalla potenza del dispositivo, l'intensita' di carbonio (I) usa la mediana delle grid europee, le emissioni embodied (M) vengono ammortizzate sulla vita utile del dispositivo. Il punteggio SCI segue la specifica GSF: SCI = ((E x I) + M) / R, dove R = 1 operazione."
   },
   "privacy": {
     "title": "Privacy Policy",
