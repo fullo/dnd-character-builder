@@ -1,0 +1,71 @@
+{
+  "commit": "0f8ead9",
+  "date": "2026-03-13T11:41:49.039Z",
+  "machine": "14-inch MacBook Pro M1 Pro, 16GB, macOS 15",
+  "lcaSource": "Apple 14-inch MacBook Pro PER Oct 2021",
+  "constants": {
+    "devicePowerW": 18,
+    "carbonIntensity": 332,
+    "embodiedG": 211000,
+    "lifetimeH": 11680
+  },
+  "results": [
+    {
+      "service": "data-load-dnd5e",
+      "wallTimeMs": 52,
+      "inputBytes": 0,
+      "outputBytes": 0,
+      "sciMgCO2eq": 85.919
+    },
+    {
+      "service": "data-load-brancalonia",
+      "wallTimeMs": 14,
+      "inputBytes": 0,
+      "outputBytes": 0,
+      "sciMgCO2eq": 22.863
+    },
+    {
+      "service": "data-load-apocalisse",
+      "wallTimeMs": 16,
+      "inputBytes": 0,
+      "outputBytes": 0,
+      "sciMgCO2eq": 26.036
+    },
+    {
+      "service": "calculations-1000x",
+      "wallTimeMs": 4,
+      "inputBytes": 0,
+      "outputBytes": 0,
+      "sciMgCO2eq": 6.855
+    },
+    {
+      "service": "json-serialize-character",
+      "wallTimeMs": 1,
+      "inputBytes": 0,
+      "outputBytes": 776,
+      "sciMgCO2eq": 1.966
+    },
+    {
+      "service": "build-output-analysis",
+      "wallTimeMs": 1,
+      "inputBytes": 4798171,
+      "outputBytes": 0,
+      "sciMgCO2eq": 1.187
+    },
+    {
+      "service": "pdf-template-read",
+      "wallTimeMs": 4,
+      "inputBytes": 0,
+      "outputBytes": 3174345,
+      "sciMgCO2eq": 6.559
+    },
+    {
+      "service": "i18n-load-locales",
+      "wallTimeMs": 39,
+      "inputBytes": 0,
+      "outputBytes": 0,
+      "sciMgCO2eq": 64.158
+    }
+  ],
+  "totalSciMg": 215.543
+}

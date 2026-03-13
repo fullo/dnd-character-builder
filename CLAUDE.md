@@ -10,6 +10,7 @@ npm run test         # Run tests once
 npm run test:watch   # Run tests in watch mode
 npm run test:coverage # Run tests with coverage report
 npm run audit:a11y   # Run Lighthouse CI accessibility audit
+npm run audit:sci    # Run SCI carbon intensity benchmark
 ```
 
 ## Architecture
