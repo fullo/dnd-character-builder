@@ -6,8 +6,7 @@ import { formatModifier, spellSaveDC, spellAttackBonus, feetToMeters } from '@/u
 import { usePdfExport } from '@/composables/usePdfExport'
 import { copyShareUrl } from '@/utils/shareCharacter'
 import { SKILLS } from '@/data/dnd5e/skills'
-import { getSpells, getClasses, getRaces, getBackgrounds, getApocalisseRules, getMaxLevel } from '@/data'
-import { whacksLevels } from '@/data/brancalonia/rules'
+import { getSpells, getClasses, getRaces, getBackgrounds, getApocalisseRules, getMaxLevel, getWhacksLevels } from '@/data'
 import { useGameTerms } from '@/composables/useGameTerms'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
@@ -148,7 +147,7 @@ const displaySin = computed(() => {
 
 // Brancalonia display helpers
 const whacksDisplay = computed(() => {
-  const wl = whacksLevels.find(w => w.level === char.value.whacksLevel)
+  const wl = getWhacksLevels().find(w => w.level === char.value.whacksLevel)
   return wl ? `${wl.level} - ${wl.name}` : String(char.value.whacksLevel)
 })
 

@@ -4,6 +4,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import router from './router'
 import i18n, { initI18n } from './i18n'
+import { sweepStaleCache } from './data'
 import './style.css'
 
 // GitHub Pages SPA redirect: restore path from 404.html redirect query param
@@ -20,6 +21,9 @@ if (redirectRoute) {
 }
 
 async function bootstrap() {
+  // WSG 3.8: Clean up stale game data cache from previous builds
+  sweepStaleCache()
+
   // WSG 3.8: Load only the active locale before mounting (non-active loaded on demand)
   await initI18n()
 

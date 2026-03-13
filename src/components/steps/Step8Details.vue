@@ -3,8 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { totalHp } from '@/utils/calculations'
-import { getRaces, getApocalisseRules } from '@/data'
-import { whacksLevels } from '@/data/brancalonia/rules'
+import { getRaces, getApocalisseRules, getWhacksLevels } from '@/data'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t, locale } = useI18n()
@@ -48,7 +47,7 @@ function displayName(item: { name: string; nameOriginal?: string }): string {
 
 // Whacks level display
 function whacksDisplay(level: number): string {
-  const wl = whacksLevels.find(w => w.level === level)
+  const wl = getWhacksLevels().find(w => w.level === level)
   return wl ? `${level} - ${wl.name}` : String(level)
 }
 
@@ -187,12 +186,12 @@ updateLevel()
           <label for="branc-whacks" class="block text-sm font-semibold text-stone-300 mb-1">{{ t('details.whacksLevel') }}</label>
           <select id="branc-whacks" v-model.number="characterStore.character.whacksLevel"
             class="w-full bg-stone-800 border border-stone-700 rounded-lg px-3 py-2 text-stone-200 focus:border-amber-500 focus:outline-none">
-            <option v-for="wl in whacksLevels" :key="wl.level" :value="wl.level">
+            <option v-for="wl in getWhacksLevels()" :key="wl.level" :value="wl.level">
               {{ whacksDisplay(wl.level) }}
             </option>
           </select>
           <p v-if="characterStore.character.whacksLevel > 0" class="text-xs text-stone-500 mt-1">
-            {{ whacksLevels.find(w => w.level === characterStore.character.whacksLevel)?.mechanicalEffect }}
+            {{ getWhacksLevels().find(w => w.level === characterStore.character.whacksLevel)?.mechanicalEffect }}
           </p>
         </div>
       </div>

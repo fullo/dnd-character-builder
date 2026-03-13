@@ -1,11 +1,18 @@
 import { defineConfig } from 'vite'
+import { execSync } from 'node:child_process'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { resolve } from 'path'
 
+// Git hash for cache invalidation of localStorage game data
+const buildHash = execSync('git rev-parse --short HEAD').toString().trim()
+
 export default defineConfig({
   base: '/dnd-character-builder/',
+  define: {
+    __BUILD_HASH__: JSON.stringify(buildHash),
+  },
   plugins: [
     vue(),
     tailwindcss(),
@@ -62,28 +69,21 @@ export default defineConfig({
       output: {
         manualChunks: {
           'pdf-lib': ['pdf-lib'],
-          // WSG 3.3 + 3.8: Game data split per variant — loaded on demand via dynamic imports
-          'game-data-dnd5e': [
-            './src/data/dnd5e/classes.ts',
-            './src/data/dnd5e/races.ts',
-            './src/data/dnd5e/spells.ts',
-            './src/data/dnd5e/equipment.ts',
-            './src/data/dnd5e/backgrounds.ts',
-            './src/data/dnd5e/rules.ts',
-          ],
-          'game-data-brancalonia': [
-            './src/data/brancalonia/races.ts',
-            './src/data/brancalonia/classes.ts',
-            './src/data/brancalonia/burattinaio.ts',
-            './src/data/brancalonia/backgrounds.ts',
-            './src/data/brancalonia/rules.ts',
-          ],
-          'game-data-apocalisse': [
-            './src/data/apocalisse/races.ts',
-            './src/data/apocalisse/classes.ts',
-            './src/data/apocalisse/backgrounds.ts',
-            './src/data/apocalisse/rules.ts',
-          ],
+          // WSG 3.3 + 3.8: Game data split per module — loaded on demand per wizard step
+          'game-dnd5e-races': ['./src/data/dnd5e/races.ts'],
+          'game-dnd5e-classes': ['./src/data/dnd5e/classes.ts'],
+          'game-dnd5e-backgrounds': ['./src/data/dnd5e/backgrounds.ts', './src/data/dnd5e/missing-backgrounds.ts'],
+          'game-dnd5e-spells': ['./src/data/dnd5e/spells.ts', './src/data/dnd5e/spells-4-9.ts'],
+          'game-dnd5e-equipment': ['./src/data/dnd5e/equipment.ts'],
+          'game-dnd5e-rules': ['./src/data/dnd5e/rules.ts'],
+          'game-branca-races': ['./src/data/brancalonia/races.ts'],
+          'game-branca-classes': ['./src/data/brancalonia/classes.ts', './src/data/brancalonia/burattinaio.ts'],
+          'game-branca-backgrounds': ['./src/data/brancalonia/backgrounds.ts'],
+          'game-branca-rules': ['./src/data/brancalonia/rules.ts'],
+          'game-apo-races': ['./src/data/apocalisse/races.ts'],
+          'game-apo-classes': ['./src/data/apocalisse/classes.ts'],
+          'game-apo-backgrounds': ['./src/data/apocalisse/backgrounds.ts'],
+          'game-apo-rules': ['./src/data/apocalisse/rules.ts'],
         },
       },
     },

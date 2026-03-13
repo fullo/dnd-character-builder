@@ -3,18 +3,18 @@ import { defineAsyncComponent, computed, ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/stores/app'
 import { useCharacterStore } from '@/stores/character'
-import { preloadVariantData } from '@/data'
+import { ensureStepData } from '@/data'
 import StepNavigation from '@/components/layout/StepNavigation.vue'
 
 const { t } = useI18n()
 const appStore = useAppStore()
 const characterStore = useCharacterStore()
 
-// WSG 3.8: Preload variant data when builder opens (for returning users past Step 1)
-onMounted(() => {
+// WSG 3.8: Preload data for current step when builder opens (for returning users past Step 1)
+onMounted(async () => {
   const variant = characterStore.character.variant
   if (variant) {
-    preloadVariantData(variant)
+    await ensureStepData(variant, appStore.currentStep)
   }
 })
 
@@ -35,6 +35,7 @@ const stepKeys = ['variant', 'race', 'class', 'abilities', 'background', 'equipm
 
 // ─── Step Validation ──────────────────────────────────────────────────────
 const validationMessage = ref('')
+const isLoadingStep = ref(false)
 
 /** Returns whether the current step has all required data filled in */
 const isCurrentStepValid = computed((): boolean => {
@@ -62,17 +63,31 @@ function validationKey(step: number): string {
   }
 }
 
-function tryNextStep() {
+async function tryNextStep() {
   if (!isCurrentStepValid.value) {
     validationMessage.value = t(validationKey(appStore.currentStep))
     return
   }
   validationMessage.value = ''
+
+  // WSG 3.8: Load only the data the next step needs before transitioning
+  const nextStep = appStore.currentStep + 1
+  const variant = characterStore.character.variant
+  if (variant) {
+    isLoadingStep.value = true
+    await ensureStepData(variant, nextStep)
+    isLoadingStep.value = false
+  }
   appStore.nextStep()
 }
 
-function goPrevStep() {
+async function goPrevStep() {
   validationMessage.value = ''
+  const prevStep = appStore.currentStep - 1
+  const variant = characterStore.character.variant
+  if (variant) {
+    await ensureStepData(variant, prevStep)
+  }
   appStore.prevStep()
 }
 </script>
@@ -105,7 +120,8 @@ function goPrevStep() {
       <button
         v-if="appStore.currentStep > 0"
         @click="goPrevStep"
-        class="px-6 py-2 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded-lg transition-colors cursor-pointer"
+        :disabled="isLoadingStep"
+        class="px-6 py-2 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded-lg transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-wait"
         :aria-label="`${t('common.back')}: ${t(`steps.${stepKeys[appStore.currentStep - 1]}`)}`"
       >
         {{ t('common.back') }}
@@ -115,12 +131,20 @@ function goPrevStep() {
       <button
         v-if="appStore.currentStep < appStore.totalSteps - 1"
         @click="tryNextStep"
-        class="px-6 py-2 bg-amber-600 text-stone-900 font-semibold rounded-lg transition-colors cursor-pointer"
-        :class="isCurrentStepValid ? 'hover:bg-amber-500' : 'opacity-60'"
+        :disabled="isLoadingStep"
+        class="px-6 py-2 bg-amber-600 text-stone-900 font-semibold rounded-lg transition-colors cursor-pointer disabled:cursor-wait"
+        :class="isCurrentStepValid && !isLoadingStep ? 'hover:bg-amber-500' : 'opacity-60'"
         :aria-label="`${t('common.next')}: ${t(`steps.${stepKeys[appStore.currentStep + 1]}`)}`"
-        :aria-disabled="!isCurrentStepValid"
+        :aria-disabled="!isCurrentStepValid || isLoadingStep"
       >
-        {{ t('common.next') }}
+        <span v-if="isLoadingStep" class="inline-flex items-center gap-2">
+          <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          {{ t('common.next') }}
+        </span>
+        <span v-else>{{ t('common.next') }}</span>
       </button>
     </nav>
   </div>

@@ -6,7 +6,7 @@ import { useCharacterStore } from '@/stores/character'
 import { useAppStore } from '@/stores/app'
 import type { GameVariant } from '@/stores/app'
 import { generateRandomCharacter } from '@/utils/randomCharacter'
-import { preloadVariantData } from '@/data'
+import { preloadVariantData, ensureStepData } from '@/data'
 import { useGameTerms } from '@/composables/useGameTerms'
 
 const { t } = useI18n()
@@ -23,8 +23,8 @@ const importMessage = ref<{ type: 'error' | 'warning' | 'success'; text: string 
 async function startNew(variant: GameVariant) {
   characterStore.resetCharacter()
   characterStore.character.variant = variant
-  // WSG 3.8: Preload only the selected variant's data
-  await preloadVariantData(variant)
+  // WSG 3.8: Load only race data for Step 2 (rest loaded per step)
+  await ensureStepData(variant, 1)
   // Skip Step1 (variant selection) — already chosen from the home card
   appStore.setStep(1)
   router.push('/builder')
