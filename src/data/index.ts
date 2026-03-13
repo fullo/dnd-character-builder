@@ -1,3 +1,4 @@
+// WSG 3.8: Lazy-load variant data — only import the selected variant on demand
 import type { GameVariant } from '@/stores/app'
 import type { AbilityScores } from '@/stores/character'
 import type { Race } from './dnd5e/races'
@@ -10,33 +11,164 @@ import type { BrancaloniaRules } from './brancalonia/rules'
 import type { ApocalisseSubclass } from './apocalisse/classes'
 import type { ApocalisseRules } from './apocalisse/rules'
 
-import { races as dnd5eRaces } from './dnd5e/races'
-import { classes as dnd5eClasses } from './dnd5e/classes'
-import { backgrounds as dnd5eBackgrounds } from './dnd5e/backgrounds'
-import { spells as dnd5eSpells } from './dnd5e/spells'
-import { equipmentData } from './dnd5e/equipment'
-import { getSpellSlotsForLevel } from './dnd5e/rules'
-import { brancaloniaRaces } from './brancalonia/races'
-import { brancaloniaSubclasses } from './brancalonia/classes'
-import { burattinaioBrancaloniaClass } from './brancalonia/burattinaio'
-import { brancaloniaBackgrounds } from './brancalonia/backgrounds'
-import { brancaloniaRules, MAX_LEVEL as BRANCALONIA_MAX_LEVEL } from './brancalonia/rules'
-import { apocalisseRaces } from './apocalisse/races'
-import { apocalisseSubclasses } from './apocalisse/classes'
-import { apocalisseBackgrounds } from './apocalisse/backgrounds'
-import { apocalisseRules, MAX_LEVEL as APOCALISSE_MAX_LEVEL } from './apocalisse/rules'
+// ─── Lazy Cache ─────────────────────────────────────────────────────────────
+
+interface Dnd5eCache {
+  races: readonly Race[]
+  classes: readonly CharacterClass[]
+  backgrounds: readonly Background[]
+  spells: readonly Spell[]
+  equipment: EquipmentSet
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getSpellSlotsForLevel: (casterType: any, level: number) => Record<number, number>
+}
+
+interface BrancaloniaCache {
+  races: readonly Race[]
+  subclasses: readonly BrancaloniaSubclass[]
+  burattinaioClass: CharacterClass
+  backgrounds: readonly Background[]
+  rules: BrancaloniaRules
+  maxLevel: number
+}
+
+interface ApocalisseCache {
+  races: readonly Race[]
+  subclasses: readonly ApocalisseSubclass[]
+  backgrounds: readonly Background[]
+  rules: ApocalisseRules
+  maxLevel: number
+}
+
+let _dnd5e: Dnd5eCache | null = null
+let _brancalonia: BrancaloniaCache | null = null
+let _apocalisse: ApocalisseCache | null = null
+
+// Prevent concurrent loads of the same variant
+let _dnd5ePromise: Promise<Dnd5eCache> | null = null
+let _brancaloniaPromise: Promise<BrancaloniaCache> | null = null
+let _apocalissePromise: Promise<ApocalisseCache> | null = null
+
+async function loadDnd5e(): Promise<Dnd5eCache> {
+  if (_dnd5e) return _dnd5e
+  if (_dnd5ePromise) return _dnd5ePromise
+  const promise = (async (): Promise<Dnd5eCache> => {
+    const [raceMod, classMod, bgMod, spellMod, equipMod, ruleMod] = await Promise.all([
+      import('./dnd5e/races'),
+      import('./dnd5e/classes'),
+      import('./dnd5e/backgrounds'),
+      import('./dnd5e/spells'),
+      import('./dnd5e/equipment'),
+      import('./dnd5e/rules'),
+    ])
+    const cache: Dnd5eCache = {
+      races: raceMod.races,
+      classes: classMod.classes,
+      backgrounds: bgMod.backgrounds,
+      spells: spellMod.spells,
+      equipment: equipMod.equipmentData,
+      getSpellSlotsForLevel: ruleMod.getSpellSlotsForLevel,
+    }
+    _dnd5e = cache
+    return cache
+  })()
+  _dnd5ePromise = promise
+  return promise
+}
+
+async function loadBrancalonia(): Promise<BrancaloniaCache> {
+  if (_brancalonia) return _brancalonia
+  if (_brancaloniaPromise) return _brancaloniaPromise
+  const promise = (async (): Promise<BrancaloniaCache> => {
+    const [raceMod, classMod, buratMod, bgMod, ruleMod] = await Promise.all([
+      import('./brancalonia/races'),
+      import('./brancalonia/classes'),
+      import('./brancalonia/burattinaio'),
+      import('./brancalonia/backgrounds'),
+      import('./brancalonia/rules'),
+    ])
+    const cache: BrancaloniaCache = {
+      races: raceMod.brancaloniaRaces,
+      subclasses: classMod.brancaloniaSubclasses,
+      burattinaioClass: buratMod.burattinaioBrancaloniaClass,
+      backgrounds: bgMod.brancaloniaBackgrounds,
+      rules: ruleMod.brancaloniaRules,
+      maxLevel: ruleMod.MAX_LEVEL,
+    }
+    _brancalonia = cache
+    return cache
+  })()
+  _brancaloniaPromise = promise
+  return promise
+}
+
+async function loadApocalisse(): Promise<ApocalisseCache> {
+  if (_apocalisse) return _apocalisse
+  if (_apocalissePromise) return _apocalissePromise
+  const promise = (async (): Promise<ApocalisseCache> => {
+    const [raceMod, classMod, bgMod, ruleMod] = await Promise.all([
+      import('./apocalisse/races'),
+      import('./apocalisse/classes'),
+      import('./apocalisse/backgrounds'),
+      import('./apocalisse/rules'),
+    ])
+    const cache: ApocalisseCache = {
+      races: raceMod.apocalisseRaces,
+      subclasses: classMod.apocalisseSubclasses,
+      backgrounds: bgMod.apocalisseBackgrounds,
+      rules: ruleMod.apocalisseRules,
+      maxLevel: ruleMod.MAX_LEVEL,
+    }
+    _apocalisse = cache
+    return cache
+  })()
+  _apocalissePromise = promise
+  return promise
+}
+
+// ─── Public API: Preload ────────────────────────────────────────────────────
+
+/**
+ * Preload all data needed for a given variant.
+ * Call this when the variant is selected to ensure data is ready
+ * before synchronous getters are called.
+ * WSG 3.8: Defer loading of non-critical resources
+ */
+export async function preloadVariantData(variant: GameVariant): Promise<void> {
+  switch (variant) {
+    case 'brancalonia':
+      await Promise.all([loadDnd5e(), loadBrancalonia()])
+      break
+    case 'apocalisse':
+      await Promise.all([loadDnd5e(), loadApocalisse()])
+      break
+    case 'dnd5e':
+    default:
+      await loadDnd5e()
+      break
+  }
+}
+
+/** Check if variant data is already cached */
+export function isVariantLoaded(variant: GameVariant): boolean {
+  switch (variant) {
+    case 'brancalonia': return !!_dnd5e && !!_brancalonia
+    case 'apocalisse': return !!_dnd5e && !!_apocalisse
+    default: return !!_dnd5e
+  }
+}
 
 // ─── Races ──────────────────────────────────────────────────────────────────
 
 export function getRaces(variant: GameVariant): readonly Race[] {
   switch (variant) {
     case 'brancalonia':
-      return brancaloniaRaces
+      return _brancalonia?.races ?? []
     case 'apocalisse':
-      return apocalisseRaces
+      return _apocalisse?.races ?? []
     case 'dnd5e':
     default:
-      return dnd5eRaces
+      return _dnd5e?.races ?? []
   }
 }
 
@@ -48,10 +180,13 @@ export function getRaces(variant: GameVariant): readonly Race[] {
  * Brancalonia-specific subclasses instead of the standard ones.
  */
 export function getClasses(variant: GameVariant): readonly CharacterClass[] {
+  if (!_dnd5e) return []
+
   switch (variant) {
     case 'brancalonia': {
-      const brancaClasses = dnd5eClasses.map(cls => {
-        const brancaSubs = brancaloniaSubclasses.filter(
+      if (!_brancalonia) return []
+      const brancaClasses = _dnd5e.classes.map(cls => {
+        const brancaSubs = _brancalonia!.subclasses.filter(
           s => s.parentClassId === cls.id,
         )
         if (brancaSubs.length === 0) return cls
@@ -70,11 +205,12 @@ export function getClasses(variant: GameVariant): readonly CharacterClass[] {
         }
       })
       // Add Brancalonia-exclusive classes
-      return [...brancaClasses, burattinaioBrancaloniaClass]
+      return [...brancaClasses, _brancalonia.burattinaioClass]
     }
     case 'apocalisse': {
-      const apoClasses = dnd5eClasses.map(cls => {
-        const apoSubs = apocalisseSubclasses.filter(
+      if (!_apocalisse) return []
+      const apoClasses = _dnd5e.classes.map(cls => {
+        const apoSubs = _apocalisse!.subclasses.filter(
           s => s.parentClassId === cls.id,
         )
         if (apoSubs.length === 0) return cls
@@ -95,7 +231,7 @@ export function getClasses(variant: GameVariant): readonly CharacterClass[] {
     }
     case 'dnd5e':
     default:
-      return dnd5eClasses
+      return _dnd5e.classes
   }
 }
 
@@ -107,7 +243,7 @@ export function getClasses(variant: GameVariant): readonly CharacterClass[] {
  */
 export function getBrancaloniaSubclasses(variant: GameVariant): readonly BrancaloniaSubclass[] {
   if (variant === 'brancalonia') {
-    return brancaloniaSubclasses
+    return _brancalonia?.subclasses ?? []
   }
   return []
 }
@@ -117,12 +253,12 @@ export function getBrancaloniaSubclasses(variant: GameVariant): readonly Brancal
 export function getBackgrounds(variant: GameVariant): readonly Background[] {
   switch (variant) {
     case 'brancalonia':
-      return brancaloniaBackgrounds
+      return _brancalonia?.backgrounds ?? []
     case 'apocalisse':
-      return apocalisseBackgrounds
+      return _apocalisse?.backgrounds ?? []
     case 'dnd5e':
     default:
-      return dnd5eBackgrounds
+      return _dnd5e?.backgrounds ?? []
   }
 }
 
@@ -135,6 +271,7 @@ export interface VariantRules {
   longRestDuration: string
 }
 
+// These are small inline objects — no lazy loading needed
 const dnd5eRulesData: VariantRules = {
   maxLevel: 20,
   currencyStandard: 'gold',
@@ -143,14 +280,14 @@ const dnd5eRulesData: VariantRules = {
 }
 
 const brancaloniaRulesData: VariantRules = {
-  maxLevel: BRANCALONIA_MAX_LEVEL,
+  maxLevel: 10,
   currencyStandard: 'silver',
   shortRestDuration: '1 night (8 hours)',
   longRestDuration: '1 week of rollicking',
 }
 
 const apocalisseRulesData: VariantRules = {
-  maxLevel: APOCALISSE_MAX_LEVEL,
+  maxLevel: 20,
   currencyStandard: 'gold',
   shortRestDuration: '1 hour',
   longRestDuration: '8 hours',
@@ -174,7 +311,7 @@ export function getRules(variant: GameVariant): VariantRules {
  */
 export function getBrancaloniaRules(variant: GameVariant): BrancaloniaRules | null {
   if (variant === 'brancalonia') {
-    return brancaloniaRules
+    return _brancalonia?.rules ?? null
   }
   return null
 }
@@ -185,7 +322,7 @@ export function getBrancaloniaRules(variant: GameVariant): BrancaloniaRules | nu
  */
 export function getApocalisseRules(variant: GameVariant): ApocalisseRules | null {
   if (variant === 'apocalisse') {
-    return apocalisseRules
+    return _apocalisse?.rules ?? null
   }
   return null
 }
@@ -195,7 +332,7 @@ export function getApocalisseRules(variant: GameVariant): ApocalisseRules | null
  */
 export function getApocalisseSubclasses(variant: GameVariant): readonly ApocalisseSubclass[] {
   if (variant === 'apocalisse') {
-    return apocalisseSubclasses
+    return _apocalisse?.subclasses ?? []
   }
   return []
 }
@@ -209,14 +346,14 @@ export function getMaxLevel(variant: GameVariant): number {
 // ─── Equipment ──────────────────────────────────────────────────────────────
 
 export function getEquipment(_variant: GameVariant): EquipmentSet {
-  // Both variants use the same base equipment for now
-  return equipmentData
+  // Both variants use the same base equipment
+  return _dnd5e?.equipment ?? { simpleWeapons: [], martialWeapons: [], armor: [], packs: [] }
 }
 
 // ─── Spells ─────────────────────────────────────────────────────────────────
 
 export function getSpells(_variant: GameVariant): readonly Spell[] {
-  return dnd5eSpells
+  return _dnd5e?.spells ?? []
 }
 
 /**
@@ -224,16 +361,18 @@ export function getSpells(_variant: GameVariant): readonly Spell[] {
  * Returns an object mapping spell level to number of slots.
  */
 export function getSpellSlots(className: string, level: number): Record<number, number> {
-  const cls = dnd5eClasses.find(c => c.id === className)
+  if (!_dnd5e) return {}
+  const cls = _dnd5e.classes.find(c => c.id === className)
   if (!cls?.spellcasting) return {}
-  return getSpellSlotsForLevel(cls.spellcasting.casterType, level)
+  return _dnd5e.getSpellSlotsForLevel(cls.spellcasting.casterType, level)
 }
 
 /**
  * Get the number of cantrips known for a given class and level.
  */
 export function getCantripsKnown(className: string, level: number): number {
-  const cls = dnd5eClasses.find(c => c.id === className)
+  if (!_dnd5e) return 0
+  const cls = _dnd5e.classes.find(c => c.id === className)
   if (!cls?.spellcasting) return 0
   const idx = Math.min(level - 1, cls.spellcasting.cantripsKnown.length - 1)
   return cls.spellcasting.cantripsKnown[idx] ?? 0
@@ -249,7 +388,8 @@ export function getSpellsKnownCount(
   level: number,
   abilityModifiers: Record<keyof AbilityScores, number>,
 ): number {
-  const cls = dnd5eClasses.find(c => c.id === className)
+  if (!_dnd5e) return 0
+  const cls = _dnd5e.classes.find(c => c.id === className)
   if (!cls?.spellcasting) return 0
 
   if (cls.spellcasting.preparedCaster) {
@@ -269,19 +409,21 @@ export function getSpellsKnownCount(
 
 // ─── Languages ──────────────────────────────────────────────────────────────
 
+const DND5E_LANGUAGES = [
+  'Common', 'Dwarvish', 'Elvish', 'Giant', 'Gnomish',
+  'Goblin', 'Halfling', 'Orc', 'Abyssal', 'Celestial',
+  'Draconic', 'Deep Speech', 'Infernal', 'Primordial',
+  'Sylvan', 'Undercommon',
+]
+
 export function getAvailableLanguages(variant: GameVariant): string[] {
   switch (variant) {
     case 'brancalonia':
-      return brancaloniaRules.languages.map(l => l.name)
+      return _brancalonia?.rules.languages.map(l => l.name) ?? DND5E_LANGUAGES
     case 'apocalisse':
-      return apocalisseRules.languages.map(l => l.name)
+      return _apocalisse?.rules.languages.map(l => l.name) ?? DND5E_LANGUAGES
     case 'dnd5e':
     default:
-      return [
-        'Common', 'Dwarvish', 'Elvish', 'Giant', 'Gnomish',
-        'Goblin', 'Halfling', 'Orc', 'Abyssal', 'Celestial',
-        'Draconic', 'Deep Speech', 'Infernal', 'Primordial',
-        'Sylvan', 'Undercommon',
-      ]
+      return DND5E_LANGUAGES
   }
 }

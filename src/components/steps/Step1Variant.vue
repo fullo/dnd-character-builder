@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { useCharacterStore } from '@/stores/character'
 import { useAppStore } from '@/stores/app'
 import type { GameVariant } from '@/stores/app'
+import { preloadVariantData } from '@/data'
 import VariantPromo from '@/components/shared/VariantPromo.vue'
 
 const { t } = useI18n()
@@ -11,6 +12,8 @@ const appStore = useAppStore()
 
 function selectVariant(variant: GameVariant) {
   characterStore.character.variant = variant
+  // WSG 3.8: Preload only the selected variant's data on demand
+  preloadVariantData(variant)
   appStore.nextStep()
 }
 </script>

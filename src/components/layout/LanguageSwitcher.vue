@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { loadLocale } from '@/i18n'
 
 const { locale } = useI18n()
 const open = ref(false)
@@ -10,7 +11,9 @@ const languages = [
   { code: 'en', label: 'English', flag: 'EN' },
 ]
 
-function selectLang(code: string) {
+async function selectLang(code: string) {
+  // WSG 3.8: Lazy-load locale messages before switching
+  await loadLocale(code)
   locale.value = code
   open.value = false
 }

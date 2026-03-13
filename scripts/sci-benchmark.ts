@@ -181,13 +181,13 @@ const r7 = await profileTool(
 )
 results.push(r7)
 
-// 6. i18n locale loading
+// 6. i18n locale loading — now only active locale is loaded eagerly
 const r8 = await profileTool(
-  'i18n-load-locales',
+  'i18n-load-single-locale',
   async () => {
+    // Measures loading a single locale (the optimized path — one locale at startup)
     const it = await import('../src/i18n/locales/it.json')
-    const en = await import('../src/i18n/locales/en.json')
-    return { itKeys: Object.keys(it.default).length, enKeys: Object.keys(en.default).length }
+    return { keys: Object.keys(it.default).length }
   },
 )
 results.push(r8)

@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, beforeAll } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
 import { useCharacterStore } from './character'
 import type { CharacterData } from './character'
+import { preloadVariantData } from '@/data'
 
 function makeMinimalCharacter(overrides: Partial<CharacterData> = {}): Partial<CharacterData> {
   return {
@@ -15,6 +16,11 @@ function makeMinimalCharacter(overrides: Partial<CharacterData> = {}): Partial<C
 }
 
 describe('useCharacterStore', () => {
+  // Preload data for tests that use getClasses/getMaxLevel
+  beforeAll(async () => {
+    await preloadVariantData('dnd5e')
+  })
+
   beforeEach(() => {
     setActivePinia(createPinia())
   })

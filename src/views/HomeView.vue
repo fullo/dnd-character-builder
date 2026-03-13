@@ -6,6 +6,7 @@ import { useCharacterStore } from '@/stores/character'
 import { useAppStore } from '@/stores/app'
 import type { GameVariant } from '@/stores/app'
 import { generateRandomCharacter } from '@/utils/randomCharacter'
+import { preloadVariantData } from '@/data'
 import { useGameTerms } from '@/composables/useGameTerms'
 
 const { t } = useI18n()
@@ -19,15 +20,19 @@ const fileInputBrancalonia = ref<HTMLInputElement | null>(null)
 const fileInputApocalisse = ref<HTMLInputElement | null>(null)
 const importMessage = ref<{ type: 'error' | 'warning' | 'success'; text: string } | null>(null)
 
-function startNew(variant: GameVariant) {
+async function startNew(variant: GameVariant) {
   characterStore.resetCharacter()
   characterStore.character.variant = variant
+  // WSG 3.8: Preload only the selected variant's data
+  await preloadVariantData(variant)
   // Skip Step1 (variant selection) — already chosen from the home card
   appStore.setStep(1)
   router.push('/builder')
 }
 
-function randomChar(variant: GameVariant) {
+async function randomChar(variant: GameVariant) {
+  // WSG 3.8: Preload data before generating random character
+  await preloadVariantData(variant)
   const char = generateRandomCharacter(variant)
   characterStore.character = char
   appStore.setStep(8)

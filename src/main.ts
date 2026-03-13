@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import router from './router'
-import i18n from './i18n'
+import i18n, { initI18n } from './i18n'
 import './style.css'
 
 // GitHub Pages SPA redirect: restore path from 404.html redirect query param
@@ -19,19 +19,26 @@ if (redirectRoute) {
   window.history.replaceState(null, '', cleanUrl + '#restored')
 }
 
-const pinia = createPinia()
-pinia.use(piniaPluginPersistedstate)
+async function bootstrap() {
+  // WSG 3.8: Load only the active locale before mounting (non-active loaded on demand)
+  await initI18n()
 
-const app = createApp(App)
-app.use(pinia)
-app.use(router)
-app.use(i18n)
+  const pinia = createPinia()
+  pinia.use(piniaPluginPersistedstate)
 
-// Navigate to restored route after mount (GitHub Pages SPA)
-if (redirectRoute) {
-  router.isReady().then(() => {
-    router.replace('/' + redirectRoute)
-  })
+  const app = createApp(App)
+  app.use(pinia)
+  app.use(router)
+  app.use(i18n)
+
+  // Navigate to restored route after mount (GitHub Pages SPA)
+  if (redirectRoute) {
+    router.isReady().then(() => {
+      router.replace('/' + redirectRoute)
+    })
+  }
+
+  app.mount('#app')
 }
 
-app.mount('#app')
+bootstrap()

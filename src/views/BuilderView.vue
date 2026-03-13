@@ -1,13 +1,22 @@
 <script setup lang="ts">
-import { defineAsyncComponent, computed, ref } from 'vue'
+import { defineAsyncComponent, computed, ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/stores/app'
 import { useCharacterStore } from '@/stores/character'
+import { preloadVariantData } from '@/data'
 import StepNavigation from '@/components/layout/StepNavigation.vue'
 
 const { t } = useI18n()
 const appStore = useAppStore()
 const characterStore = useCharacterStore()
+
+// WSG 3.8: Preload variant data when builder opens (for returning users past Step 1)
+onMounted(() => {
+  const variant = characterStore.character.variant
+  if (variant) {
+    preloadVariantData(variant)
+  }
+})
 
 // WSG 3.8: Defer loading of non-critical resources — lazy load wizard steps
 const steps = [

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 import {
   getRaces,
   getClasses,
@@ -13,12 +13,17 @@ import {
   getAvailableLanguages,
   getBrancaloniaRules,
   getApocalisseRules,
+  preloadVariantData,
 } from './index'
 import type { GameVariant } from '@/stores/app'
 
 const variants: GameVariant[] = ['dnd5e', 'brancalonia', 'apocalisse']
 
 describe('data loader', () => {
+  // Preload all variants before running tests
+  beforeAll(async () => {
+    await Promise.all(variants.map(v => preloadVariantData(v)))
+  })
   describe('getRaces', () => {
     it('returns races for all variants', () => {
       for (const v of variants) {

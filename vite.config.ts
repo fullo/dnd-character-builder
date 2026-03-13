@@ -62,7 +62,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           'pdf-lib': ['pdf-lib'],
-          // WSG 3.3: Modularize bandwidth-heavy components — split game data per variant
+          // WSG 3.3 + 3.8: Game data split per variant — loaded on demand via dynamic imports
           'game-data-dnd5e': [
             './src/data/dnd5e/classes.ts',
             './src/data/dnd5e/races.ts',
@@ -74,6 +74,7 @@ export default defineConfig({
           'game-data-brancalonia': [
             './src/data/brancalonia/races.ts',
             './src/data/brancalonia/classes.ts',
+            './src/data/brancalonia/burattinaio.ts',
             './src/data/brancalonia/backgrounds.ts',
             './src/data/brancalonia/rules.ts',
           ],
